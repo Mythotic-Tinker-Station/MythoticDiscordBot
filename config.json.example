@@ -1,0 +1,6 @@
+{
+    "ConfigVersion" : "0.1",
+
+    "Prefix" : "^",
+    "Token" : "Your-Token-Goes-Here"
+}
