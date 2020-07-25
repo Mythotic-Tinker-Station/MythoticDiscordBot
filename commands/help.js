@@ -11,7 +11,7 @@ module.exports = {
         const { commands } = message.client;
 
         if (!args.length) {
-            data.push('Here\`s a list of all my commands');
+            data.push('Here\'s a list of all my commands');
             data.push(commands.map(command => command.name).join(','));
             data.push(`\nYou can send \`${Prefix}help [command name]\` to get info on a specific command!`);
 
@@ -37,7 +37,7 @@ module.exports = {
 
         if (command.aliases) data.push(`**Aliases:** ${command.aliases.join(', ')}`);
         if (command.description) data.push(`**Description:** ${command.description}`);
-        if (command.usage) data.push(`**Usage:** ${prefix}${command.name} ${command.usage}`);
+        if (command.usage) data.push(`**Usage:** ${Prefix}${command.name} ${command.usage}`);
 
         message.channel.send(data, { split: true });
     },
