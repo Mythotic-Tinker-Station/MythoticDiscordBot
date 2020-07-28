@@ -15,6 +15,7 @@
     "libsodium-wrappers": "^0.7.6",
     "moment": "^2.27.0",
     "ms": "^2.1.2",
+    "os": "^0.1.1",
     "path": "^0.12.7",
     "utf-8-validate": "^5.0.2",
     "util": "^0.12.3",

@@ -11,7 +11,9 @@
     to be used for creating the bot client. If you need to make changes to the client
     itself, this is the file to do it in.
 
-    For discord.js specifics, id look at the doco https://discord.js.org/#/docs/main/stable/general/welcome
+	For discord.js specifics, id look at the doco https://discord.js.org/#/docs/main/stable/general/welcome
+
+	Commands are located in the commands folder. They are also self explanatory for now
 */
 
 const { Client, Collection } = require('discord.js');
