@@ -1,5 +1,5 @@
 const { MessageEmbed, version: djsversion } = require('discord.js');
-const { version } = require('../../../package.json');
+const { version } = require('../../package.json');
 const Command = require('../../Structures/Command');
 const { utc } = require('moment');
 const os = require('os');
@@ -9,6 +9,7 @@ module.exports = class extends Command {
 
 	constructor(...args) {
 		super(...args, {
+			name: 'botinfo',
 			aliases: ['info', 'bot'],
 			description: 'Displays information about me! (The bot)',
 			category: 'Information',

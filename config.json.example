@@ -2,5 +2,7 @@
     "ConfigVersion" : "0.1",
 
     "Prefix" : "^",
-    "Token" : "Your-Token-Goes-Here"
+    "Token" : "Your-Token-Goes-Here",
+
+    "Owners" : ['OwnerIDs']
 }

@@ -40,7 +40,7 @@ module.exports = class extends Command {
             name: 'serverinfo',
             description: 'Displays information about your Discord Server',
             aliases: ['server', 'guild', 'guildinfo', 'myserver'],
-            category: 'Informational',
+            category: 'Information',
         });
     }
 
