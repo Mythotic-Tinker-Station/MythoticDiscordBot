@@ -37,7 +37,15 @@ module.exports = class Util {
 		const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 		const i = Math.floor(Math.log(bytes) / Math.log(1024));
 		return `${parseFloat((bytes / Math.pow(1024, i)).toFixed(2))} ${sizes[i]}`;
-	}
+    }
+
+    removeDuplicates(arr) {
+        return [...new Set(arr)];
+    }
+
+    captialise(string) {
+        return string.split(' ').map(str => str.slice(0, 1).toUpperCase() + str.slice(1)).join(' ');
+    }
 
     async loadCommands() {
         return glob(`${this.directory}commands/**/*.js`).then(commands => {
