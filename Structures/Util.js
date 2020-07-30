@@ -71,7 +71,7 @@ module.exports = class Util {
     async loadEvents() {
         return glob(`${this.directory}events/**/*.js`).then(events => {
             for (const eventFile of events) {
-                delete require.cache(eventFile);
+                delete require.cache[eventFile];
                 const { name } = path.parse(eventFile);
                 const File = require(eventFile);
                 if (!this.isClass(File)) throw new TypeError(`Event ${name} does not seem to be a Discord Event or does not export a class.`);
