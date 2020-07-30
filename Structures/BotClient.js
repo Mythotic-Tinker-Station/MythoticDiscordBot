@@ -27,7 +27,9 @@ module.exports = class BotClient extends Client {
 		});
         this.validate(options);
 
-        this.commands = new Collection();
+		this.commands = new Collection();
+
+		this.events = new Collection();
 
         this.aliases = new Collection();
 
@@ -75,7 +77,8 @@ module.exports = class BotClient extends Client {
 	}
 
 	async start(Token = this.Token) {
-        this.utils.loadCommands();
+		this.utils.loadCommands();
+		this.utils.loadEvents();
         super.login(Token);
 	}
 
