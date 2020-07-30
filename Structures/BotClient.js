@@ -36,29 +36,6 @@ module.exports = class BotClient extends Client {
 		this.utils = new Util(this);
 
 		this.owners = options.Owners;
-
-		this.on('message', async (message) => {
-			const mentionRegex = RegExp(`^<@!${this.user.id}>$`);
-			const mentionRegexPrefix = RegExp(`^<@!${this.user.id}> `);
-
-			if (!message.guild || message.author.bot) return;
-
-			if (message.content.match(mentionRegex)) message.channel.send(`My prefix for **${message.guild.name}** is \`${this.Prefix}\`.`);
-
-			const Prefix = message.content.match(mentionRegexPrefix) ?
-				message.content.match(mentionRegexPrefix)[0] : this.Prefix;
-
-			if(!message.content.startsWith(Prefix)) return;
-
-			// eslint-disable-next-line no-unused-vars
-			const [cmd, ...args] = message.content.slice(Prefix.length).trim().split(/ +/g);
-
-            const command = this.commands.get(cmd.toLowerCase()) || this.commands.get(this.aliases.get(cmd.toLowerCase()));
-
-            if (command) {
-                command.run(message, args);
-            }
-		});
 	}
 
 	validate(options) {
