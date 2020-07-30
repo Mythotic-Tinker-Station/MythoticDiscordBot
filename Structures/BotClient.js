@@ -37,10 +37,6 @@ module.exports = class BotClient extends Client {
 
 		this.owners = options.Owners;
 
-		this.once('ready', () => {
-			console.log(`Logged in as ${this.user.username}!`);
-		});
-
 		this.on('message', async (message) => {
 			const mentionRegex = RegExp(`^<@!${this.user.id}>$`);
 			const mentionRegexPrefix = RegExp(`^<@!${this.user.id}> `);
