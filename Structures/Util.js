@@ -16,6 +16,12 @@ const { promisify } = require('util');
 const glob = promisify(require('glob'));
 const Command = require('./Command.js');
 const Event = require('./Event');
+const fs = require('fs');
+const json = require('json');
+const BaseServerCfg = require('../ServerData/_ServerDataTemplate.json');
+
+// Stringify Base Server Config
+const servercfg = JSON.stringify(BaseServerCfg);
 
 module.exports = class Util {
 
@@ -80,6 +86,33 @@ module.exports = class Util {
                 this.client.events.set(event.name, event);
                 event.emitter[event.type](name, (...args) => event.run(...args));
             }
+        });
+    }
+
+    async processServerConfigs() {
+        const guildIDs = this.client.guilds.cache.map (i => i.id);
+        console.log(guildIDs);
+
+        for (const guildid of guildIDs) {
+            const confpath = `${this.directory}ServerData/${guildid}.json`;
+            fs.stat(confpath, function(err, data) {
+                if (err.code == 'ENOENT') {
+                    console.log(`Config ${confpath} does not exist. Creating...`);
+
+                    fs.writeFile(confpath, servercfg, (writerr) => {
+                        if (writerr) throw writerr;
+                    });
+
+                }
+            });
+
+
+        }
+
+        return glob(`${this.directory}serverdata/*.json`).then(configs => {
+            console.log(configs);
+
+            // First, check if there any servers with no config
         });
     }
 
