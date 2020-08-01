@@ -96,7 +96,10 @@ module.exports = class Util {
         for (const guildid of guildIDs) {
             const confpath = `${this.directory}ServerData/${guildid}.json`;
             fs.stat(confpath, function(err, data) {
-                if (err.code == 'ENOENT') {
+                if (!err) {
+                    console.log('blah');
+                }
+                else if (err.code == 'ENOENT') {
                     console.log(`Config ${confpath} does not exist. Creating...`);
 
                     fs.writeFile(confpath, servercfg, (writerr) => {
