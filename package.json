@@ -9,6 +9,7 @@
     "@discordjs/opus": "^0.3.2",
     "bufferutil": "^4.0.1",
     "discord.js": "^12.2.0",
+    "enmap": "^5.4.1",
     "erlpack": "discordapp/erlpack",
     "ffmpeg-static": "^4.2.6",
     "glob": "^7.1.6",
