@@ -1,0 +1,11 @@
+{
+    "ServerConfigVersion" : "v0.1",
+    "ServerName" : "ServerNameHere",
+
+    "Settings" : {
+        "Prefix" : "!",
+        "WelcomeMessage" : "",
+        "AdminRoles" : [],
+        "ModeratorRoles" : []
+    }
+}
