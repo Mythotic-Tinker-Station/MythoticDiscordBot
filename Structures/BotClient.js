@@ -50,9 +50,9 @@ module.exports = class BotClient extends Client {
 	}
 
 	async start(Token = this.Token) {
-		this.utils.loadCommands();
-		this.utils.loadEvents();
-        super.login(Token);
+		await this.utils.loadCommands();
+		await this.utils.loadEvents();
+        await super.login(Token);
 	}
 
 };
