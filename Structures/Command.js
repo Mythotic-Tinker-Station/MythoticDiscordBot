@@ -20,6 +20,7 @@ module.exports = class Command {
         this.description = options.description || 'No description available.';
         this.category = options.category || 'Miscellaneous';
         this.usage = `${this.client.Prefix}${this.name} ${options.usage || ''}`.trim();
+        this.permission = options.permission;
     }
 
     // eslint-disable-next-line no-unused-vars
