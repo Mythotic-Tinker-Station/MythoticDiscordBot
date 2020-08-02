@@ -74,10 +74,6 @@ module.exports = class Util {
         });
     }
 
-    getClientEventNames() {
-        
-    }
-
     async loadEvents() {
         return glob(`${this.directory}events/**/*.js`).then(events => {
             for (const eventFile of events) {

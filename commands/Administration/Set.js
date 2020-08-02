@@ -31,8 +31,8 @@ module.exports = class extends Command {
 	}
 
 	run(message, setting, value) {
-        // Check if user does not have admin perms or is on any of the AdminRoles groups.
-        if (!message.member.hasPermission(this.permission) || )
+        
+
 	}
 
 };

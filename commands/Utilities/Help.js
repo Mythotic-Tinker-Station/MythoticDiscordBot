@@ -9,7 +9,8 @@ module.exports = class extends Command {
             description: 'Displays Help information!',
             aliases: ['halp', 'manual', 'rtfm'],
             usage: '[command]',
-            category: 'Information',
+			category: 'Information',
+			permission: ['ADMINISTRATOR'],
         });
     }
 
@@ -32,6 +33,7 @@ module.exports = class extends Command {
 				`**❯ Aliases:** ${cmd.aliases.length ? cmd.aliases.map(alias => `\`${alias}\``).join(' ') : 'No Aliases'}`,
 				`**❯ Description:** ${cmd.description}`,
 				`**❯ Category:** ${cmd.category}`,
+				`**❯ Permission:** ${cmd.permission}`,
 				`**❯ Usage:** ${cmd.usage}`,
 			]);
 

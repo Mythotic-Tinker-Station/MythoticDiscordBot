@@ -24,6 +24,19 @@ module.exports = class Command {
         this.subcommands = options.subcommands || {};
     }
 
+    async prerun(message, args) {
+        try {
+            // Check if user does not have admin perms or is on any of the AdminRoles groups.
+            if (message.member.hasPermission(this.permission)) {
+                await this.run(message, args);
+            }
+
+        }
+        catch(err) {
+            console.error(err);
+        }
+    }
+
     // eslint-disable-next-line no-unused-vars
     async run(message, args) {
         throw new Error(`Command ${this.name} does not have a run method. Did you code it correctly?`);

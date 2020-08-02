@@ -24,7 +24,7 @@ module.exports = class extends Event {
             const command = this.client.commands.get(cmd.toLowerCase()) || this.client.commands.get(this.client.aliases.get(cmd.toLowerCase()));
 
             if (command) {
-                command.run(message, args);
+                command.prerun(message, args);
             }
 
         }
