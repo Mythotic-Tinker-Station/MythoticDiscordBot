@@ -13,6 +13,7 @@
 
 const path = require('path');
 const { promisify } = require('util');
+//const Constants = require('discord.js/src/util/Constants');
 const glob = promisify(require('glob'));
 const Command = require('./Command.js');
 const Event = require('./Event');
@@ -68,6 +69,10 @@ module.exports = class Util {
         });
     }
 
+    getClientEventNames() {
+        
+    }
+
     async loadEvents() {
         return glob(`${this.directory}events/**/*.js`).then(events => {
             for (const eventFile of events) {
@@ -78,6 +83,7 @@ module.exports = class Util {
                 const event = new File(this.client, name);
                 if (!(event instanceof Event)) throw new TypeError(`Event ${name} does not belong in Events`);
                 this.client.events.set(event.name, event);
+                //:)
                 event.emitter[event.type](name, (...args) => event.run(...args));
             }
         });
