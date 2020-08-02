@@ -18,6 +18,7 @@
 
 const { Client, Collection } = require('discord.js');
 const Util = require('./Util.js');
+const { ready } = require('libsodium-wrappers');
 
 module.exports = class BotClient extends Client {
 
@@ -49,11 +50,21 @@ module.exports = class BotClient extends Client {
 		this.Prefix = options.Prefix;
 	}
 
+	async onReady() {
+		console.log([
+            `Logged in as ${this.user.tag}`,
+            `Loaded ${this.commands.size} commands!`,
+            `Loaded ${this.events.size} events!`,
+        ].join('\n'));
+
+        await this.utils.processServerConfigs();
+	}
+
 	async start(Token = this.Token) {
+		this.once('ready', (...args) => this.onReady(...args));
 		await this.utils.loadCommands();
 		await this.utils.loadEvents();
 		await super.login(Token);
-		this.utils.processServerConfigs();
 	}
 
 };

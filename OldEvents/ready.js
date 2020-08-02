@@ -14,6 +14,8 @@ module.exports = class extends Event {
             `Loaded ${this.client.commands.size} commands!`,
             `Loaded ${this.client.events.size} events!`,
         ].join('\n'));
+
+        await this.client.utils.processServerConfigs();
     }
 
 };

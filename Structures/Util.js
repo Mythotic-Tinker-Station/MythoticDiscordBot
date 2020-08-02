@@ -20,9 +20,6 @@ const fs = require('fs');
 const json = require('json');
 const BaseServerCfg = require('../ServerData/_ServerDataTemplate.json');
 
-// Stringify Base Server Config
-const servercfg = JSON.stringify(BaseServerCfg);
-
 module.exports = class Util {
 
     constructor(client) {
@@ -94,28 +91,38 @@ module.exports = class Util {
         console.log(guildIDs);
 
         for (const guildid of guildIDs) {
+            const guildinfo = this.client.guilds.cache.get(guildid);
             const confpath = `${this.directory}ServerData/${guildid}.json`;
-            fs.stat(confpath, function(err, data) {
+            fs.stat(confpath, function(err) {
                 if (!err) {
                     console.log('blah');
                 }
                 else if (err.code == 'ENOENT') {
                     console.log(`Config ${confpath} does not exist. Creating...`);
 
-                    fs.writeFile(confpath, servercfg, (writerr) => {
+                    const guildsettings = BaseServerCfg;
+                    console.log(guildinfo);
+
+                    guildsettings.ServerName = guildinfo.name;
+                    console.log(guildsettings);
+
+                    const serverinfo = JSON.stringify(guildsettings);
+
+                    fs.writeFile(confpath, serverinfo, (writerr) => {
                         if (writerr) throw writerr;
                     });
 
                 }
             });
 
-
         }
 
+    }
+
+    async loadServerConfigs() {
         return glob(`${this.directory}serverdata/*.json`).then(configs => {
             console.log(configs);
 
-            // First, check if there any servers with no config
         });
     }
 
