@@ -37,7 +37,9 @@ module.exports = class BotClient extends Client {
 
 		this.events = new Collection();
 
-        this.aliases = new Collection();
+		this.aliases = new Collection();
+
+		this.serverdata = new Collection();
 
 		this.utils = new Util(this);
 	}
@@ -47,14 +49,28 @@ module.exports = class BotClient extends Client {
 
 		if (!options.Token) throw new Error('You must pass the Token for the client. Please check');
 
-		if (!options.Prefix) throw new Error('You must pass a prefix for the client.');
-		if (typeof options.Prefix !== 'string') throw new TypeError('Prefix should be a type of String.');
+		if (!options.DefaultPrefix) throw new Error('You must pass a prefix for the client.');
+		if (typeof options.DefaultPrefix !== 'string') throw new TypeError('Prefix should be a type of String.');
+		this.Prefix = options.DefaultPrefix;
+	}
+
+	async onReady() {
+		console.log([
+            `Logged in as ${this.user.tag}`,
+            `Loaded ${this.commands.size} commands!`,
+            `Loaded ${this.events.size} events!`,
+        ].join('\n'));
+
+		await this.utils.processServerConfigs();
+		await this.utils.loadServerConfigs();
+		console.log(this.serverdata);
 	}
 
 	async start(Token = this.Token) {
+		this.once('ready', (...args) => this.onReady(...args));
 		await this.utils.loadCommands();
 		await this.utils.loadEvents();
-        await super.login(Token);
+		await super.login(Token);
 	}
 
 };

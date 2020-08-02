@@ -17,11 +17,16 @@ const { promisify } = require('util');
 const glob = promisify(require('glob'));
 const Command = require('./Command.js');
 const Event = require('./Event');
+const fs = require('fs');
+const json = require('json');
+const BaseServerCfg = require('../ServerData/_ServerDataTemplate.json');
 
 module.exports = class Util {
 
     constructor(client) {
         this.client = client;
+        this.stat = promisify(fs.stat);
+        this.writeFile = promisify(fs.writeFile);
     }
 
     isClass(input) {
@@ -86,6 +91,48 @@ module.exports = class Util {
                 //:)
                 event.emitter[event.type](name, (...args) => event.run(...args));
             }
+        });
+    }
+
+    async callStat(confpath, guildinfo) {
+        try {
+            await this.stat(confpath);
+        }
+        catch(err) {
+            if (err.code == 'ENOENT') {
+                console.log(`Config ${confpath} does not exist. Creating...`);
+
+                const guildsettings = BaseServerCfg;
+
+                guildsettings.ServerName = guildinfo.name;
+
+                const serverinfo = JSON.stringify(guildsettings);
+                await this.writeFile(confpath, serverinfo);
+            }
+        }
+
+    }
+
+    async processServerConfigs() {
+        const guildIDs = this.client.guilds.cache.map (i => i.id);
+
+        for (const guildid of guildIDs) {
+            const guildinfo = this.client.guilds.cache.get(guildid);
+            const confpath = `${this.directory}ServerData/${guildid}.json`;
+
+            await this.callStat(confpath, guildinfo);
+        }
+    }
+
+    async loadServerConfigs() {
+        return glob(`${this.directory}serverdata/*.json`).then(configs => {
+            for (const configFile of configs) {
+                delete require.cache[configFile];
+                const { name } = path.parse(configFile);
+                const File = require(configFile);
+                this.client.serverdata.set(name, File);
+            }
+
         });
     }
 
