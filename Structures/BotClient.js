@@ -27,6 +27,12 @@ module.exports = class BotClient extends Client {
 		});
         this.validate(options);
 
+		this.Prefix = options.Prefix;
+
+		this.Token = options.Token;
+
+		this.owners = options.Owners;
+
 		this.commands = new Collection();
 
 		this.events = new Collection();
@@ -34,19 +40,15 @@ module.exports = class BotClient extends Client {
         this.aliases = new Collection();
 
 		this.utils = new Util(this);
-
-		this.owners = options.Owners;
 	}
 
 	validate(options) {
 		if (typeof options !== 'object') throw new TypeError('Options should be a type of Object.');
 
 		if (!options.Token) throw new Error('You must pass the Token for the client. Please check');
-		this.Token = options.Token;
 
 		if (!options.Prefix) throw new Error('You must pass a prefix for the client.');
 		if (typeof options.Prefix !== 'string') throw new TypeError('Prefix should be a type of String.');
-		this.Prefix = options.Prefix;
 	}
 
 	async start(Token = this.Token) {
