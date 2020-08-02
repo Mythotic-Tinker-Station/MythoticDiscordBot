@@ -18,7 +18,6 @@
 
 const { Client, Collection } = require('discord.js');
 const Util = require('./Util.js');
-const { ready } = require('libsodium-wrappers');
 
 module.exports = class BotClient extends Client {
 
@@ -32,7 +31,9 @@ module.exports = class BotClient extends Client {
 
 		this.events = new Collection();
 
-        this.aliases = new Collection();
+		this.aliases = new Collection();
+
+		this.serverdata = new Collection();
 
 		this.utils = new Util(this);
 
@@ -45,9 +46,9 @@ module.exports = class BotClient extends Client {
 		if (!options.Token) throw new Error('You must pass the Token for the client. Please check');
 		this.Token = options.Token;
 
-		if (!options.Prefix) throw new Error('You must pass a prefix for the client.');
-		if (typeof options.Prefix !== 'string') throw new TypeError('Prefix should be a type of String.');
-		this.Prefix = options.Prefix;
+		if (!options.DefaultPrefix) throw new Error('You must pass a prefix for the client.');
+		if (typeof options.DefaultPrefix !== 'string') throw new TypeError('Prefix should be a type of String.');
+		this.Prefix = options.DefaultPrefix;
 	}
 
 	async onReady() {
@@ -57,7 +58,9 @@ module.exports = class BotClient extends Client {
             `Loaded ${this.events.size} events!`,
         ].join('\n'));
 
-        await this.utils.processServerConfigs();
+		await this.utils.processServerConfigs();
+		await this.utils.loadServerConfigs();
+		console.log(this.serverdata);
 	}
 
 	async start(Token = this.Token) {
