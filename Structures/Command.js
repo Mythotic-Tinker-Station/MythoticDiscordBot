@@ -21,7 +21,7 @@ module.exports = class Command {
         this.category = options.category || 'Miscellaneous';
         this.usage = `${this.client.Prefix}${this.name} ${options.usage || ''}`.trim();
         this.permission = options.permission || [];
-        this.subcommand = options.subcommand || [];
+        this.subcommands = options.subcommands || {};
     }
 
     // eslint-disable-next-line no-unused-vars
