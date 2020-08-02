@@ -30,11 +30,19 @@ module.exports = class Command {
             if (message.member.hasPermission(this.permission)) {
                 await this.run(message, args);
             }
+            else {
+                await this.noaccess(message, args);
+            }
 
         }
         catch(err) {
             console.error(err);
         }
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    async noaccess(message, args) {
+        throw new Error(`User does not have access to this command.`);
     }
 
     // eslint-disable-next-line no-unused-vars
