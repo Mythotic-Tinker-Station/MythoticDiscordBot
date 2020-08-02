@@ -101,10 +101,8 @@ module.exports = class Util {
                     console.log(`Config ${confpath} does not exist. Creating...`);
 
                     const guildsettings = BaseServerCfg;
-                    console.log(guildinfo);
 
                     guildsettings.ServerName = guildinfo.name;
-                    console.log(guildsettings);
 
                     const serverinfo = JSON.stringify(guildsettings);
 
