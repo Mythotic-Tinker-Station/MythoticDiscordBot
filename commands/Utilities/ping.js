@@ -13,6 +13,7 @@ module.exports = class extends Command {
     // eslint-disable-next-line no-unused-vars
     async run(message) {
         const msg = await message.channel.send('Pinging...');
+        console.log(message.channel);
 
         const latency = msg.createdTimestamp - message.createdTimestamp;
         const choices = ['My current ping', 'Ping', 'I think discords chucking a shit. Heres my ping'];
