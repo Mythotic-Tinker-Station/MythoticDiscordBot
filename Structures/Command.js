@@ -42,7 +42,7 @@ module.exports = class Command {
 
     // eslint-disable-next-line no-unused-vars
     async noaccess(message, args) {
-        throw new Error(`User does not have access to this command.`);
+        throw new Error('User does not have access to this command.');
     }
 
     // eslint-disable-next-line no-unused-vars
