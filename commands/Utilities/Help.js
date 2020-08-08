@@ -10,13 +10,11 @@ module.exports = class extends Command {
             aliases: ['halp', 'manual', 'rtfm'],
             usage: '[command]',
 			category: 'Information',
-			//For testing lol
-			permission: ['ADMINISTRATOR'],
         });
     }
 
 	async noaccess(message, args) {
-		await message.channel.send("You do not have the permission to run the help command.");
+		await message.channel.send('You do not have the permission to run the help command.');
 	}
 
     // eslint-disable-next-line no-unused-vars
