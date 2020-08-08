@@ -30,7 +30,11 @@ module.exports = class extends Command {
 		});
 	}
 
-	run(message, setting, value) {
+    async noaccess(message, args) {
+		await message.channel.send('You do not have the permission to run the set command.');
+	}
+
+	async run(message, setting, value) {
         
 
 	}
