@@ -13,7 +13,6 @@ module.exports = class extends Command {
             usage: '<setting> <value>',
             subcommands: {
                 prefix: {
-                    name: 'prefix',
                     description: 'Change Server Prefix for this bot',
                 },
                 welcomemessage: {
@@ -41,17 +40,25 @@ module.exports = class extends Command {
 
 
         try {
-            if (validSettings.find(vSetting => vSetting === setting)) {
-                console.log('Valid Setting passed, proceed with changing setting...');
+            const doesSettingExist = validSettings.includes(setting);
+            if (doesSettingExist && value) {
+                console.log('Valid Setting passed with value, proceed with changing setting...');
+                const guildid = message.guild.id;
 
-                
+                await this.client.utils.editServerSetting(guildid, setting, value);
+
             }
-            else {
-                throw new Error('Setting does not exist');
+            else if (!doesSettingExist || !value) {
+                if(!doesSettingExist) {
+                    throw new Error(`The setting ${setting} does not exist`);
+                }
+                else {
+                    throw new Error('Invalid setting/value passed');
+                }
             }
         }
         catch(err) {
-            console.log(err);
+            await message.channel.send(`Failed to run this command: ***${err}***`);
         }
 	}
 

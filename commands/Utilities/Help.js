@@ -19,6 +19,9 @@ module.exports = class extends Command {
 
     // eslint-disable-next-line no-unused-vars
     async run(message, [command]) {
+		const serverconf = this.client.serverdata.get(message.guild.id);
+		const Prefix = serverconf.Settings.Prefix;
+
 		const embed = new MessageEmbed()
 			.setColor('BLUE')
 			.setAuthor(`${message.guild.name} Help Menu`, message.guild.iconURL({ dynamic: true }))
@@ -37,7 +40,8 @@ module.exports = class extends Command {
 				`**❯ Description:** ${cmd.description}`,
 				`**❯ Category:** ${cmd.category}`,
 				`**❯ Permission:** ${cmd.permission}`,
-				`**❯ Usage:** ${cmd.usage}`,
+				`**❯ Usage:** ${Prefix}${cmd.usage}`,
+				`**❯ Arguments:** \n${Object.keys(cmd.subcommands).map(argName => `> \`${argName}\`: ${cmd.subcommands[argName].description}`).join('\n')}`,
 			]);
 
 			return message.channel.send(embed);
@@ -45,7 +49,7 @@ module.exports = class extends Command {
  else {
 			embed.setDescription([
 				`These are the available commands for ${message.guild.name}`,
-				`The bot's prefix is: ${this.client.Prefix}`,
+				`The bot's prefix is: ${Prefix}`,
 				'Command Parameters: `<>` is strict & `[]` is optional',
 			]);
 			let categories;

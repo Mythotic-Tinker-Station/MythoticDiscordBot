@@ -19,7 +19,7 @@ module.exports = class Command {
         this.aliases = options.aliases || [];
         this.description = options.description || 'No description available.';
         this.category = options.category || 'Miscellaneous';
-        this.usage = `${this.client.Prefix}${this.name} ${options.usage || ''}`.trim();
+        this.usage = `${this.name} ${options.usage || ''}`.trim();
         this.permission = options.permission || [];
         this.subcommands = options.subcommands || {};
     }
