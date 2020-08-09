@@ -132,6 +132,11 @@ module.exports = class Util {
         });
     }
 
+    async editServerSetting(guildid, setting, value) {
+        const confpath = `${this.directory}ServerData/${guildid}.json`;
+        
+    }
+
     trimArray(arr, maxLen = 10) {
         if (arr.length > maxLen) {
             const len = arr.length - maxLen;

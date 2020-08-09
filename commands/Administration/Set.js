@@ -1,4 +1,4 @@
-const { MessageEmbed, GuildMember } = require('discord.js');
+const { MessageEmbed, GuildMember, Message } = require('discord.js');
 const Command = require('../../Structures/Command');
 
 module.exports = class extends Command {
@@ -9,7 +9,7 @@ module.exports = class extends Command {
 			aliases: ['setting', 'serverconfig', 'servconf'],
 			description: 'Change some server wide settings local to your Discord Server!',
             category: 'Administration',
-            permission: ['ADMINISTRATOR'],
+            permission: ['MANAGE_GUILD'],
             usage: '<setting> <value>',
             subcommands: {
                 prefix: {
@@ -34,9 +34,25 @@ module.exports = class extends Command {
 		await message.channel.send('You do not have the permission to run the set command.');
 	}
 
-	async run(message, setting, value) {
-        
+	async run(message, [setting, value]) {
+        const validSettings = ['prefix', 'welcomemessage', 'adminroles', 'moderatorroles'];
 
+        console.log(setting, value);
+
+
+        try {
+            if (validSettings.find(vSetting => vSetting === setting)) {
+                console.log('Valid Setting passed, proceed with changing setting...');
+
+                
+            }
+            else {
+                throw new Error('Setting does not exist');
+            }
+        }
+        catch(err) {
+            console.log(err);
+        }
 	}
 
 };
