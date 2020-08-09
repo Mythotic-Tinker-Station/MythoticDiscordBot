@@ -1,4 +1,3 @@
-const { MessageEmbed, GuildMember, Message } = require('discord.js');
 const Command = require('../../Structures/Command');
 
 module.exports = class extends Command {
@@ -29,6 +28,7 @@ module.exports = class extends Command {
 		});
 	}
 
+    // eslint-disable-next-line no-unused-vars
     async noaccess(message, args) {
 		await message.channel.send('You do not have the permission to run the set command.');
 	}
