@@ -46,6 +46,7 @@ module.exports = class extends Command {
                 const guildid = message.guild.id;
 
                 await this.client.utils.editServerSetting(guildid, setting, value);
+                await message.channel.send(`***${setting}*** has been changed to: \`${value}\``);
 
             }
             else if (!doesSettingExist || !value) {
