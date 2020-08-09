@@ -19,8 +19,30 @@ module.exports = class Command {
         this.aliases = options.aliases || [];
         this.description = options.description || 'No description available.';
         this.category = options.category || 'Miscellaneous';
-        this.usage = `${this.client.Prefix}${this.name} ${options.usage || ''}`.trim();
-        this.permission = options.permission;
+        this.usage = `${this.name} ${options.usage || ''}`.trim();
+        this.permission = options.permission || [];
+        this.subcommands = options.subcommands || {};
+    }
+
+    async prerun(message, args) {
+        try {
+            // Check if user does not have admin perms or is on any of the AdminRoles groups.
+            if (message.member.hasPermission(this.permission)) {
+                await this.run(message, args);
+            }
+            else {
+                await this.noaccess(message, args);
+            }
+
+        }
+        catch(err) {
+            console.error(err);
+        }
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    async noaccess(message, args) {
+        throw new Error('User does not have access to this command.');
     }
 
     // eslint-disable-next-line no-unused-vars

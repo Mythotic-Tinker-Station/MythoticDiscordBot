@@ -9,12 +9,19 @@ module.exports = class extends Command {
             description: 'Displays Help information!',
             aliases: ['halp', 'manual', 'rtfm'],
             usage: '[command]',
-            category: 'Information',
+			category: 'Information',
         });
     }
 
+	async noaccess(message, args) {
+		await message.channel.send('You do not have the permission to run the help command.');
+	}
+
     // eslint-disable-next-line no-unused-vars
     async run(message, [command]) {
+		const serverconf = this.client.serverdata.get(message.guild.id);
+		const Prefix = serverconf.Settings.Prefix;
+
 		const embed = new MessageEmbed()
 			.setColor('BLUE')
 			.setAuthor(`${message.guild.name} Help Menu`, message.guild.iconURL({ dynamic: true }))
@@ -32,7 +39,9 @@ module.exports = class extends Command {
 				`**❯ Aliases:** ${cmd.aliases.length ? cmd.aliases.map(alias => `\`${alias}\``).join(' ') : 'No Aliases'}`,
 				`**❯ Description:** ${cmd.description}`,
 				`**❯ Category:** ${cmd.category}`,
-				`**❯ Usage:** ${cmd.usage}`,
+				`**❯ Permission:** ${cmd.permission}`,
+				`**❯ Usage:** ${Prefix}${cmd.usage}`,
+				`**❯ Arguments:** \n${Object.keys(cmd.subcommands).map(argName => `> \`${argName}\`: ${cmd.subcommands[argName].description}`).join('\n')}`,
 			]);
 
 			return message.channel.send(embed);
@@ -40,7 +49,7 @@ module.exports = class extends Command {
  else {
 			embed.setDescription([
 				`These are the available commands for ${message.guild.name}`,
-				`The bot's prefix is: ${this.client.Prefix}`,
+				`The bot's prefix is: ${Prefix}`,
 				'Command Parameters: `<>` is strict & `[]` is optional',
 			]);
 			let categories;

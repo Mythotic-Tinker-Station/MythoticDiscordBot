@@ -27,8 +27,6 @@ module.exports = class BotClient extends Client {
 		});
         this.validate(options);
 
-		this.Prefix = options.Prefix;
-
 		this.Token = options.Token;
 
 		this.owners = options.Owners;
@@ -48,10 +46,6 @@ module.exports = class BotClient extends Client {
 		if (typeof options !== 'object') throw new TypeError('Options should be a type of Object.');
 
 		if (!options.Token) throw new Error('You must pass the Token for the client. Please check');
-
-		if (!options.DefaultPrefix) throw new Error('You must pass a prefix for the client.');
-		if (typeof options.DefaultPrefix !== 'string') throw new TypeError('Prefix should be a type of String.');
-		this.Prefix = options.DefaultPrefix;
 	}
 
 	async onReady() {
