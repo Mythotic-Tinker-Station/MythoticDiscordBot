@@ -32,26 +32,38 @@ module.exports = class extends Command {
 
             try {
                 const username = message.mentions.users.first();
-                console.log(`Attempting to kick ${username.username} from ${message.guild.name}`);
-                const member = message.mentions.members.first();
-                console.log(member);
 
-                if (member.kickable === true) {
-                    await member.kick(reason).then(() => {
-                        embed.setDescription([`${username} has been kicked from ${message.guild.name}`,
-                            `***Reason:*** ${reason}`]);
-                        message.channel.send(embed);
-                    });
+                if (username) {
+                    console.log(`Attempting to kick ${username.username} from ${message.guild.name}`);
+                    const member = message.mentions.members.first();
 
+                    if (member) {
+                        if (member.kickable === true) {
+                            await member.kick(reason.join(' ')).then(() => {
+                                embed.setDescription([`${username} has been kicked from ${message.guild.name}`,
+                                    `***Reason:*** ${reason.join(' ')}`]);
+                                message.channel.send(embed);
+                            });
+
+                        }
+                        else {
+                            throw new Error(`${member.user.username} is not able to be kicked by me!`);
+                        }
+                    }
+                    else {
+                        throw new Error(`${argUser} is not a member of this guild`);
+                    }
                 }
                 else {
-                    throw new Error(`${member.user.username} is not able to be kicked by me!`);
+                    throw new Error('No user has been defined');
                 }
-
             }
             catch(err) {
                 console.log(err);
             }
+        }
+        else {
+            await message.channel.send(`**${argUser}** is not a valid mention. Try again`);
         }
 	}
 
