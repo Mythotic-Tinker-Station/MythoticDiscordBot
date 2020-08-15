@@ -4,4 +4,12 @@
     "Token" : "Your-Token-Goes-Here",
 
     "Owners" : ['OwnerIDs']
+    
+    "TwitterAPI": {
+        "ApiKey": "TwitterApiKeyHere",
+        "ApiSecretKey": "TwitterApiSecretKeyHere",
+        "BearerToken": "TwitterBearerTokenHere",
+        "UserAccessToken": "TwitterUserAccessTokenHere",
+        "UserAccessTokenSecret": "TwitterUserAccessTokenSecretHere"
+    }
 }
