@@ -117,6 +117,22 @@ module.exports = class Util {
         }
     }
 
+    async processSingleServerConfig(guildid) {
+            const guildinfo = this.client.guilds.cache.get(guildid);
+            const confpath = `${this.directory}ServerData/${guildid}.json`;
+
+            await this.callStat(confpath, guildinfo);
+    }
+
+    async loadSingleServerConfig(guildid) {
+        const config = `${this.directory}ServerData/${guildid}.json`;
+        delete require.cache[config];
+        const { name } = path.parse(config);
+        const File = require(config);
+        this.client.serverdata.set(name, File);
+
+    }
+
     async loadServerConfigs() {
         return glob(`${this.directory}serverdata/*.json`).then(configs => {
             for (const configFile of configs) {
