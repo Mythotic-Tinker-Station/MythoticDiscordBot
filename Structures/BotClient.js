@@ -17,6 +17,7 @@
 */
 
 const { Client, Collection } = require('discord.js');
+const TwitterClient = require('./TwitterClient');
 const Util = require('./Util.js');
 
 module.exports = class BotClient extends Client {
@@ -39,7 +40,11 @@ module.exports = class BotClient extends Client {
 
 		this.serverdata = new Collection();
 
+		this.twitterdata = new Collection();
+
 		this.utils = new Util(this);
+
+		this.twitterClient = new TwitterClient(options);
 	}
 
 	validate(options) {
@@ -57,7 +62,7 @@ module.exports = class BotClient extends Client {
 
 		await this.utils.processServerConfigs();
 		await this.utils.loadServerConfigs();
-		console.log(this.serverdata);
+		await this.twitterClient.start();
 	}
 
 	async start(Token = this.Token) {
