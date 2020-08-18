@@ -21,7 +21,7 @@ module.exports = class extends Command {
 	}
 
 	async run(message, [twitter_handle]) {
-
+        console.log('Nothing atm');
 	}
 
 };
