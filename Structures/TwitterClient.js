@@ -32,6 +32,14 @@ module.exports = class TClient extends Twitter {
 
     }
 
+
+    /* TODO:
+        - Add a way to stop and restart the stream if a twitterhandle is removed
+        - Have discord send the twitter message and embeds if any to a discord channel in the twitterdata collection via a message embed if possible. Will need to check which user sent the tweet and then
+          check to see if they are in the collection and then check which channel ID it was.
+        - Add ability to filter out retweets (will need a command to enable that also)
+        - Anything else i missed to get this working.
+    */
     async addTwitterFeed(twitterHandle) {
         const twitterUserInfo = await this.get('users/lookup', { screen_name: twitterHandle });
         const twitterUserID = twitterUserInfo.data[0].id_str;

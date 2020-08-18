@@ -62,7 +62,8 @@ module.exports = class BotClient extends Client {
 
 		await this.utils.processServerConfigs();
 		await this.utils.loadServerConfigs();
-		await this.twitterClient.start();
+		await this.twitterClient.start(this.twitterdata);
+		// this.twitterdata needs to be an array of twitter handles from the collection. Same collection will be used for discord channel checking and matching.
 	}
 
 	async start(Token = this.Token) {

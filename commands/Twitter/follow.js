@@ -22,6 +22,9 @@ module.exports = class extends Command {
 
 	async run(message, [twitter_handle]) {
         console.log('Nothing atm');
+
+        // Must add ability to add twitter handles and discord channel ids to twitter data collection then add the twitter handle to the stream on the twitter client
+        // Need to also add a command to remove twitter handles
 	}
 
 };
