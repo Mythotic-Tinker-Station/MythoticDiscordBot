@@ -32,19 +32,19 @@ module.exports = class BotClient extends Client {
 
 		this.owners = options.Owners;
 
-		this.commands = new Collection();
+		this.commands = new Map();
 
-		this.events = new Collection();
+		this.events = new Map();
 
-		this.aliases = new Collection();
+		this.aliases = new Map();
 
-		this.serverdata = new Collection();
+		this.serverdata = new Map();
 
-		this.twitterdata = new Collection();
+		this.twitterdata = new Map();
 
 		this.utils = new Util(this);
 
-		this.twitterClient = new TwitterClient(options);
+		this.twitterClient = new TwitterClient(options.TwitterAPI);
 	}
 
 	validate(options) {
@@ -62,6 +62,12 @@ module.exports = class BotClient extends Client {
 
 		await this.utils.processServerConfigs();
 		await this.utils.loadServerConfigs();
+		//load twitter related stuff
+		const _twitterdata = this.twitterdata;
+
+		this.serverdata.forEach((value, key) => {
+			_twitterdata.set(key, value.Twitter);
+		});
 		await this.twitterClient.start(this.twitterdata);
 		// this.twitterdata needs to be an array of twitter handles from the collection. Same collection will be used for discord channel checking and matching.
 	}

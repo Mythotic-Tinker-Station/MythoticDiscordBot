@@ -17,7 +17,7 @@ const glob = promisify(require('glob'));
 const Command = require('./Command.js');
 const Event = require('./Event');
 const fs = require('fs');
-const BaseServerCfg = require('../ServerData/_ServerDataTemplate.json');
+const BaseServerCfg = require('../ServerDataTemplate/_ServerDataTemplate.json');
 
 module.exports = class Util {
 
