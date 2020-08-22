@@ -44,7 +44,7 @@ module.exports = class BotClient extends Client {
 
 		this.utils = new Util(this);
 
-		this.twitterClient = new TwitterClient(options.TwitterAPI);
+		this.twitterClient = new TwitterClient(options.TwitterAPI, this);
 	}
 
 	validate(options) {

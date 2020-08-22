@@ -18,20 +18,21 @@
 */
 
 const Twitter = require('twit');
+const { MessageEmbed } = require('discord.js');
 const json = require('json');
 
 module.exports = class TClient extends Twitter {
 
-	constructor(options = {}) {
+	constructor(options = {}, botClient) {
 		super({
             consumer_key: options.ApiKey,
             consumer_secret: options.ApiSecretKey,
             access_token: options.UserAccessToken,
             access_token_secret: options.UserAccessTokenSecret,
         });
-
+        this.botClient = botClient;
         this.currentStreams = new Set();
-        this.serverTwitterHandles = new Map();
+        this.serverTwitterHandles = [];
 
     }
 
@@ -53,11 +54,20 @@ module.exports = class TClient extends Twitter {
         const twitterUserInfo = await this.get('users/lookup', { screen_name: twitterHandle });
         const twitterUserID = twitterUserInfo.data[0].id_str;
         const s = this.stream('statuses/filter', { follow: twitterUserID });
-        s.on('tweet', tweet => console.log(tweet));
+        this.currentStreams.add(s);
+        s.on('tweet', tweet => this.handleTweetEvent(tweet));
+    }
+
+    async handleTweetEvent(tweetResponse) {
+        const channelsListening = this.serverTwitterHandles.filter(feed => feed.TwitterHandle === tweetResponse.user.screen_name);
+        channelsListening.forEach(async feed => {
+            const channel = await this.botClient.channels.fetch(feed.DiscordChannelId);
+            channel.send(tweetResponse.text);
+        });
     }
 
     removeTwitterFeed(twitterHandle) {
-        //todo: remove feed logic
+        // todo: remove feed logic
     }
 
     //
@@ -66,9 +76,11 @@ module.exports = class TClient extends Twitter {
         try{
             twitterGuildConfigs.forEach((config, serverName) => {
                 const { Feeds } = config;
-                Feeds.forEach(({ TwitterHandle }) => {
-                    console.log('Going to get user ' + TwitterHandle);
-                    this.addTwitterFeed(TwitterHandle).catch(e => e.code === 17 && console.log('User handle doesnt exist.'));
+                Feeds.forEach(feed => {
+                    console.log('Going to get user ' + feed.TwitterHandle);
+                    this.addTwitterFeed(feed.TwitterHandle)
+                        .then(() => this.serverTwitterHandles.push(feed))
+                        .catch(e => e.code === 17 && console.log('User handle doesnt exist.'));
                 });
             });
         }
