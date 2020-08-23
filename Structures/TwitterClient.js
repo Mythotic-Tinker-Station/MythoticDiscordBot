@@ -19,7 +19,6 @@
 
 const Twitter = require('twit');
 const { MessageEmbed } = require('discord.js');
-const json = require('json');
 
 module.exports = class TClient extends Twitter {
 
@@ -39,9 +38,6 @@ module.exports = class TClient extends Twitter {
 
     /* TODO:
         - Add a way to stop and restart the stream if a twitterhandle is removed/added
-        - Have discord send the twitter message and embeds if any to a discord channel in the twitterdata collection via a message embed if possible. Will need to check which user sent the tweet and then
-          check to see if they are in the collection and then check which channel ID it was.
-        - Add ability to filter out retweets (will need a command to enable that also)
         - Anything else i missed to get this working.
     */
 
@@ -62,7 +58,40 @@ module.exports = class TClient extends Twitter {
         const channelsListening = this.serverTwitterHandles.filter(feed => feed.TwitterHandle === tweetResponse.user.screen_name);
         channelsListening.forEach(async feed => {
             const channel = await this.botClient.channels.fetch(feed.DiscordChannelId);
-            channel.send(tweetResponse.text);
+            const guildId = channel.guild.id;
+
+            const serverTwitterSettings = this.botClient.serverdata.get(guildId);
+
+            const embed = new MessageEmbed()
+                .setAuthor(tweetResponse.user.name, tweetResponse.user.profile_image_url)
+                .setURL(`https://twitter.com/${tweetResponse.user.screen_name}/status/${tweetResponse.id_str}`);
+
+            if(tweetResponse.retweeted_status || tweetResponse.quoted_status) {
+                if(serverTwitterSettings.Twitter.BlockRetweets === true) return;
+                embed.setTitle('A Retweet!');
+                embed.setColor('DARK_GREEN');
+            }
+            else if(tweetResponse.in_reply_to_status_id || tweetResponse.in_reply_to_status_id_str || tweetResponse.in_reply_to_user_id || tweetResponse.in_reply_to_user_id_str || tweetResponse.in_reply_to_screen_name) {
+                if(serverTwitterSettings.Twitter.BlockReplies === true) return;
+                embed.setTitle(`A reply to @${tweetResponse.in_reply_to_screen_name}`);
+                embed.setColor('DARK_GREEN');
+            }
+            else {
+                embed.setTitle('A New Tweet!');
+                embed.setColor('GREEN');
+            }
+
+            if(tweetResponse.entities.media) {
+                const mediaUrl = tweetResponse.entities.media[0].media_url;
+                console.log(mediaUrl);
+                embed.setImage(mediaUrl);
+            }
+
+            embed.setDescription(tweetResponse.text);
+            embed.setFooter(`@${tweetResponse.user.screen_name}`);
+            embed.setTimestamp();
+            // console.log(tweetResponse);
+            channel.send(embed);
         });
     }
 

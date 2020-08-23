@@ -1,5 +1,5 @@
 {
-    "ServerConfigVersion" : "v0.1",
+    "ServerConfigVersion" : "v0.2",
     "ServerName" : "ServerNameHere",
 
     "Settings" : {
@@ -10,6 +10,8 @@
     },
 
     "Twitter": {
+        "BlockRetweets": true,
+        "BlockReplies": true,
         "Feeds": [
             { "TwitterHandle" : "", "DiscordChannelId" : "" }
         ]
