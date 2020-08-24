@@ -45,7 +45,7 @@ module.exports = class TClient extends Twitter {
     async addTwitterFeed(twitterHandle) {
         // check the streams to see if twitter handle is already therecls
         if(this.currentStreams.has(twitterHandle)) {
-            return;
+            // return;
         }
         const twitterUserInfo = await this.get('users/lookup', { screen_name: twitterHandle });
         const twitterUserID = twitterUserInfo.data[0].id_str;
@@ -95,8 +95,8 @@ module.exports = class TClient extends Twitter {
         });
     }
 
-    removeTwitterFeed(twitterHandle) {
-        // todo: remove feed logic
+    async removeTwitterFeed(twitterHandle, serverId) {
+        const queriedServer = this.serverTwitterHandles.find(server => server.find(feed => feed.))
     }
 
     //
