@@ -25,23 +25,14 @@ module.exports = class extends Command {
 
         // Check if the feed exists
 
-        if(this.client.twitterClient.currentStreams.has(twitter_handle)) {
-            console.log(`Stream for ${twitter_handle} exists. Attempting removal`);
-            try {
-                // Remove from current streams first and idealy from the stream itself
-                await this.client.twitterClient.removeTwitterFeed(twitter_handle).then(result => {
-                    console.log(result);
-                    if(result) {
-                        
-                    }
-
-                }).catch(err => {
-                    throw new Error(err);
-                });
-            }
-            catch(err) {
-                console.log(err);
-            }
+        try {
+            // Remove from current streams first and idealy from the stream itself
+            await this.client.twitterClient.removeTwitterFeed(twitter_handle, message.guild.id).then(() => {
+                message.channel.send(`Twitter handle **@${twitter_handle}** is no longer being followed.`);
+            });
+        }
+        catch(err) {
+            message.channel.send(`An Error occured: **${err}**`);
         }
 
         // Must add ability to add twitter handles and discord channel ids to twitter data collection then add the twitter handle to the stream on the twitter client

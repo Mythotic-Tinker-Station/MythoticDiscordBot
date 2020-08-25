@@ -159,6 +159,19 @@ module.exports = class Util {
         }
     }
 
+    async editServerTwitterFeedSettings(guildid, value) {
+        const confpath = `${this.directory}ServerData/${guildid}.json`;
+        const svrConfig = this.client.serverdata.get(guildid);
+        svrConfig.Twitter.Feeds = value;
+        try {
+            await this.writeFile(confpath, JSON.stringify(svrConfig));
+        }
+        catch(err) {
+            console.err(err);
+            console.err(`Couldn't update file. Will not save '${setting}'.`);
+        }
+    }
+
     trimArray(arr, maxLen = 10) {
         if (arr.length > maxLen) {
             const len = arr.length - maxLen;

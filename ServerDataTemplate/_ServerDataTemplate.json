@@ -13,7 +13,7 @@
         "BlockRetweets": true,
         "BlockReplies": true,
         "Feeds": [
-            { "TwitterHandle" : "", "DiscordChannelId" : "" }
+            
         ]
     }
 }

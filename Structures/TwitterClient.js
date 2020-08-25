@@ -51,13 +51,13 @@ module.exports = class TClient extends Twitter {
         const twitterUserID = twitterUserInfo.data[0].id_str;
         const s = this.stream('statuses/filter', { follow: twitterUserID });
         this.currentStreams.add(s);
-        s.on('tweet', tweet => this.handleTweetEvent(tweet));
+        s.on('tweet', tweet => this.handleTweetEvent(tweet).catch(err => console.log(err)));
     }
 
     async handleTweetEvent(tweetResponse) {
-        const channelsListening = this.serverTwitterHandles.filter(feed => feed.TwitterHandle === tweetResponse.user.screen_name);
-        channelsListening.forEach(async feed => {
-            const channel = await this.botClient.channels.fetch(feed.DiscordChannelId);
+        const channelsListening = this.serverTwitterHandles.filter(serverFeed => serverFeed.feed.TwitterHandle === tweetResponse.user.screen_name);
+        channelsListening.forEach(async serverFeed => {
+            const channel = await this.botClient.channels.fetch(serverFeed.feed.DiscordChannelId);
             const guildId = channel.guild.id;
 
             const serverTwitterSettings = this.botClient.serverdata.get(guildId);
@@ -95,8 +95,27 @@ module.exports = class TClient extends Twitter {
         });
     }
 
-    async removeTwitterFeed(twitterHandle, serverId) {
-        const queriedServer = this.serverTwitterHandles.find(server => server.find(feed => feed.))
+    async removeTwitterFeed(twitterHandle, guildId) {
+        const queriedServer = this.serverTwitterHandles.find(sth => sth.serverName === guildId);
+        console.log(queriedServer);
+        if(queriedServer) {
+            const removedElement = this.serverTwitterHandles.splice(this.serverTwitterHandles.indexOf(queriedServer), 1);
+            console.log(`Feed for ${twitterHandle} has been removed from the following:`);
+            console.log(removedElement);
+            const settings = this.botClient.serverdata.get(guildId);
+            const twitterSettings = settings.Twitter;
+            twitterSettings.Feeds.splice(twitterSettings.Feeds.findIndex(v => v.TwitterHandle === twitterHandle), 1);
+            console.log(twitterSettings);
+            try {
+                await this.botClient.utils.editServerTwitterFeedSettings(guildId, twitterSettings.Feeds);
+            }
+            catch(err) {
+                console.log(err);
+            }
+        }
+        else {
+            console.log('Server doesnt seem to exist in query..');
+        }
     }
 
     //
@@ -108,7 +127,7 @@ module.exports = class TClient extends Twitter {
                 Feeds.forEach(feed => {
                     console.log('Going to get user ' + feed.TwitterHandle);
                     this.addTwitterFeed(feed.TwitterHandle)
-                        .then(() => this.serverTwitterHandles.push(feed))
+                        .then(() => this.serverTwitterHandles.push({ feed, serverName }))
                         .catch(e => e.code === 17 && console.log('User handle doesnt exist.'));
                 });
             });
@@ -116,5 +135,25 @@ module.exports = class TClient extends Twitter {
         catch(e) {
             console.error('Error getting something....');
         }
+    }
+
+    async followTwitterHandle(guildId) {
+        const serverCfg = this.botClient.serverdata.get(guildId);
+        const serverName = guildId;
+        try {
+            const Feeds = serverCfg.Twitter.Feeds;
+            console.log(Feeds);
+            Feeds.forEach(feed => {
+                console.log('Going to get user ' + feed.TwitterHandle);
+                this.addTwitterFeed(feed.TwitterHandle)
+                    .then(() => this.serverTwitterHandles.push({ feed, serverName }))
+                    .catch(e => e.code === 17 && console.log('User handle doesnt exist.'));
+            });
+        }
+        catch(e) {
+            throw new Error(e);
+        }
+
+
     }
 };
