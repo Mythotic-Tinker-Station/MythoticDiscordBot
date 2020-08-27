@@ -32,11 +32,11 @@ module.exports = class BotClient extends Client {
 
 		this.owners = options.Owners;
 
-		this.commands = new Map();
+		this.commands = new Collection();
 
-		this.events = new Map();
+		this.events = new Collection();
 
-		this.aliases = new Map();
+		this.aliases = new Collection();
 
 		this.serverdata = new Map();
 

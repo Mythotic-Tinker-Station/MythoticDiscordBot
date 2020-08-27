@@ -159,6 +159,28 @@ module.exports = class Util {
         }
     }
 
+    async editTwitterSetting(guildid, setting, value) {
+        const confpath = `${this.directory}ServerData/${guildid}.json`;
+        const svrConfig = this.client.serverdata.get(guildid);
+        const formattedSettingName = [setting[0].toUpperCase(), ...setting.slice(1)].join('');
+
+        if(value === 'true') {
+            value = true;
+        }
+        else if(value === 'false') {
+            value = false;
+        }
+
+        svrConfig.Twitter[formattedSettingName] = value;
+        try {
+            await this.writeFile(confpath, JSON.stringify(svrConfig));
+        }
+        catch(err) {
+            console.err(err);
+            console.err(`Couldn't update file. Will not save '${setting}'.`);
+        }
+    }
+
     async editServerTwitterFeedSettings(guildid, value) {
         const confpath = `${this.directory}ServerData/${guildid}.json`;
         const svrConfig = this.client.serverdata.get(guildid);

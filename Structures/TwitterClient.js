@@ -67,12 +67,12 @@ module.exports = class TClient extends Twitter {
                 .setURL(`https://twitter.com/${tweetResponse.user.screen_name}/status/${tweetResponse.id_str}`);
 
             if(tweetResponse.retweeted_status || tweetResponse.quoted_status) {
-                if(serverTwitterSettings.Twitter.BlockRetweets === true) return;
+                if(serverTwitterSettings.Twitter.Blockretweets === true) return;
                 embed.setTitle('A Retweet!');
                 embed.setColor('DARK_GREEN');
             }
             else if(tweetResponse.in_reply_to_status_id || tweetResponse.in_reply_to_status_id_str || tweetResponse.in_reply_to_user_id || tweetResponse.in_reply_to_user_id_str || tweetResponse.in_reply_to_screen_name) {
-                if(serverTwitterSettings.Twitter.BlockReplies === true) return;
+                if(serverTwitterSettings.Twitter.Blockreplies === true) return;
                 embed.setTitle(`A reply to @${tweetResponse.in_reply_to_screen_name}`);
                 embed.setColor('DARK_GREEN');
             }

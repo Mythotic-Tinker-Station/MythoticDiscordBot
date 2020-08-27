@@ -10,8 +10,8 @@
     },
 
     "Twitter": {
-        "BlockRetweets": true,
-        "BlockReplies": true,
+        "Blockretweets": true,
+        "Blockreplies": true,
         "Feeds": [
             
         ]
