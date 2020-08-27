@@ -17,7 +17,7 @@ const glob = promisify(require('glob'));
 const Command = require('./Command.js');
 const Event = require('./Event');
 const fs = require('fs');
-const BaseServerCfg = require('../ServerData/_ServerDataTemplate.json');
+const BaseServerCfg = require('../ServerDataTemplate/_ServerDataTemplate.json');
 
 module.exports = class Util {
 
@@ -150,6 +150,41 @@ module.exports = class Util {
         const svrConfig = this.client.serverdata.get(guildid);
         const formattedSettingName = [setting[0].toUpperCase(), ...setting.slice(1)].join('');
         svrConfig.Settings[formattedSettingName] = value;
+        try {
+            await this.writeFile(confpath, JSON.stringify(svrConfig));
+        }
+        catch(err) {
+            console.err(err);
+            console.err(`Couldn't update file. Will not save '${setting}'.`);
+        }
+    }
+
+    async editTwitterSetting(guildid, setting, value) {
+        const confpath = `${this.directory}ServerData/${guildid}.json`;
+        const svrConfig = this.client.serverdata.get(guildid);
+        const formattedSettingName = [setting[0].toUpperCase(), ...setting.slice(1)].join('');
+
+        if(value === 'true') {
+            value = true;
+        }
+        else if(value === 'false') {
+            value = false;
+        }
+
+        svrConfig.Twitter[formattedSettingName] = value;
+        try {
+            await this.writeFile(confpath, JSON.stringify(svrConfig));
+        }
+        catch(err) {
+            console.err(err);
+            console.err(`Couldn't update file. Will not save '${setting}'.`);
+        }
+    }
+
+    async editServerTwitterFeedSettings(guildid, value) {
+        const confpath = `${this.directory}ServerData/${guildid}.json`;
+        const svrConfig = this.client.serverdata.get(guildid);
+        svrConfig.Twitter.Feeds = value;
         try {
             await this.writeFile(confpath, JSON.stringify(svrConfig));
         }

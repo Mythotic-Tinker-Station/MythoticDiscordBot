@@ -17,6 +17,7 @@
 */
 
 const { Client, Collection } = require('discord.js');
+const TwitterClient = require('./TwitterClient');
 const Util = require('./Util.js');
 
 module.exports = class BotClient extends Client {
@@ -37,9 +38,13 @@ module.exports = class BotClient extends Client {
 
 		this.aliases = new Collection();
 
-		this.serverdata = new Collection();
+		this.serverdata = new Map();
+
+		this.twitterdata = new Map();
 
 		this.utils = new Util(this);
+
+		this.twitterClient = new TwitterClient(options.TwitterAPI, this);
 	}
 
 	validate(options) {
@@ -57,7 +62,14 @@ module.exports = class BotClient extends Client {
 
 		await this.utils.processServerConfigs();
 		await this.utils.loadServerConfigs();
-		console.log(this.serverdata);
+		//load twitter related stuff
+		const _twitterdata = this.twitterdata;
+
+		this.serverdata.forEach((value, key) => {
+			_twitterdata.set(key, value.Twitter);
+		});
+		await this.twitterClient.start(this.twitterdata);
+		// this.twitterdata needs to be an array of twitter handles from the collection. Same collection will be used for discord channel checking and matching.
 	}
 
 	async start(Token = this.Token) {
