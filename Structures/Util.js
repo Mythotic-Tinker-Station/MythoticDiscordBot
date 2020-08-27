@@ -60,6 +60,7 @@ module.exports = class Util {
                 const File = require(commandFile);
                 if (!this.isClass(File)) throw new TypeError(`Command ${name} does not seem to be a command or does not export a class.`);
                 const command = new File(this.client, name.toLowerCase());
+                console.log(command);
                 if (!(command instanceof Command)) throw new TypeError(`Command ${name} doesnt belong in Commands`);
                 this.client.commands.set(command.name, command);
                 if (command.aliases.length) {

@@ -12,7 +12,7 @@
 // Require modules and config
 import * as fs from 'fs'
 
-import BotClient from './Structures/BotClient'
+import {BotClient} from './Structures/BotClient'
 const config = fs.readFileSync('./config.json', 'utf-8');
 
 // Create new Bot Client and login
