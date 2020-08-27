@@ -10,9 +10,11 @@
 */
 
 // Require modules and config
-const BotClient = require('./Structures/BotClient');
-const config = require('./config.json');
+import * as fs from 'fs'
+
+import BotClient from './Structures/BotClient'
+const config = fs.readFileSync('./config.json', 'utf-8');
 
 // Create new Bot Client and login
-const client = new BotClient(config);
+const client = new BotClient(JSON.parse(config));
 client.start();
