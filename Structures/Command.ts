@@ -11,23 +11,31 @@
     this class in order for it to work.
 */
 
-module.exports = class Command {
+import { BotClient } from "./BotClient";
 
-    constructor(client, name, options = {}) {
+interface CommandOptions {
+    name: string,
+    aliases: Array<string>,
+    description: string,
+    category: string,
+    usage: string,
+    permission: string,
+    subcommands: {}
+}
+
+export class Command {
+    client: BotClient;
+    options: CommandOptions
+
+    constructor(client: BotClient, name: string, options: CommandOptions ) {
         this.client = client;
-        this.name = options.name || name;
-        this.aliases = options.aliases || [];
-        this.description = options.description || 'No description available.';
-        this.category = options.category || 'Miscellaneous';
-        this.usage = `${this.name} ${options.usage || ''}`.trim();
-        this.permission = options.permission || [];
-        this.subcommands = options.subcommands || {};
+        this.options = options;
     }
 
-    async prerun(message, args) {
+    async prerun(message: any, args: any) {
         try {
             // Check if user does not have admin perms or is on any of the AdminRoles groups.
-            if (message.member.hasPermission(this.permission)) {
+            if (message.member.hasPermission(this.options.permission)) {
                 await this.run(message, args);
             }
             else {
@@ -41,12 +49,12 @@ module.exports = class Command {
     }
 
     // eslint-disable-next-line no-unused-vars
-    async noaccess(message, args) {
+    async noaccess(message: any, args: any) {
         throw new Error('User does not have access to this command.');
     }
 
     // eslint-disable-next-line no-unused-vars
-    async run(message, args) {
-        throw new Error(`Command ${this.name} does not have a run method. Did you code it correctly?`);
+    async run(message: any, args: any) {
+        throw new Error(`Command ${this.options.name} does not have a run method. Did you code it correctly?`);
     }
 };

@@ -17,12 +17,24 @@
 	Commands are located in the commands folder. They are also self explanatory for now
 */
 
-const Twitter = require('twit');
-const { MessageEmbed } = require('discord.js');
+import Twitter from 'twit';
+import { MessageEmbed, TextChannel } from 'discord.js';
+import { BotClient } from './BotClient';
 
-module.exports = class TClient extends Twitter {
+interface TwitterOptions {
+    ApiKey: string,
+    ApiSecretKey: string,
+    UserAccessToken: string,
+    UserAccessTokenSecret: string
 
-	constructor(options = {}, botClient) {
+}
+
+export class TwitterClient extends Twitter {
+    botClient: BotClient;
+    currentStreams: Set<any>;
+    serverTwitterHandles: Array<any>;
+
+	constructor(options: TwitterOptions, botClient: BotClient) {
 		super({
             consumer_key: options.ApiKey,
             consumer_secret: options.ApiSecretKey,
@@ -42,22 +54,22 @@ module.exports = class TClient extends Twitter {
     */
 
     // note: check currentStreams for a common feed first
-    async addTwitterFeed(twitterHandle) {
+    async addTwitterFeed(twitterHandle: any) {
         // check the streams to see if twitter handle is already therecls
         if(this.currentStreams.has(twitterHandle)) {
             // return;
         }
-        const twitterUserInfo = await this.get('users/lookup', { screen_name: twitterHandle });
-        const twitterUserID = twitterUserInfo.data[0].id_str;
+        const twitterUserInfo: any = await this.get('users/lookup', { screen_name: twitterHandle });
+        const twitterUserID: any = twitterUserInfo.data[0].id_str;
         const s = this.stream('statuses/filter', { follow: twitterUserID });
         this.currentStreams.add(s);
         s.on('tweet', tweet => this.handleTweetEvent(tweet).catch(err => console.log(err)));
     }
 
-    async handleTweetEvent(tweetResponse) {
+    async handleTweetEvent(tweetResponse: any) {
         const channelsListening = this.serverTwitterHandles.filter(serverFeed => serverFeed.feed.TwitterHandle === tweetResponse.user.screen_name);
         channelsListening.forEach(async serverFeed => {
-            const channel = await this.botClient.channels.fetch(serverFeed.feed.DiscordChannelId);
+            const channel: TextChannel = await this.botClient.channels.fetch(serverFeed.feed.DiscordChannelId) as TextChannel;
             const guildId = channel.guild.id;
 
             const serverTwitterSettings = this.botClient.serverdata.get(guildId);
@@ -95,7 +107,7 @@ module.exports = class TClient extends Twitter {
         });
     }
 
-    async removeTwitterFeed(twitterHandle, guildId) {
+    async removeTwitterFeed(twitterHandle: any, guildId: any) {
         const queriedServer = this.serverTwitterHandles.find(sth => sth.serverName === guildId);
         console.log(queriedServer);
         if(queriedServer) {
@@ -104,7 +116,7 @@ module.exports = class TClient extends Twitter {
             console.log(removedElement);
             const settings = this.botClient.serverdata.get(guildId);
             const twitterSettings = settings.Twitter;
-            twitterSettings.Feeds.splice(twitterSettings.Feeds.findIndex(v => v.TwitterHandle === twitterHandle), 1);
+            twitterSettings.Feeds.splice(twitterSettings.Feeds.findIndex((v: any) => v.TwitterHandle === twitterHandle), 1);
             console.log(twitterSettings);
             try {
                 await this.botClient.utils.editServerTwitterFeedSettings(guildId, twitterSettings.Feeds);
@@ -119,12 +131,12 @@ module.exports = class TClient extends Twitter {
     }
 
     //
-    async start(twitterGuildConfigs) {
+    async start(twitterGuildConfigs: any) {
         console.log('Twitter API Client started');
         try{
-            twitterGuildConfigs.forEach((config, serverName) => {
+            twitterGuildConfigs.forEach((config: any, serverName: any) => {
                 const { Feeds } = config;
-                Feeds.forEach(feed => {
+                Feeds.forEach((feed: { TwitterHandle: string; }) => {
                     console.log('Going to get user ' + feed.TwitterHandle);
                     this.addTwitterFeed(feed.TwitterHandle)
                         .then(() => this.serverTwitterHandles.push({ feed, serverName }))
@@ -137,13 +149,13 @@ module.exports = class TClient extends Twitter {
         }
     }
 
-    async followTwitterHandle(guildId) {
+    async followTwitterHandle(guildId: any) {
         const serverCfg = this.botClient.serverdata.get(guildId);
         const serverName = guildId;
         try {
             const Feeds = serverCfg.Twitter.Feeds;
             console.log(Feeds);
-            Feeds.forEach(feed => {
+            Feeds.forEach((feed: { TwitterHandle: string; }) => {
                 console.log('Going to get user ' + feed.TwitterHandle);
                 this.addTwitterFeed(feed.TwitterHandle)
                     .then(() => this.serverTwitterHandles.push({ feed, serverName }))

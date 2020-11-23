@@ -17,8 +17,8 @@
 */
 
 import { Client, Collection } from 'discord.js'
-const TwitterClient = require('./TwitterClient');
-const Util = require('./Util.js');
+import {TwitterClient} from './TwitterClient';
+import {Util} from './Util';
 
 interface ClientOptions {
 	ConfigVersion : string,

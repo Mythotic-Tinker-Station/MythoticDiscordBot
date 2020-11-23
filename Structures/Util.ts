@@ -11,55 +11,64 @@
     command handler.
 */
 
-const path = require('path');
-const { promisify } = require('util');
+import path from 'path';
+import {promisify} from 'util';
 const glob = promisify(require('glob'));
-const Command = require('./Command.js');
-const Event = require('./Event');
-const fs = require('fs');
-const BaseServerCfg = require('../ServerDataTemplate/_ServerDataTemplate.json');
+import {Command} from './Command';
+import {Event} from './Event';
+import fs from 'fs';
+import BaseServerCfg from '../ServerDataTemplate/_ServerDataTemplate.json';
+import { BotClient } from './BotClient';
 
-module.exports = class Util {
 
-    constructor(client) {
+export class Util {
+    private client: BotClient;
+    private stat: any;
+    private writeFile: any;
+
+
+
+    constructor(client: BotClient) {
         this.client = client;
         this.stat = promisify(fs.stat);
         this.writeFile = promisify(fs.writeFile);
     }
 
-    isClass(input) {
+    isClass(input: any) {
         return typeof input === 'function' &&
     typeof input.prototype === 'object' &&
     input.toString().substring(0, 5) === 'class';
     }
 
     get directory() {
-        return `${path.dirname(require.main.filename)}${path.sep}`;
+        if (require.main)
+            return `${path.dirname(require.main.filename as string)}${path.sep}`;
     }
 
-    formatBytes(bytes) {
+    formatBytes(bytes: number) {
 		if (bytes === 0) return '0 Bytes';
 		const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 		const i = Math.floor(Math.log(bytes) / Math.log(1024));
 		return `${parseFloat((bytes / Math.pow(1024, i)).toFixed(2))} ${sizes[i]}`;
     }
 
-    removeDuplicates(arr) {
+    removeDuplicates(arr: any[]) {
         return [...new Set(arr)];
     }
 
-    captialise(string) {
+    captialise(string: String) {
         return string.split(' ').map(str => str.slice(0, 1).toUpperCase() + str.slice(1)).join(' ');
     }
 
     async loadCommands() {
-        return glob(`${this.directory}commands/**/*.js`).then(commands => {
+        return glob(`${this.directory}commands/**/*.js`).then((commands: any[]) => {
             for (const commandFile of commands) {
+                console.log(commandFile);
                 delete require.cache[commandFile];
                 const { name } = path.parse(commandFile);
                 const File = require(commandFile);
                 if (!this.isClass(File)) throw new TypeError(`Command ${name} does not seem to be a command or does not export a class.`);
-                const command = new File(this.client, name.toLowerCase());
+                const command = new File(this.client, name.toLowerCase()) as Command;
                 console.log(command);
                 if (!(command instanceof Command)) throw new TypeError(`Command ${name} doesnt belong in Commands`);
                 this.client.commands.set(command.name, command);

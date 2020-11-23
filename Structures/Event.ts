@@ -11,19 +11,26 @@
     this class in order for it to work.
 */
 
+import { BotClient } from "./BotClient";
+
+interface EventOptions {
+    name: string,
+    type: string,
+    emitter: any
+}
 
 
-module.exports = class Event {
+export class Event {
+    client: BotClient;
+    options: EventOptions
 
-    constructor(client, name, options = {}) {
-        this.name = name;
+    constructor(client : BotClient, name: string, options : EventOptions) {
         this.client = client;
-        this.type = options.once ? 'once' : 'on';
-        this.emitter = options.emitter ?? this.client;
+        this.options = options;
     }
 
     // eslint-disable-next-line no-unused-vars
-    run(args) {
-        throw new Error(`The run method has not been implemented in ${this.name}`);
+    run(args: any) {
+        throw new Error(`The run method has not been implemented in ${this.options.name}`);
     }
 };
