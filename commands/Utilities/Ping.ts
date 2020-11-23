@@ -16,7 +16,7 @@ module.exports = class extends Command {
         console.log(message.channel);
 
         const latency = msg.createdTimestamp - message.createdTimestamp;
-        const choices = ['My current ping', 'Ping', 'I think discords chucking a shit. Heres my ping'];
+        const choices = ['My current ping', 'Ping', 'Ping Time'];
         const response = choices[Math.floor(Math.random() * choices.length)];
 
         msg.edit(`${response} - Bot Latency: \`${latency}ms\`, API Latency: \`${Math.round(this.client.ws.ping)}ms\``);
