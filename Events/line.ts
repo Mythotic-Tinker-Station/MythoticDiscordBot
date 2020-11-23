@@ -1,5 +1,6 @@
-const readline = require('readline');
-const Event = require('../Structures/Event');
+import readline from 'readline';
+import { Event } from '../Structures/Event';
+import { TextChannel } from 'discord.js';
 const {defaultChannelId} = require('../config.json');
 const { Collection } = require('discord.js');
 
@@ -14,13 +15,15 @@ module.exports = class extends Event {
         });
 
         super(client, name, {
-            emitter: rl
+            emitter: rl,
+            name,
+            type: name
         });
         
     }
 
     async run(input) {
-        const textChannel = await this.client.channels.fetch(defaultChannelId, true);
+        const textChannel = await this.client.channels.fetch(defaultChannelId, true) as TextChannel;
         const namesToTry = input.match(regexUsername);
 
         const output = await this.formatStringNamesToId(input, textChannel);

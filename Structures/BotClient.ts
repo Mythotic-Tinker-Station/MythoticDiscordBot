@@ -45,6 +45,7 @@ export class BotClient extends Client {
 	twitterdata: Map<any, any>;
 	utils: any;
 	twitterClient: any;
+	Prefix: string;
 
 	constructor(options : ClientOptions) {
 		super({
@@ -68,6 +69,8 @@ export class BotClient extends Client {
 		this.utils = new Util(this);
 
 		this.twitterClient = new TwitterClient(options.TwitterAPI, this);
+
+		this.Prefix = "$"
 	}
 
 	async onReady() {

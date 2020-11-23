@@ -68,13 +68,13 @@ export class Util {
                 const { name } = path.parse(commandFile);
                 const File = require(commandFile);
                 if (!this.isClass(File)) throw new TypeError(`Command ${name} does not seem to be a command or does not export a class.`);
-                const command = new File(this.client, name.toLowerCase()) as Command;
+                const command = new File(this.client, name.toLowerCase());
                 console.log(command);
                 if (!(command instanceof Command)) throw new TypeError(`Command ${name} doesnt belong in Commands`);
-                this.client.commands.set(command.name, command);
-                if (command.aliases.length) {
-                    for (const alias of command.aliases) {
-                        this.client.aliases.set(alias, command.name);
+                this.client.commands.set(command.options.name, command);
+                if (command.options.aliases.length) {
+                    for (const alias of command.options.aliases) {
+                        this.client.aliases.set(alias, command.options.name);
                     }
                 }
 
@@ -91,8 +91,8 @@ export class Util {
                 if (!this.isClass(File)) throw new TypeError(`Event ${name} does not seem to be a Discord Event or does not export a class.`);
                 const event = new File(this.client, name);
                 if (!(event instanceof Event)) throw new TypeError(`Event ${name} does not belong in Events`);
-                this.client.events.set(event.name, event);
-                event.emitter[event.type](name, (...args) => event.run(...args));
+                this.client.events.set(event.options.name, event);
+                event.options.emitter[event.options.type](name, (args) => event.run(args));
             }
         });
     }
@@ -164,8 +164,8 @@ export class Util {
             await this.writeFile(confpath, JSON.stringify(svrConfig));
         }
         catch(err) {
-            console.err(err);
-            console.err(`Couldn't update file. Will not save '${setting}'.`);
+            console.error(err);
+            console.error(`Couldn't update file. Will not save '${setting}'.`);
         }
     }
 
@@ -186,8 +186,8 @@ export class Util {
             await this.writeFile(confpath, JSON.stringify(svrConfig));
         }
         catch(err) {
-            console.err(err);
-            console.err(`Couldn't update file. Will not save '${setting}'.`);
+            console.error(err);
+            console.error(`Couldn't update file. Will not save '${setting}'.`);
         }
     }
 
@@ -199,8 +199,8 @@ export class Util {
             await this.writeFile(confpath, JSON.stringify(svrConfig));
         }
         catch(err) {
-            console.err(err);
-            console.err(`Couldn't update file. Will not save '${setting}'.`);
+            console.error(err);
+            //onsole.error(`Couldn't update file. Will not save '${setting}'.`);
         }
     }
 
