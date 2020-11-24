@@ -7,8 +7,9 @@ const { Collection } = require('discord.js');
 const regexUsername = /@[a-zA-z0-9]+/g;
 
 module.exports = class extends Event {
-    constructor(client, name) {
+    constructor(client) {
 
+        const name = 'line'
         const rl = readline.createInterface({
             input: process.stdin,
             output: process.stdout
@@ -16,7 +17,6 @@ module.exports = class extends Event {
 
         super(client, name, {
             emitter: rl,
-            name,
             type: name
         });
         

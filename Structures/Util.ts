@@ -56,7 +56,7 @@ export class Util {
         return [...new Set(arr)];
     }
 
-    captialise(string: String) {
+    captialise(string: string) {
         return string.split(' ').map(str => str.slice(0, 1).toUpperCase() + str.slice(1)).join(' ');
     }
 
@@ -90,9 +90,9 @@ export class Util {
                     if (!this.isClass(File)) throw new TypeError(`Event ${name} does not seem to be a Discord Event or does not export a class.`);
                     const event = new File(this.client, name);
                     if (!(event instanceof Event)) throw new TypeError(`Event ${name} does not belong in Events`);
-                    this.client.events.set(event.options.name, event);
-                    console.log(event.options.emitter);
-                    event.options.emitter[event.options.type](name, (args) => event.run(args));
+                    this.client.events.set(event.name, event);
+                    console.log(event.emitter);
+                    event.emitter[event.type](name, (args) => event.run(args));
                 }
             });
         }

@@ -1,14 +1,13 @@
-import { Event, EventOptions } from '../../Structures/Event';
+import { Event } from '../../Structures/Event';
 import client from '../../index';
 
 module.exports = class extends Event {
 
-    constructor() {
+    constructor(client) {
         const name = 'guildCreate'
-        const options: EventOptions = {
+        const options = {
             name: 'guildCreate',
             type: 'on',
-            emitter: ''
         }
 
         super(client, name, options)

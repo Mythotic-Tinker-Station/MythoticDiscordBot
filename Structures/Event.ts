@@ -13,22 +13,18 @@
 
 import { BotClient } from "./BotClient";
 
-export interface EventOptions {
-    name: string,
-    type: string,
-    emitter: any
-}
-
-
 export class Event {
     client: BotClient;
     name: string;
-    options: EventOptions
+    options?: any;
+    type: any;
+    emitter?: any;
 
-    constructor(client : BotClient, name: string, options : EventOptions) {
+    constructor(client : BotClient, name: string, options: any = {} ) {
         this.client = client;
-        this.name = name
-        this.options = options;
+        this.name = name;
+        this.type = options.once ? 'once' : 'on'
+        this.emitter = (typeof options.emitter === 'string' ? this.client[options.emitter] : options.emitter) || this.client;
     }
 
     // eslint-disable-next-line no-unused-vars
