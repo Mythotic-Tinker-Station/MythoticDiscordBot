@@ -22,10 +22,12 @@ export interface EventOptions {
 
 export class Event {
     client: BotClient;
+    name: string;
     options: EventOptions
 
     constructor(client : BotClient, name: string, options : EventOptions) {
         this.client = client;
+        this.name = name
         this.options = options;
     }
 

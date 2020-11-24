@@ -8,7 +8,7 @@ module.exports = class extends Event {
         const options: EventOptions = {
             name: 'guildCreate',
             type: 'on',
-            emitter: 'guildCreate'
+            emitter: ''
         }
 
         super(client, name, options)
