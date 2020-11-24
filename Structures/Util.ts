@@ -61,15 +61,13 @@ export class Util {
     }
 
     async loadCommands() {
-        return glob(`${this.directory}commands/**/*.js`).then((commands: any[]) => {
+        return glob(`${this.directory}commands/**/*.ts`).then((commands: any[]) => {
             for (const commandFile of commands) {
-                console.log(commandFile);
                 delete require.cache[commandFile];
                 const { name } = path.parse(commandFile);
                 const File = require(commandFile);
                 if (!this.isClass(File)) throw new TypeError(`Command ${name} does not seem to be a command or does not export a class.`);
                 const command = new File(this.client, name.toLowerCase());
-                console.log(command);
                 if (!(command instanceof Command)) throw new TypeError(`Command ${name} doesnt belong in Commands`);
                 this.client.commands.set(command.options.name, command);
                 if (command.options.aliases.length) {
@@ -83,7 +81,7 @@ export class Util {
     }
 
     async loadEvents() {
-        return glob(`${this.directory}events/**/*.js`).then(events => {
+        return glob(`${this.directory}events/**/*.ts`).then(events => {
             for (const eventFile of events) {
                 delete require.cache[eventFile];
                 const { name } = path.parse(eventFile);

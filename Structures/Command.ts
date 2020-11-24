@@ -13,23 +13,27 @@
 
 import { BotClient } from "./BotClient";
 
-interface CommandOptions {
+export interface CommandOptions {
     name: string,
     aliases: Array<string>,
     description: string,
     category: string,
-    usage: string,
-    permission: string,
-    subcommands: {}
+    usage?: string,
+    permission?: Array<string>,
+    subcommands?: {}
 }
 
 export class Command {
     client: BotClient;
-    options: CommandOptions
+    name: string;
+    options: CommandOptions;
+    args: any;
 
-    constructor(client: BotClient, name: string, options: CommandOptions ) {
+    constructor(client: BotClient, name: string, options: CommandOptions, ...args) {
         this.client = client;
+        this.name = name
         this.options = options;
+        this.args = args
     }
 
     async prerun(message: any, args: any) {

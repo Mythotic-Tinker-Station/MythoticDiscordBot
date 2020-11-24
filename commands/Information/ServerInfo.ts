@@ -1,7 +1,8 @@
 /* eslint-disable comma-dangle */
-const Command = require('../../Structures/Command');
-const { MessageEmbed } = require('discord.js');
-const moment = require('moment');
+import { Command, CommandOptions }from '../../Structures/Command';
+import { MessageEmbed } from 'discord.js';
+import client from '../../index';
+import moment from 'moment';
 
 const filterLevels = {
 	DISABLED: 'Off',
@@ -36,12 +37,15 @@ const regions = {
 module.exports = class extends Command {
 
     constructor(...args) {
-        super(...args, {
+        const name = 'serverinfo'
+        const options: CommandOptions = {
             name: 'serverinfo',
             description: 'Displays information about your Discord Server',
             aliases: ['server', 'guild', 'guildinfo', 'myserver'],
             category: 'Information',
-        });
+        }
+        
+        super(client, name, options, ...args);
     }
 
     // eslint-disable-next-line no-unused-vars

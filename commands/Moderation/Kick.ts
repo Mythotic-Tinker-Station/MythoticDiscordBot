@@ -1,17 +1,21 @@
-const { MessageEmbed } = require('discord.js');
-const Command = require('../../Structures/Command');
+import { Command, CommandOptions }from '../../Structures/Command';
+import { MessageEmbed } from 'discord.js';
+import client from '../../index';
 
 module.exports = class extends Command {
 
 	constructor(...args) {
-		super(...args, {
-			name: 'kick',
+        const name = 'kick'
+        const options: CommandOptions = {
+            name: 'kick',
 			aliases: ['boot', 'kickuser', 'removeuser'],
 			description: 'Kick a user from your discord server.',
             category: 'Moderation',
             permission: ['KICK_MEMBERS'],
             usage: '<@Username> [reason]',
-		});
+        }
+        
+        super(client, name, options, ...args);
 	}
 
     // eslint-disable-next-line no-unused-vars

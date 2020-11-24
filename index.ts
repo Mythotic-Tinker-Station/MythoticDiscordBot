@@ -18,3 +18,5 @@ const config = fs.readFileSync('./config.json', 'utf-8');
 // Create new Bot Client and login
 const client = new BotClient(JSON.parse(config));
 client.start();
+
+export default client

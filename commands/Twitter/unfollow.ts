@@ -1,18 +1,20 @@
-const Command = require('../../Structures/Command');
+import { Command, CommandOptions }from '../../Structures/Command';
+import client from '../../index';
 
 module.exports = class extends Command {
 
 	constructor(...args) {
-		super(...args, {
+        const name = 'unfollow'
+        const options: CommandOptions = {
 			name: 'unfollow',
 			aliases: ['tweetunfollow', 'deltwitfeed', 'tunfollow'],
 			description: 'Stop listening to someones twitter and stop post any new tweets to a channel.',
             category: 'Twitter',
             permission: ['MANAGE_GUILD'],
             usage: '<twitter_handle>',
-            },
-
-		);
+        }
+        
+        super(client, name, options, ...args);
 	}
 
     // eslint-disable-next-line no-unused-vars

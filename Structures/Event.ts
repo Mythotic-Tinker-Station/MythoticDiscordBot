@@ -13,7 +13,7 @@
 
 import { BotClient } from "./BotClient";
 
-interface EventOptions {
+export interface EventOptions {
     name: string,
     type: string,
     emitter: any

@@ -46,6 +46,7 @@ export class BotClient extends Client {
 	utils: any;
 	twitterClient: any;
 	Prefix: string;
+	uptime: any;
 
 	constructor(options : ClientOptions) {
 		super({

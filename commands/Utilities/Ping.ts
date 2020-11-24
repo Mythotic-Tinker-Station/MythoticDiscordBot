@@ -1,13 +1,18 @@
-const Command = require('../../Structures/Command');
+import { Command, CommandOptions }from '../../Structures/Command';
+import client from '../../index';
 
 module.exports = class extends Command {
 
     constructor(...args) {
-        super(...args, {
+        const name = 'ping'
+        const options: CommandOptions = {
             name: 'ping',
             description: 'A debug command to check latency of the bot',
             aliases: ['pong', 'latency'],
-        });
+            category: 'Util'
+        }
+        
+        super(client, name, options, ...args);
     }
 
     // eslint-disable-next-line no-unused-vars

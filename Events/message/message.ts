@@ -1,7 +1,19 @@
-import { Event } from '../../Structures/Event';
+import { Event, EventOptions } from '../../Structures/Event';
 import { Command } from '../../Structures/Command';
+import client from '../..';
 
 module.exports = class extends Event {
+
+    constructor() {
+        const name = 'message'
+        const options: EventOptions = {
+            name: 'message',
+            type: 'on',
+            emitter: 'message'
+        }
+
+        super(client, name, options)
+    }
 
     async run(message) {
         if (this.client.user) {

@@ -1,6 +1,7 @@
-const Command = require('../../Structures/Command');
-const { MessageEmbed } = require('discord.js');
-const moment = require('moment');
+import { Command, CommandOptions }from '../../Structures/Command';
+import { MessageEmbed } from 'discord.js';
+import client from '../../index';
+import moment from 'moment';
 
 const flags = {
 	DISCORD_EMPLOYEE: 'Discord Employee',
@@ -21,13 +22,16 @@ const flags = {
 module.exports = class extends Command {
 
 	constructor(...args) {
-		super(...args, {
+		const name = 'userinfo'
+		const options: CommandOptions = {
 			name: 'userinfo',
 			aliases: ['user', 'ui'],
-			description: 'Displays information about a user (or you)r.',
+			description: 'Displays information about a user (or you).',
 			category: 'Information',
 			usage: '[user]',
-		});
+		}
+		
+		super(client, name, options, ...args);
 	}
 
 	async run(message, [target]) {

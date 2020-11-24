@@ -1,10 +1,12 @@
-const Command = require('../../Structures/Command');
+import { Command, CommandOptions }from '../../Structures/Command';
+import client from '../../index';
 
 module.exports = class extends Command {
 
 	constructor(...args) {
-		super(...args, {
-			name: 'set',
+        const name = 'set'
+        const options: CommandOptions = {
+            name: 'set',
 			aliases: ['setting', 'serverconfig', 'servconf'],
 			description: 'Change some server wide settings local to your Discord Server!',
             category: 'Administration',
@@ -23,9 +25,10 @@ module.exports = class extends Command {
                 moderatorroles: {
                     description: 'Add a role as a Moderator for the bot',
                 },
-            },
-
-		});
+            }
+        }
+        
+        super(client, name, options, ...args);
 	}
 
     // eslint-disable-next-line no-unused-vars

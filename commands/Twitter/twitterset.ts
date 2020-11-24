@@ -1,9 +1,11 @@
-const Command = require('../../Structures/Command');
+import { Command, CommandOptions }from '../../Structures/Command';
+import client from '../../index';
 
 module.exports = class extends Command {
 
 	constructor(...args) {
-		super(...args, {
+        const name = 'twitterset'
+        const options: CommandOptions = {
 			name: 'twitterset',
 			aliases: ['twittersetting', 'twitterconfig', 'twitconf'],
 			description: 'Change some Twitter Feed settings local to your Discord Server!',
@@ -19,7 +21,9 @@ module.exports = class extends Command {
                 },
             },
 
-		});
+		}
+        
+        super(client, name, options, ...args);
 	}
 
     // eslint-disable-next-line no-unused-vars

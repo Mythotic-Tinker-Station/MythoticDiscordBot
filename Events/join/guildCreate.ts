@@ -1,6 +1,18 @@
-import { Event } from '../../Structures/Event';
+import { Event, EventOptions } from '../../Structures/Event';
+import client from '../../index';
 
 module.exports = class extends Event {
+
+    constructor() {
+        const name = 'guildCreate'
+        const options: EventOptions = {
+            name: 'guildCreate',
+            type: 'on',
+            emitter: 'guildCreate'
+        }
+
+        super(client, name, options)
+    }
 
     async run(guild) {
         console.log(`The bot has joined the guild: ${guild.name}`);
