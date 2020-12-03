@@ -20,7 +20,7 @@ export interface CommandOptions {
     category: string,
     usage?: string,
     permission?: Array<string>,
-    subcommands?: {}
+    subcommands?: any,
 }
 
 export class Command {

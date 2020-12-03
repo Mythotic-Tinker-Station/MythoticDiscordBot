@@ -12,7 +12,7 @@ module.exports = class extends Command {
             aliases: ['halp', 'manual', 'rtfm'],
             usage: '[command]',
 			category: 'Information',
-        }
+		}
 		
 		super(client, name, options, ...args);
     }
@@ -42,12 +42,12 @@ module.exports = class extends Command {
 
 				embed.setAuthor(`${this.client.utils.captialise(cmd.name)} Command Help`, this.client.user.displayAvatarURL());
 				embed.setDescription([
-					`**❯ Aliases:** ${cmd.aliases.length ? cmd.aliases.map(alias => `\`${alias}\``).join(' ') : 'No Aliases'}`,
-					`**❯ Description:** ${cmd.description}`,
-					`**❯ Category:** ${cmd.category}`,
-					`**❯ Permission:** ${cmd.permission}`,
-					`**❯ Usage:** ${Prefix}${cmd.usage}`,
-					`**❯ Arguments:** \n${Object.keys(cmd.subcommands).map(argName => `> \`${argName}\`: ${cmd.subcommands[argName].description}`).join('\n')}`,
+					`**❯ Aliases:** ${cmd.options.aliases.length ? cmd.options.aliases.map(alias => `\`${alias}\``).join(' ') : 'No Aliases'}`,
+					`**❯ Description:** ${cmd.options.description}`,
+					`**❯ Category:** ${cmd.options.category}`,
+					`**❯ Permission:** ${cmd.options.permission}`,
+					`**❯ Usage:** ${Prefix}${cmd.options.usage}`,
+					`**❯ Arguments:** \n${cmd.options.subcommands ? (Object.keys(cmd.options.subcommands).map(argName => `> \`${argName}\`: ${cmd.options.subcommands[argName].description}`)).join('\n') : 'Not Required'}`,
 				]);
 
 				return message.channel.send(embed);
@@ -58,17 +58,19 @@ module.exports = class extends Command {
 					`The bot's prefix is: ${Prefix}`,
 					'Command Parameters: `<>` is strict & `[]` is optional',
 				]);
-				let categories;
+				let categories = null;
 				if (!this.client.owners.includes(message.author.id)) {
-					categories = this.client.utils.removeDuplicates(this.client.commands.filter((cmd: any) => cmd.category !== 'Owner').map((cmd: any) => cmd.category));
+					categories = this.client.utils.removeDuplicates(this.client.commands.filter((cmd: any) => cmd.options.category !== 'Owner').map((cmd: any) => cmd.options.category));
+					console.log(categories);
 				}
-			else {
-					categories = this.client.utils.removeDuplicates(this.client.commands.map((cmd: any) => cmd.category));
+				else {
+					categories = this.client.utils.removeDuplicates(this.client.commands.map((cmd: any) => cmd.options.category));
+					console.log(categories);
 				}
 
 				for (const category of categories) {
 					embed.addField(`**${this.client.utils.captialise(category)}**`, this.client.commands.filter((cmd: any) =>
-						cmd.category === category).map((cmd: any) => `\`${cmd.name}\``).join(' '));
+						cmd.options.category === category).map((cmd: any) => `\`${cmd.options.name}\``).join(' '));
 				}
 				return message.channel.send(embed);
 			}
