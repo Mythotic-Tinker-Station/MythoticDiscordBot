@@ -25,7 +25,7 @@ module.exports = class extends Command {
     // eslint-disable-next-line no-unused-vars
     async run(message, [command]) {
 		if (this.client.user) {
-			const serverconf = this.client.serverdata.get(message.guild.id);
+			const serverconf = this.client.serverdata.get(message.guild.id)
 			const Prefix = serverconf.Settings.Prefix;
 
 			const embed = new MessageEmbed()

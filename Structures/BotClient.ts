@@ -25,6 +25,7 @@ interface ClientOptions {
 	Token : string,
 	Owners : Array<string>,
 	TwitterAPI : TwitterOptions
+	DatabaseURL : String,
 }
 
 interface TwitterOptions {
@@ -47,6 +48,7 @@ export class BotClient extends Client {
 	twitterClient: any;
 	Prefix: string;
 	uptime: any;
+	dburl: any;
 
 	constructor(options : ClientOptions) {
 		super({
@@ -63,13 +65,15 @@ export class BotClient extends Client {
 
 		this.aliases = new Collection();
 
-		this.serverdata = new Map();
+		this.serverdata = new Collection();
 
 		this.twitterdata = new Map();
 
 		this.utils = new Util(this);
 
 		this.twitterClient = new TwitterClient(options.TwitterAPI, this);
+
+		this.dburl = options.DatabaseURL
 
 		this.Prefix = "$"
 	}
@@ -83,6 +87,7 @@ export class BotClient extends Client {
 
 		await this.utils.processServerConfigs();
 		await this.utils.loadServerConfigs();
+		console.log(this.serverdata);
 		//load twitter related stuff
 		const _twitterdata = this.twitterdata;
 

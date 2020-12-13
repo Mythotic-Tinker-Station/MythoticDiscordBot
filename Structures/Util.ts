@@ -17,21 +17,23 @@ const glob = promisify(require('glob'));
 import {Command} from './Command';
 import {Event} from './Event';
 import fs from 'fs';
-import BaseServerCfg from '../ServerDataTemplate/_ServerDataTemplate.json';
+import Config from '../config.json'
 import { BotClient } from './BotClient';
+import DB from '../DB'
 
 
 export class Util {
     private client: BotClient;
     private stat: any;
     private writeFile: any;
-
-
+    DataBase: DB;
 
     constructor(client: BotClient) {
         this.client = client;
         this.stat = promisify(fs.stat);
         this.writeFile = promisify(fs.writeFile);
+        this.DataBase = new DB(Config.DatabaseURL)
+        
     }
 
     isClass(input: any) {
@@ -101,71 +103,68 @@ export class Util {
         }
     }
 
-    async callStat(confpath, guildinfo) {
-        try {
-            await this.stat(confpath);
-        }
-        catch(err) {
-            if (err.code == 'ENOENT') {
-                console.log(`Config ${confpath} does not exist. Creating...`);
-
-                const guildsettings = BaseServerCfg;
-
-                guildsettings.ServerName = guildinfo.name;
-
-                const serverinfo = JSON.stringify(guildsettings);
-                await this.writeFile(confpath, serverinfo);
-            }
-        }
-
-    }
-
     async processServerConfigs() {
         const guildIDs = this.client.guilds.cache.map (i => i.id);
 
         for (const guildid of guildIDs) {
-            const guildinfo = this.client.guilds.cache.get(guildid);
-            const confpath = `${this.directory}ServerData/${guildid}.json`;
+            
+            try {
+                console.log(`Finding configuration for ${guildid}`)
+                const svrCfg = await this.DataBase.getServerConfig(guildid).catch(err => {
+                    throw new Error(err)
+                })
 
-            await this.callStat(confpath, guildinfo);
+            }
+            catch(err) {
+                console.log(`Assuming the config does not exist for ${guildid}... Creating`)
+                const discordServer = await this.client.guilds.fetch(guildid);
+                try {
+                    await this.DataBase.createNewServerConfig(guildid, discordServer.name)
+                } 
+                catch (error) {
+                    console.error(error)
+                }
+            }
+
         }
     }
 
     async processSingleServerConfig(guildid) {
             const guildinfo = this.client.guilds.cache.get(guildid);
-            const confpath = `${this.directory}ServerData/${guildid}.json`;
-
-            await this.callStat(confpath, guildinfo);
+            
+            try {
+                await this.DataBase.createNewServerConfig(guildid, guildinfo.name)
+            }
+            catch (error) {
+                console.error(error)
+            }
+            //await this.callStat(confpath, guildinfo);
     }
 
     async loadSingleServerConfig(guildid) {
-        const config = `${this.directory}ServerData/${guildid}.json`;
-        delete require.cache[config];
-        const { name } = path.parse(config);
-        const File = require(config);
-        this.client.serverdata.set(name, File);
+        const config = await this.DataBase.getServerConfig(guildid);
+        const configData = config.toJSON()
+        const ServerId = configData._id;
+        this.client.serverdata.set(ServerId, configData)
 
     }
 
     async loadServerConfigs() {
-        return glob(`${this.directory}serverdata/*.json`).then(configs => {
-            for (const configFile of configs) {
-                delete require.cache[configFile];
-                const { name } = path.parse(configFile);
-                const File = require(configFile);
-                this.client.serverdata.set(name, File);
-            }
+        const configs = await this.DataBase.getAllServerConfigs()
+        for (const config of configs) {
+            const configData = config.toJSON()
+            const ServerId = configData._id
 
-        });
+            this.client.serverdata.set(ServerId, configData)
+        }
     }
 
     async editServerSetting(guildid, setting, value) {
-        const confpath = `${this.directory}ServerData/${guildid}.json`;
         const svrConfig = this.client.serverdata.get(guildid);
         const formattedSettingName = [setting[0].toUpperCase(), ...setting.slice(1)].join('');
         svrConfig.Settings[formattedSettingName] = value;
         try {
-            await this.writeFile(confpath, JSON.stringify(svrConfig));
+            await this.DataBase.setNewSetting(guildid, formattedSettingName, value);
         }
         catch(err) {
             console.error(err);
