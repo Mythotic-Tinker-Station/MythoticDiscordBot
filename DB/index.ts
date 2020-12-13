@@ -53,10 +53,7 @@ class DB {
             }
         });
 
-        await newServerDetails.save()
-    
-        
-        
+        await newServerDetails.save() 
     }
 
     async setNewSetting (serverId, setting, newValue) {
