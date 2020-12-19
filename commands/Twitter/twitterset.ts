@@ -36,14 +36,14 @@ module.exports = class extends (
 		);
 	}
 
-	async run(message, [setting, value]) {
+	async run(message, setting, value) {
 		const validSettings = ['blockretweets', 'blockreplies'];
-
-		console.log(setting, value);
+		const newValue = value[0]
+		console.log(setting, newValue);
 
 		try {
 			const doesSettingExist = validSettings.includes(setting);
-			if ((doesSettingExist && value === 'true') || value === 'false') {
+			if ((doesSettingExist && newValue === 'true') || newValue === 'false') {
 				console.log(
 					'Valid Setting passed with value, proceed with changing setting...'
 				);
@@ -52,12 +52,12 @@ module.exports = class extends (
 				await this.client.utils.editTwitterSetting(
 					guildid,
 					setting,
-					value
+					newValue
 				);
 				await message.channel.send(
-					`***${setting}*** has been changed to: \`${value}\``
+					`***${setting}*** has been changed to: \`${newValue}\``
 				);
-			} else if (!doesSettingExist || !value) {
+			} else if (!doesSettingExist || !newValue) {
 				if (!doesSettingExist) {
 					throw new Error(`The setting ${setting} does not exist`);
 				} else {

@@ -125,24 +125,31 @@ class DB {
 	async setNewTwitterSetting(serverId, setting, newValue: any) {
 		// First get the server based on the server id, so we can change the config required
 		const serverConfig: any = await Server.findById(serverId);
+		console.log(serverConfig);
 		const formattedSettingName = [
 			setting[0].toUpperCase(),
 			...setting.slice(1),
 		].join('');
 
 		// the below If statement should check if the 'setting' that was passed actually exists in 'serverConfig' then process changes to the config
-		if (serverConfig.Twitter[formattedSettingName]) {
-			console.log(
-				`Updating Server Config ${serverId} with setting change: ${setting}`
-			);
+		try {
+			
+				console.log(
+					`Updating Server Config ${serverId} with setting change: ${setting}`
+				);
 
-			if (serverConfig.Twitter[formattedSettingName] instanceof Array) {
-				serverConfig.Twitter[formattedSettingName].push(newValue);
-			} else {
-				serverConfig.Twitter[formattedSettingName] = newValue;
-			}
+				if (
+					serverConfig.Twitter[formattedSettingName] instanceof Array
+				) {
+					serverConfig.Twitter[formattedSettingName].push(newValue);
+				} else {
+					serverConfig.Twitter[formattedSettingName] = newValue;
+				}
 
-			serverConfig.save();
+				serverConfig.save();
+			
+		} catch (error) {
+			console.log(error);
 		}
 	}
 
