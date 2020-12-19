@@ -73,7 +73,7 @@ class DB {
 				`Updating Server Config ${serverId} with setting change: ${setting}`
 			);
 
-			serverConfig.Settings[formattedSettingName] = newValue;
+			serverConfig.Settings[formattedSettingName] = newValue[0];
 
 			serverConfig.save();
 		}

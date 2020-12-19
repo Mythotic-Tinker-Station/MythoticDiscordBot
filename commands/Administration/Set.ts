@@ -34,7 +34,7 @@ module.exports = class extends (
 		);
 	}
 
-	async run(message, [setting, value]) {
+	async run(message, setting, value) {
 		const validSettings = [
 			'prefix',
 			'welcomemessage',
