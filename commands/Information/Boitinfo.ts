@@ -17,7 +17,7 @@ module.exports = class extends Command {
 			category: 'Information',
 		}
 		
-		super(client, name, options, ...args);
+		super(client, name, options, args);
 	}
 
 	async run(message) {

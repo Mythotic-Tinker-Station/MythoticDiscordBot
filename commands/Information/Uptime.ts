@@ -1,21 +1,25 @@
-import { Command, CommandOptions }from '../../Structures/Command';
+import { Command, CommandOptions } from '../../Structures/Command';
 import client from '../../index';
 import ms from 'ms';
 
-module.exports = class extends Command {
-    constructor(...args) {
-        const name = 'uptime'
-        const options: CommandOptions = {
-            name: 'uptime',
+module.exports = class extends (
+	Command
+) {
+	constructor(...args) {
+		const name = 'uptime';
+		const options: CommandOptions = {
+			name: 'uptime',
 			aliases: ['up'],
 			description: 'Get uptime for the bot',
-            category: 'Information',
-        }
+			category: 'Information',
+		};
 
-        super(client, name, options, ...args)
-    }
+		super(client, name, options, args);
+	}
 
-    async run(message) {
-        message.channel.send(`**Uptime:** \`${ms(this.client.uptime, { long: true })}\``);
-    }
+	async run(message) {
+		message.channel.send(
+			`**Uptime:** \`${ms(this.client.uptime, { long: true })}\``
+		);
+	}
 };

@@ -1,4 +1,4 @@
-import { Command, CommandOptions }from '../../Structures/Command';
+import { Command, CommandOptions } from '../../Structures/Command';
 import { MessageEmbed } from 'discord.js';
 import client from '../../index';
 import moment from 'moment';
@@ -19,50 +19,82 @@ const flags = {
 	VERIFIED_DEVELOPER: 'Verified Bot Developer',
 };
 
-module.exports = class extends Command {
-
+module.exports = class extends (
+	Command
+) {
 	constructor(...args) {
-		const name = 'userinfo'
+		const name = 'userinfo';
 		const options: CommandOptions = {
 			name: 'userinfo',
 			aliases: ['user', 'ui'],
 			description: 'Displays information about a user (or you).',
 			category: 'Information',
 			usage: '[user]',
-		}
-		
-		super(client, name, options, ...args);
+		};
+
+		super(client, name, options, args);
 	}
 
-	async run(message, [target]) {
-		const member = message.mentions.members.last() || message.guild.members.cache.get(target) || message.member;
+	async run(message, target) {
+		const member =
+			message.mentions.members.last() ||
+			message.guild.members.cache.get(target) ||
+			message.member;
 		const roles = member.roles.cache
 			.sort((a, b) => b.position - a.position)
-			.map(role => role.toString())
+			.map((role) => role.toString())
 			.slice(0, -1);
 		const userFlags = member.user.flags.toArray();
 		const embed = new MessageEmbed()
-			.setThumbnail(member.user.displayAvatarURL({ dynamic: true, size: 512 }))
+			.setThumbnail(
+				member.user.displayAvatarURL({ dynamic: true, size: 512 })
+			)
 			.setColor(member.displayHexColor || 'BLUE')
 			.addField('User', [
 				`**❯ Username:** ${member.user.username}`,
 				`**❯ Discriminator:** ${member.user.discriminator}`,
 				`**❯ ID:** ${member.id}`,
-				`**❯ Flags:** ${userFlags.length ? userFlags.map(flag => flags[flag]).join(', ') : 'None'}`,
-				`**❯ Avatar:** [Link to avatar](${member.user.displayAvatarURL({ dynamic: true })})`,
-				`**❯ Time Created:** ${moment(member.user.createdTimestamp).format('LT')} ${moment(member.user.createdTimestamp).format('LL')} ${moment(member.user.createdTimestamp).fromNow()}`,
+				`**❯ Flags:** ${
+					userFlags.length
+						? userFlags.map((flag) => flags[flag]).join(', ')
+						: 'None'
+				}`,
+				`**❯ Avatar:** [Link to avatar](${member.user.displayAvatarURL({
+					dynamic: true,
+				})})`,
+				`**❯ Time Created:** ${moment(
+					member.user.createdTimestamp
+				).format('LT')} ${moment(member.user.createdTimestamp).format(
+					'LL'
+				)} ${moment(member.user.createdTimestamp).fromNow()}`,
 				`**❯ Status:** ${member.user.presence.status}`,
-				`**❯ Game:** ${member.user.presence.game || 'Not playing anything right now.'}`,
+				`**❯ Game:** ${
+					member.user.presence.game ||
+					'Not playing anything right now.'
+				}`,
 				'\u200b',
 			])
 			.addField('Member', [
-				`**❯ Highest Role:** ${member.roles.highest.id === message.guild.id ? 'None' : member.roles.highest.name}`,
-				`**❯ Server Join Date:** ${moment(member.joinedAt).format('LL LTS')}`,
-				`**❯ Hoist Role:** ${member.roles.hoist ? member.roles.hoist.name : 'None'}`,
-				`**❯ Roles [${roles.length}]:** ${roles.length < 10 ? roles.join(', ') : roles.length > 10 ? this.client.utils.trimArray(roles) : 'None'}`,
+				`**❯ Highest Role:** ${
+					member.roles.highest.id === message.guild.id
+						? 'None'
+						: member.roles.highest.name
+				}`,
+				`**❯ Server Join Date:** ${moment(member.joinedAt).format(
+					'LL LTS'
+				)}`,
+				`**❯ Hoist Role:** ${
+					member.roles.hoist ? member.roles.hoist.name : 'None'
+				}`,
+				`**❯ Roles [${roles.length}]:** ${
+					roles.length < 10
+						? roles.join(', ')
+						: roles.length > 10
+						? this.client.utils.trimArray(roles)
+						: 'None'
+				}`,
 				'\u200b',
 			]);
 		return message.channel.send(embed);
 	}
-
 };

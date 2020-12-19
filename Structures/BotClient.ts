@@ -16,24 +16,24 @@
 	Commands are located in the commands folder. They are also self explanatory for now
 */
 
-import { Client, Collection } from 'discord.js'
-import {TwitterClient} from './TwitterClient';
-import {Util} from './Util';
+import { Client, Collection } from 'discord.js';
+import { TwitterClient } from './TwitterClient';
+import { Util } from './Util';
 
 interface ClientOptions {
-	ConfigVersion : string,
-	Token : string,
-	Owners : Array<string>,
-	TwitterAPI : TwitterOptions
-	DatabaseURL : String,
+	ConfigVersion: string;
+	Token: string;
+	Owners: Array<string>;
+	TwitterAPI: TwitterOptions;
+	DatabaseURL: String;
 }
 
 interface TwitterOptions {
-	ApiKey : string,
-	ApiSecretKey : string,
-	BearerToken : string,
-	UserAccessToken : string,
-	UserAccessTokenSecret : string
+	ApiKey: string;
+	ApiSecretKey: string;
+	BearerToken: string;
+	UserAccessToken: string;
+	UserAccessTokenSecret: string;
 }
 
 export class BotClient extends Client {
@@ -50,7 +50,7 @@ export class BotClient extends Client {
 	uptime: any;
 	dburl: any;
 
-	constructor(options : ClientOptions) {
+	constructor(options: ClientOptions) {
 		super({
 			disableMentions: 'everyone',
 		});
@@ -73,17 +73,19 @@ export class BotClient extends Client {
 
 		this.twitterClient = new TwitterClient(options.TwitterAPI, this);
 
-		this.dburl = options.DatabaseURL
+		this.dburl = options.DatabaseURL;
 
-		this.Prefix = "$"
+		this.Prefix = '$';
 	}
 
 	async onReady() {
-		console.log([
-            `Logged in as ${this.user?.tag}`,
-            `Loaded ${this.commands.size} commands!`,
-            `Loaded ${this.events.size} events!`,
-        ].join('\n'));
+		console.log(
+			[
+				`Logged in as ${this.user?.tag}`,
+				`Loaded ${this.commands.size} commands!`,
+				`Loaded ${this.events.size} events!`,
+			].join('\n')
+		);
 
 		await this.utils.processServerConfigs();
 		await this.utils.loadServerConfigs();
@@ -102,13 +104,11 @@ export class BotClient extends Client {
 		this.once('ready', (...args) => this.onReady(...args));
 		await this.utils.loadCommands();
 		await this.utils.loadEvents();
-		
+
 		try {
 			await super.login(Token);
-		}
-		catch(err) {
+		} catch (err) {
 			console.error(`Could not login due to: ${err}`);
 		}
 	}
-
-};
+}
