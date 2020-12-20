@@ -1,6 +1,4 @@
 import { Event } from '../../Structures/Event';
-import client from '../../index';
-
 module.exports = class extends (
 	Event
 ) {
