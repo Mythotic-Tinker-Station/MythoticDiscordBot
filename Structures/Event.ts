@@ -31,7 +31,7 @@ export class Event {
 	}
 
 	// eslint-disable-next-line no-unused-vars
-	run(args: any) {
+	run(args: any, secondaryArgs?: any) {
 		throw new Error(
 			`The run method has not been implemented in ${this.options.name}`
 		);
