@@ -22,6 +22,11 @@ interface Iserver {
 			}
 		];
 	};
+	Streams: {
+		StreamChannel: Array<String>;
+		Streampoststyle: String;
+		Streamfeeds: Array<String>;
+	};
 }
 
 const serverSchema: Iserver | Schema = new Schema({
@@ -42,6 +47,11 @@ const serverSchema: Iserver | Schema = new Schema({
 				DiscordChannelId: String,
 			},
 		],
+	},
+	Streams: {
+		Streamhannelid: [String],
+		Streampoststyle: String,
+		Streamfeeds: [String],
 	},
 });
 
