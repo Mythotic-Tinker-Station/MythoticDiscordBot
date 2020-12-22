@@ -267,6 +267,28 @@ export class Util {
 		}
 	}
 
+	async editStreamSetting(guildid, setting, value) {
+		const svrConfig = this.client.serverdata.get(guildid);
+		const formattedSettingName = [
+			setting[0].toUpperCase(),
+			...setting.slice(1),
+		].join('');
+
+		console.log(value)
+
+		svrConfig.Streams[formattedSettingName] = value.toString();
+		try {
+			await this.DataBase.setNewStreamSetting(
+				guildid,
+				formattedSettingName,
+				value.toString()
+			);
+		} catch (err) {
+			console.error(err);
+			console.error(`Couldn't update file. Will not save '${setting}'.`);
+		}
+	}
+
 	async editServerTwitterFeedSettings(guildid, value) {
 		const svrConfig = this.client.serverdata.get(guildid);
 		svrConfig.Twitter.Feeds = value;
