@@ -23,9 +23,9 @@ interface Iserver {
 		];
 	};
 	Streams: {
-		StreamChannel: Array<String>;
-		Streampoststyle: String;
-		Streamfeeds: Array<String>;
+		Streamhannelid: String,
+		Streampoststyle: String,
+		Streamfeeds: Array<String>,
 	};
 }
 
@@ -49,7 +49,7 @@ const serverSchema: Iserver | Schema = new Schema({
 		],
 	},
 	Streams: {
-		Streamhannelid: [String],
+		Streamhannelid: String,
 		Streampoststyle: String,
 		Streamfeeds: [String],
 	},
