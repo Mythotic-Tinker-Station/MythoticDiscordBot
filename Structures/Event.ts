@@ -19,11 +19,18 @@ export class Event {
 	options?: any;
 	type: any;
 	emitter?: any;
+	howManyArgs?: Number;
 
-	constructor(client: BotClient, name: string, options: any = {}) {
+	constructor(
+		client: BotClient,
+		name: string,
+		options: any = {},
+		howManyArgs?: Number
+	) {
 		this.client = client;
 		this.name = name;
 		this.type = options.once ? 'once' : 'on';
+		this.howManyArgs = howManyArgs;
 		this.emitter =
 			(typeof options.emitter === 'string'
 				? this.client[options.emitter]

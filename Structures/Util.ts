@@ -117,7 +117,13 @@ export class Util {
 						);
 					this.client.events.set(event.name, event);
 					console.log(event.emitter);
-					event.emitter[event.type](name, (args) => event.run(args));
+					if (event.howManyArgs === 2) {
+						event.emitter[event.type](name, (args, secondaryArgs) => event.run(args, secondaryArgs));
+					}
+					else {
+						event.emitter[event.type](name, (args) => event.run(args));
+					}
+					
 				}
 			});
 		} catch (err) {

@@ -1,4 +1,3 @@
-import { Presence } from 'discord.js';
 import { Event } from '../../Structures/Event';
 
 module.exports = class extends (Event) {
@@ -8,19 +7,20 @@ module.exports = class extends (Event) {
 			name: 'presenceUpdate',
 			type: 'on',
         };
+        const howManyArgs = 2
         
-        super(client, name, options);
+        super(client, name, options, howManyArgs);
     }
 
     async run(oldPresence, newPresence) {
+        // Handle each presence type here when required. Obviously streaming first :)
         if (!newPresence.activities) return false;
         newPresence.activities.forEach(activity => {
             if (activity.type == "STREAMING") {
-                //Streaming handler
                 console.log(`${newPresence.user.tag} is streaming at ${activity.url}.`);
 
-                // Need to determine if the user is in a discord server with streaming enabled
+                // We need to determine if the user is in a server where they have the streaming settings configured
             };
-        });
+        })
     }
 }
