@@ -15,13 +15,13 @@ module.exports = class extends (
 			permission: ['MANAGE_GUILD'],
 			usage: '<setting> <value>',
 			subcommands: {
-				streamhannelid: {
+				streamchannelid: {
 					description:
 						'Define which channel/s the bot will post stream notifications in',
 				},
 				streampoststyle: {
 					description:
-						'Define the post style the bot will use \n Available values are: <NORMAL|SMALL|MEE6_STYLE>',
+						'Define the post style the bot will use. Available values are: <NORMAL|SMALL|MEE6_STYLE>',
 				},
 			},
 		};
@@ -37,14 +37,23 @@ module.exports = class extends (
 	}
 
 	async run(message, setting, value) {
-		const validSettings = ['streamhannelid', 'streampoststyle'];
-		const newValue = value
+		const validSettings = ['streamchannelid', 'streampoststyle'];
+		const newValue = value.toString().replace(/<|>|#/gi, '');
 		console.log(setting, newValue);
 
 		try {
-			const doesSettingExist = validSettings.includes(setting);
-			if ((doesSettingExist && newValue === 'true') || newValue === 'false') {
-				console.log(
+            const doesSettingExist = validSettings.includes(setting);
+            const postStyleValues = [ 'NORMAL', 'SMALL', 'MEE6_STYLE' ];
+            const correctStyle = postStyleValues.includes(newValue);
+			if (doesSettingExist) {
+                console.log('Checking if value is for "streampoststyle"...');
+                if (setting === 'streampoststyle' && correctStyle === true) {
+                    console.log(`Value Selected for streamrepoststyle: ${value}`);
+                }
+                else if (setting === 'streampoststyle') {
+                    throw new Error(`Invalid value passed. Has to be one of the following: NORMAL, SMALL or MEE6_STYLE`);
+                }
+                console.log(
 					'Valid Setting passed with value, proceed with changing setting...'
 				);
 				const guildid = message.guild.id;

@@ -276,12 +276,12 @@ export class Util {
 
 		console.log(value)
 
-		svrConfig.Streams[formattedSettingName] = value.toString();
+		svrConfig.Streams[formattedSettingName] = value;
 		try {
-			await this.DataBase.setNewStreamSetting(
+			await this.DataBase.setStreamSetting(
 				guildid,
 				formattedSettingName,
-				value.toString()
+				value
 			);
 		} catch (err) {
 			console.error(err);
