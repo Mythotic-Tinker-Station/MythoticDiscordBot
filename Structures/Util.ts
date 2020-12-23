@@ -300,6 +300,16 @@ export class Util {
 		}
 	}
 
+	async editServerStreamsFeedSettings(guildid, value) {
+		const svrConfig = this.client.serverdata.get(guildid);
+		svrConfig.Streams.Streamfeeds = value;
+		try {
+			await this.DataBase.setStreamFeeds(guildid, value);
+		} catch (err) {
+			console.error(`Couldn't update Config. Will not add Stream feed for '${value}'.`);
+		}
+	}
+
 	trimArray(arr, maxLen = 10) {
 		if (arr.length > maxLen) {
 			const len = arr.length - maxLen;

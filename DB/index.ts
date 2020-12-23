@@ -56,8 +56,8 @@ class DB {
 			},
 			Streams: {
 				Streamchannelid: '',
-				Streampoststyle: '',
-				Streamfeeds: '',
+				Streampoststyle: 'NORMAL',
+				Streamfeeds: [],
 			},
 		});
 
@@ -184,6 +184,18 @@ class DB {
 			serverConfig.save();
 		} catch (error) {
 			console.log(error);
+		}
+	}
+
+	async setStreamFeeds(serverId, newValue: Array<String>) {
+		// First get the server based on the server id, so we can change the config required
+		const serverConfig: any = await Server.findById(serverId);
+
+		// the below If statement should check if the 'setting' that was passed actually exists in 'serverConfig' then process changes to the config
+		if (serverConfig.Streams.Streamfeeds) {
+			serverConfig.Streams.Streamfeeds = newValue;
+
+			serverConfig.save();
 		}
 	}
 }
