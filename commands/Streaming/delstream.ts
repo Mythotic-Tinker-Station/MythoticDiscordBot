@@ -5,12 +5,12 @@ module.exports = class extends (
 	Command
 ) {
 	constructor(...args) {
-		const name = 'addstream';
+		const name = 'delstream';
 		const options: CommandOptions = {
-			name: 'addstream',
-			aliases: ['streamfollow', 'addstreamfeed', 'sfollow', 'streamadd'],
+			name: 'delstream',
+			aliases: ['streamunfollow', 'delstreamfeed', 'sdelete', 'streamremove'],
 			description:
-				'Have me post in a channel when someones streaming (Streaming status on discord)',
+				'Remove user from the Stream Notification Service',
 			category: 'Streaming',
 			permission: ['MANAGE_GUILD'],
 			usage: '<username/s>',
@@ -41,8 +41,9 @@ module.exports = class extends (
                         const userCheck = await this.client.users.fetch(newUserId)
                         if (userCheck) {
                             // Check to make sure the user does not exist in there already first... that could be an issue lol
-                            if (serverCfg.Streams.Streamfeeds.includes(userCheck.id)) throw new Error(`User ${userid} has already been added to the Stream Notification Service`)
-                            serverCfg.Streams.Streamfeeds.push(newUserId);
+                            if (!serverCfg.Streams.Streamfeeds.includes(userCheck.id)) throw new Error(`User ${userid} not found in the Stream Notification Service`)
+                            const index = serverCfg.Streams.Streamfeeds.indexOf(newUserId, 0)
+                            serverCfg.Streams.Streamfeeds.splice(index, 1);
                         } else {
                             throw new Error(`Invalid user passed: ${userid}`);
                         }
@@ -59,10 +60,11 @@ module.exports = class extends (
 
 				if (userCheck) {
                     // Check to make sure the user does not exist in there already first... that could be an issue lol
-                    if (serverCfg.Streams.Streamfeeds.includes(userCheck.id)) throw new Error(`User ${streamFeedSettings} has already been added to the Stream Notification Service`)
-					serverCfg.Streams.Streamfeeds.push(newUserId);
+                    if (!serverCfg.Streams.Streamfeeds.includes(userCheck.id)) throw new Error(`User ${streamFeedSettings} not found in the Stream Notification Service`)
+                    const index = serverCfg.Streams.Streamfeeds.indexOf(newUserId, 0);
+                    serverCfg.Streams.Streamfeeds.splice(index, 1)
 				} else {
-					throw new Error(`Invalid user passed: ${newUserId}`);
+					throw new Error(`Invalid user passed: ${streamFeedSettings}`);
 				}
 			}
 
@@ -72,15 +74,15 @@ module.exports = class extends (
 					serverCfg.Streams.Streamfeeds
 				)
 				.then(() => {
-					if (streamFeedSettings.length >= 2) {
+					if (streamFeedSettings.length >= 1) {
 						message.channel.send(
-							`Added the following users to the Stream Notification Service: ${streamFeedSettings.join(
+							`Removed the following users from the Stream Notification Service: ${streamFeedSettings.join(
 								' '
 							)}`
 						);
 					} else {
 						message.channel.send(
-							`Added ${streamFeedSettings.toString()} to the Stream Notification Service`
+							`Removed ${streamFeedSettings.toString()} from the Stream Notification Service`
 						);
 					}
 				});
