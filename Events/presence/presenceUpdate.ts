@@ -14,7 +14,6 @@ module.exports = class extends (Event) {
 
     async run(oldPresence, newPresence) {
         // Handle each presence type here when required. Obviously streaming first :)
-        console.log(newPresence)
         if (!newPresence.activities) return false;
         for (const activity of newPresence.activities) {
             if (activity.type == "STREAMING") {

@@ -89,7 +89,6 @@ export class BotClient extends Client {
 
 		await this.utils.processServerConfigs();
 		await this.utils.loadServerConfigs();
-		console.log(this.serverdata);
 		//load twitter related stuff
 		const _twitterdata = this.twitterdata;
 

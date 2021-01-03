@@ -116,7 +116,6 @@ export class Util {
 							`Event ${name} does not belong in Events`
 						);
 					this.client.events.set(event.name, event);
-					console.log(event.emitter);
 					if (event.howManyArgs === 2) {
 						event.emitter[event.type](name, (args, secondaryArgs) => event.run(args, secondaryArgs));
 					}
