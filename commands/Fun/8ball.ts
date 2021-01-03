@@ -97,7 +97,8 @@ module.exports = class extends (
                 reply = await this.responseGenerate(chosenResponse.Emoji, chosenResponse.Text)
                 return await message.channel.send(reply)
             default:
-                return message.channel.send(`${emojiList["FACEPALM"]} Come again???`)
+                // If none of the types match up, just facepalm
+                return await message.channel.send(`${emojiList["FACEPALM"]} Come again???`)
         }
 	}
 };
