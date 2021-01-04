@@ -14,6 +14,7 @@
 	For discord.js specifics, id look at the doco https://discord.js.org/#/docs/main/stable/general/welcome
 
 	Commands are located in the commands folder. They are also self explanatory for now
+	Events are located in the Events folder, they should be named as discord events that you would like to listen for
 */
 
 import { Client, Collection } from 'discord.js';
@@ -21,6 +22,7 @@ import { TwitterClient } from './TwitterClient';
 import { Util } from './Util';
 
 interface ClientOptions {
+	// Define types for the discord bot client options
 	ConfigVersion: string;
 	Token: string;
 	Owners: Array<string>;
@@ -29,6 +31,7 @@ interface ClientOptions {
 }
 
 interface TwitterOptions {
+	// Types for Twitter client options
 	ApiKey: string;
 	ApiSecretKey: string;
 	BearerToken: string;
@@ -55,27 +58,21 @@ export class BotClient extends Client {
 			disableMentions: 'everyone',
 		});
 
+		// Config options
 		this.Token = options.Token;
-
 		this.owners = options.Owners;
-
-		this.commands = new Collection();
-
-		this.events = new Collection();
-
-		this.aliases = new Collection();
-
-		this.serverdata = new Collection();
-
-		this.twitterdata = new Map();
-
-		this.utils = new Util(this);
-
-		this.twitterClient = new TwitterClient(options.TwitterAPI, this);
-
 		this.dburl = options.DatabaseURL;
-
 		this.Prefix = '$';
+
+		// Collections and other mappings
+		this.commands = new Collection();
+		this.events = new Collection();
+		this.aliases = new Collection();
+		this.serverdata = new Collection();
+		this.twitterdata = new Map();
+		this.utils = new Util(this);
+		this.twitterClient = new TwitterClient(options.TwitterAPI, this);
+		
 	}
 
 	async onReady() {
@@ -87,6 +84,7 @@ export class BotClient extends Client {
 			].join('\n')
 		);
 
+		// Load and Process Server configurations
 		await this.utils.processServerConfigs();
 		await this.utils.loadServerConfigs();
 		//load twitter related stuff
@@ -102,6 +100,8 @@ export class BotClient extends Client {
 
 	async start(Token = this.Token) {
 		this.once('ready', (...args) => this.onReady(...args));
+		
+		// Load commands and events, then log in boi
 		await this.utils.loadCommands();
 		await this.utils.loadEvents();
 

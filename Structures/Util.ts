@@ -8,7 +8,9 @@
     Util.js
 
     This file contains utilities that help the bot run. These include a
-    command handler.
+	command handler and event handler.
+	
+	Database connection also happens here too.
 */
 
 import path, { format } from 'path';
@@ -34,6 +36,7 @@ export class Util {
 		this.DataBase = new DB(Config.DatabaseURL);
 	}
 
+	// Check class type
 	isClass(input: any) {
 		return (
 			typeof input === 'function' &&
@@ -49,6 +52,7 @@ export class Util {
 			}`;
 	}
 
+	// Simple byte formatter
 	formatBytes(bytes: number) {
 		if (bytes === 0) return '0 Bytes';
 		const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
@@ -58,10 +62,12 @@ export class Util {
 		}`;
 	}
 
+	// Remove duplicate fucntion
 	removeDuplicates(arr: any[]) {
 		return [...new Set(arr)];
 	}
 
+	// Captialise strings
 	captialise(string: string) {
 		return string
 			.split(' ')
@@ -69,6 +75,7 @@ export class Util {
 			.join(' ');
 	}
 
+	// The command loader
 	async loadCommands() {
 		return glob(`${this.directory}commands/**/*.ts`).then(
 			(commands: any[]) => {
@@ -99,6 +106,7 @@ export class Util {
 		);
 	}
 
+	// The Event loader
 	async loadEvents() {
 		try {
 			return glob(`${this.directory}events/**/*.ts`).then((events) => {
@@ -130,6 +138,7 @@ export class Util {
 		}
 	}
 
+	// Process server configs via DB
 	async processServerConfigs() {
 		const guildIDs = this.client.guilds.cache.map((i) => i.id);
 
@@ -158,6 +167,7 @@ export class Util {
 		}
 	}
 
+	// Same thing as above, but just one config
 	async processSingleServerConfig(guildid) {
 		const guildinfo = this.client.guilds.cache.get(guildid);
 
@@ -169,6 +179,7 @@ export class Util {
 		//await this.callStat(confpath, guildinfo);
 	}
 
+	// Load a single server configs via DB
 	async loadSingleServerConfig(guildid) {
 		const config = await this.DataBase.getServerConfig(guildid);
 		const configData = config.toJSON();
@@ -176,6 +187,7 @@ export class Util {
 		this.client.serverdata.set(ServerId, configData);
 	}
 
+	// Load server configs via DB
 	async loadServerConfigs() {
 		const configs = await this.DataBase.getAllServerConfigs();
 		for (const config of configs) {
@@ -186,6 +198,7 @@ export class Util {
 		}
 	}
 
+	// Setting editor
 	async editServerSetting(guildid, setting, value) {
 		const svrConfig = this.client.serverdata.get(guildid);
 		const formattedSettingName = [
@@ -205,6 +218,7 @@ export class Util {
 		}
 	}
 
+	// Admin roles editor
 	async editAdminRoles(
 		guildid: String,
 		setting: String,
@@ -240,6 +254,7 @@ export class Util {
 		}
 	}
 
+	// Twitter setting editor
 	async editTwitterSetting(guildid, setting, value) {
 		const svrConfig = this.client.serverdata.get(guildid);
 		const formattedSettingName = [
@@ -266,6 +281,7 @@ export class Util {
 		}
 	}
 
+	// Stream setting editor
 	async editStreamSetting(guildid, setting, value) {
 		const svrConfig = this.client.serverdata.get(guildid);
 		const formattedSettingName = [
@@ -288,6 +304,7 @@ export class Util {
 		}
 	}
 
+	// Twitter Feed settings editor
 	async editServerTwitterFeedSettings(guildid, value) {
 		const svrConfig = this.client.serverdata.get(guildid);
 		svrConfig.Twitter.Feeds = value;
@@ -299,6 +316,7 @@ export class Util {
 		}
 	}
 
+	// Steam feed setting editor
 	async editServerStreamsFeedSettings(guildid, value) {
 		const svrConfig = this.client.serverdata.get(guildid);
 		svrConfig.Streams.Streamfeeds = value;
@@ -309,6 +327,7 @@ export class Util {
 		}
 	}
 
+	// Array trimmer
 	trimArray(arr, maxLen = 10) {
 		if (arr.length > maxLen) {
 			const len = arr.length - maxLen;

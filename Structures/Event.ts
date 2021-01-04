@@ -8,7 +8,12 @@
     Event.js
 
     This file the base class for Event. Each Event should be extending
-    this class in order for it to work.
+	this class in order for it to work.
+	
+	Events should go into the Events folder and they should reflect the
+	proper event names on discord and options.
+
+	Check out https://discord.js.org/#/docs/main/12.5.1/class/Client for the list of valid events
 */
 
 import { BotClient } from './BotClient';
