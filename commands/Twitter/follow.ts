@@ -28,6 +28,10 @@ module.exports = class extends (
 
 	async run(message, feedSettings: Array<String>) {
 		const serverCfg = this.client.serverdata.get(message.guild.id);
+		
+		// Check if discord channel is actually the channel name
+		if(!feedSettings[1].match(/<|>|#/gi)) return message.channel.send(`That does not look like a channel name, please ensure the channel name has a # infront of it`)
+		
 		const discordChannelId = feedSettings[1]
 			.toString()
 			.replace(/<|>|#/gi, '');
@@ -41,6 +45,8 @@ module.exports = class extends (
 				DiscordChannelId: discordChannelId,
 			};
 			const existingObject = serverCfg.Twitter.Feeds;
+
+			const userExists = await this.client.twitterClient.checkIfHandleExists(twitterHandle)
 
 			existingObject.push(twitterHandleObject);
 			serverCfg.Twitter.Feeds = existingObject;
