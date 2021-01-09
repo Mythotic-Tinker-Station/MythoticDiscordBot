@@ -93,7 +93,8 @@ export class BotClient extends Client {
 		this.serverdata.forEach((value, key) => {
 			_twitterdata.set(key, value.Twitter);
 		});
-		await this.twitterClient.start(this.twitterdata);
+		await this.twitterClient.start(this.twitterdata)
+		
 
 		// this.twitterdata needs to be an array of twitter handles from the collection. Same collection will be used for discord channel checking and matching.
 	}

@@ -57,11 +57,13 @@ module.exports = class extends (
 				)
 				.then(() => {
 					this.client.twitterClient
-						.followTwitterHandle(message.guild.id)
+						.followTwitterHandle(message.guild.id, twitterHandleObject)
 						.then(() => {
 							message.channel.send(
 								`Twitter handle **@${twitterHandle}** is now being followed. Tweets will appear in ${feedSettings[1]}`
 							);
+							console.log(this.client.twitterClient.twitUserIdArray);
+							this.client.twitterClient.createStream();
 						});
 				});
 		} catch (err) {

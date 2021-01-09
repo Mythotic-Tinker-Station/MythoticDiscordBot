@@ -17,7 +17,7 @@
 	Commands are located in the commands folder. They are also self explanatory for now
 */
 
-import Twitter from 'twit';
+import Twitter, { Stream } from 'twit';
 import { MessageEmbed, TextChannel } from 'discord.js';
 import { BotClient } from './BotClient';
 
@@ -30,8 +30,9 @@ interface TwitterOptions {
 
 export class TwitterClient extends Twitter {
 	botClient: BotClient;
-	currentStreams: Set<any>;
+	newStream: any;
 	serverTwitterHandles: Array<any>;
+	twitUserIdArray: Array<any>;
 
 	constructor(options: TwitterOptions, botClient: BotClient) {
 		super({
@@ -41,7 +42,8 @@ export class TwitterClient extends Twitter {
 			access_token_secret: options.UserAccessTokenSecret,
 		});
 		this.botClient = botClient;
-		this.currentStreams = new Set();
+		this.newStream = null;
+		this.twitUserIdArray = [];
 		this.serverTwitterHandles = [];
 	}
 
@@ -51,30 +53,32 @@ export class TwitterClient extends Twitter {
     */
 
 	// note: check currentStreams for a common feed first
-	async addTwitterFeed(twitterHandle: any) {
-		// check the streams to see if twitter handle is already therecls
-		if (this.currentStreams.has(twitterHandle)) {
-			// return;
-		}
-		const twitterUserInfo: any = await this.get('users/lookup', {
-			screen_name: twitterHandle,
-		});
-		const twitterUserID: any = twitterUserInfo.data[0].id_str;
-		const s = this.stream('statuses/filter', { follow: twitterUserID });
-		this.currentStreams.add(s);
-		s.on('tweet', (tweet) =>
+	async createStream() {
+		// check the streams to see if existing stream exists. If so then stop the stream fist.
+		if (this.newStream) this.newStream.stop()
+
+		// Create new stream and monitor events
+		this.newStream = this.stream('statuses/filter', { follow: this.twitUserIdArray })
+		
+		this.newStream.once('connected', (res) => {
+			console.log('New Twitter Stream online...');
+		})
+
+		this.newStream.on('tweet', (tweet) => {
+			console.log(tweet);
 			this.handleTweetEvent(tweet).catch((err) => console.log(err))
-		);
+		});
 	}
 
 	async handleTweetEvent(tweetResponse: any) {
 		const channelsListening = this.serverTwitterHandles.filter(
 			(serverFeed) =>
-				serverFeed.feed.TwitterHandle === tweetResponse.user.screen_name
+				serverFeed.TwitterHandle === tweetResponse.user.screen_name.toLowerCase()
 		);
+		console.log(channelsListening);
 		channelsListening.forEach(async (serverFeed) => {
 			const channel: TextChannel = (await this.botClient.channels.fetch(
-				serverFeed.feed.DiscordChannelId
+				serverFeed.DiscordChannelId
 			)) as TextChannel;
 			const guildId = channel.guild.id;
 
@@ -119,7 +123,13 @@ export class TwitterClient extends Twitter {
 				embed.setImage(mediaUrl);
 			}
 
-			embed.setDescription(tweetResponse.text);
+			if(tweetResponse.truncated === true) {
+				embed.setDescription(tweetResponse.extended_tweet.full_text);
+			}
+			else {
+				embed.setDescription(tweetResponse.text);
+			}
+			
 			embed.setFooter(`@${tweetResponse.user.screen_name}`);
 			embed.setTimestamp();
 			// console.log(tweetResponse);
@@ -127,39 +137,80 @@ export class TwitterClient extends Twitter {
 		});
 	}
 
-	async removeTwitterFeed(twitterHandle: any, guildId: any) {
-		const queriedServer = this.serverTwitterHandles.find(
-			(sth) => sth.serverName === guildId
+	async removeTwitterFeed(message, twitterHandle: any, guildId: any) {
+		// First query the serverTwitterHandles array
+		const queriedServer = this.serverTwitterHandles.filter(
+			(sth) => sth.TwitterHandle === twitterHandle
 		);
-		console.log(queriedServer);
+
+		// Now perform a check. If Theres more then one queriedServer then we will need to narrow it down
 		if (queriedServer) {
-			const removedElement = this.serverTwitterHandles.splice(
-				this.serverTwitterHandles.indexOf(queriedServer),
-				1
-			);
-			console.log(
-				`Feed for ${twitterHandle} has been removed from the following:`
-			);
-			console.log(removedElement);
-			const settings = this.botClient.serverdata.get(guildId);
-			const twitterSettings = settings.Twitter;
-			twitterSettings.Feeds.splice(
-				twitterSettings.Feeds.findIndex(
-					(v: any) => v.TwitterHandle === twitterHandle
-				),
-				1
-			);
-			console.log(twitterSettings);
-			try {
-				await this.botClient.utils.editServerTwitterFeedSettings(
-					guildId,
-					twitterSettings.Feeds
-				);
-			} catch (err) {
-				console.log(err);
+			if (queriedServer.length >= 1) {
+				const settings = this.botClient.serverdata.get(guildId);
+				const twitterSettings = settings.Twitter.Feeds;
+
+				// Find the object required in the twitter settings
+
+				const correctFeed = queriedServer.find(obj => obj.serverName === guildId);
+				if (correctFeed.serverName === message.guild.id) {
+					console.log(`Got the right one!`);
+					console.log(correctFeed);
+					console.log(this.serverTwitterHandles.indexOf(correctFeed));
+					const removedElement = this.serverTwitterHandles.splice(
+						this.serverTwitterHandles.indexOf(correctFeed),
+						1
+					);
+					console.log(
+						`Feed for ${twitterHandle} has been removed from the following:`
+					);
+					console.log(removedElement);
+					console.log(`Existing serverHandles Tracked`);
+					console.log(this.serverTwitterHandles);
+					twitterSettings.splice(
+						twitterSettings.map(x => {return x.TwitterHandle}).indexOf(twitterHandle), 1
+						
+					);
+
+					await this.botClient.utils.editServerTwitterFeedSettings(
+						guildId,
+						twitterSettings
+					)
+				}
+				
 			}
-		} else {
-			console.log('Server doesnt seem to exist in query..');
+			else {
+				// Assume its the correct entry if its only one, and remove the feed all together.
+				const settings = this.botClient.serverdata.get(guildId);
+				const twitterSettings = settings.Twitter.Feeds;
+				const removedElement = this.serverTwitterHandles.splice(
+					this.serverTwitterHandles.indexOf(queriedServer),
+					1
+				);
+				console.log(
+					`Feed for ${twitterHandle} has been removed from the following:`
+				);
+				console.log(removedElement);
+				console.log(`Existing serverHandles Tracked`);
+				console.log(this.serverTwitterHandles);
+				
+				twitterSettings.splice(
+					twitterSettings.map(x => {return x.TwitterHandle}).indexOf(twitterHandle),
+					1
+				);
+				try {
+					await this.botClient.utils.editServerTwitterFeedSettings(
+						guildId,
+						twitterSettings
+					).then(async () => {
+						await this.checkIfHandleExists(twitterHandle).then(twituser => {
+							const twitterUserID: any = twituser.data[0].id_str;
+							this.twitUserIdArray.splice(this.twitUserIdArray.indexOf(twitterUserID), 1)
+						})
+					});
+				} catch (err) {
+					console.log(err);
+				}
+			}
 		}
 	}
 
@@ -169,44 +220,82 @@ export class TwitterClient extends Twitter {
 		try {
 			twitterGuildConfigs.forEach((config: any, serverName: any) => {
 				const { Feeds } = config;
-				Feeds.forEach((feed: { TwitterHandle: string }) => {
+				Feeds.forEach((feed: { TwitterHandle: string, DiscordChannelId: string }) => {
 					console.log('Going to get user ' + feed.TwitterHandle);
-					this.addTwitterFeed(feed.TwitterHandle)
-						.then(() =>
-							this.serverTwitterHandles.push({ feed, serverName })
-						)
-						.catch(
-							(e) =>
-								e.code === 17 &&
-								console.log('User handle doesnt exist.')
-						);
-				});
-			});
-		} catch (e) {
-			console.error('Error getting something....');
-		}
-	}
+					const serverHandlerObject = {
+						serverName: serverName,
+						TwitterHandle: feed.TwitterHandle,
+						DiscordChannelId: feed.DiscordChannelId
+					};
+					
+					try {
+						this.checkIfHandleExists(serverHandlerObject.TwitterHandle).then(async (twituser) => {
+							this.serverTwitterHandles.push(serverHandlerObject);
+							const twitterUserID: any = twituser.data[0].id_str;
+							
+							if (!this.twitUserIdArray.includes(twitterUserID)) {
+								this.twitUserIdArray.push(twitterUserID);
+								await this.createStream()
+							}
+						})
 
-	async followTwitterHandle(guildId: any) {
-		const serverCfg = this.botClient.serverdata.get(guildId);
-		const serverName = guildId;
-		try {
-			const Feeds = serverCfg.Twitter.Feeds;
-			console.log(Feeds);
-			Feeds.forEach((feed: { TwitterHandle: string }) => {
-				console.log('Going to get user ' + feed.TwitterHandle);
-				this.addTwitterFeed(feed.TwitterHandle)
-					.then(() =>
-						this.serverTwitterHandles.push({ feed, serverName })
-					)
-					.catch(
-						(e) =>
-							e.code === 17 &&
-							console.log('User handle doesnt exist.')
-					);
-			});
+						
+						
+					}
+					catch(e) {
+						throw new Error(`Twitter handle does not exist on Twitter`)
+					}
+
+					
+				});
+			})
+				
 		} catch (e) {
 			throw new Error(e);
 		}
+	}
+
+	async followTwitterHandle(guildId: any, twitterHandleObject: any) {
+		// Since we are getting the object and guildid already from the follow command, lets build an object that makes fucking sense this time.
+		const serverHandlerObject = {
+			serverName: guildId,
+			TwitterHandle: twitterHandleObject.TwitterHandle,
+			DiscordChannelId: twitterHandleObject.DiscordChannelId
+		};
+
+		// Now first task is to push this object to this.serverTwitterHandles but check if the object we created is not already there
+		if (!this.serverTwitterHandles.some(obj => Object.keys(obj).every(key => obj[key] == serverHandlerObject[key]))) {
+			// If an existing object is not the exact same then push it!
+			try {
+				await this.checkIfHandleExists(serverHandlerObject.TwitterHandle).then((twituser) => {
+					this.serverTwitterHandles.push(serverHandlerObject);
+					const twitterUserID: any = twituser.data[0].id_str;
+					
+					if (!this.twitUserIdArray.includes(twitterUserID)) this.twitUserIdArray.push(twitterUserID);
+				})
+				
+			}
+			catch(e) {
+				throw new Error(`Twitter handle does not exist on Twitter`)
+			}
+		}
+		else {
+			throw new Error(`It looks like this server is already following this twitter handle`)
+		}
+		
+		
+	
+		// Now we can try and get the user and add them to the twituser ID list
+
+		
+	}
+
+	async checkIfHandleExists(twitterHandle) {
+		const twittUser = await this.get('users/lookup', {
+			screen_name: twitterHandle,
+		}).catch(error => {
+			throw new Error(`Twitter handle does not exist`)
+		});
+		return twittUser
 	}
 }

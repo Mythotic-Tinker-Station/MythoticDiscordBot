@@ -34,11 +34,12 @@ module.exports = class extends (
 		try {
 			// Remove from current streams first and idealy from the stream itself
 			await this.client.twitterClient
-				.removeTwitterFeed(twitter_handle, message.guild.id)
+				.removeTwitterFeed(message, twitter_handle.toString(), message.guild.id)
 				.then(() => {
 					message.channel.send(
 						`Twitter handle **@${twitter_handle}** is no longer being followed.`
 					);
+					this.client.twitterClient.createStream();
 				});
 		} catch (err) {
 			message.channel.send(`An Error occured: **${err}**`);
