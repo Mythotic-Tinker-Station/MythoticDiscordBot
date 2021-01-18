@@ -18,6 +18,7 @@
 */
 
 import { Client, Collection } from 'discord.js';
+//import { TwitchClient, TwitchConfigOptions, TwitchListenConf } from '../WIP/TwitchClient';
 import { TwitterClient } from './TwitterClient';
 import { Util } from './Util';
 
@@ -27,6 +28,8 @@ interface ClientOptions {
 	Token: string;
 	Owners: Array<string>;
 	TwitterAPI: TwitterOptions;
+	//TwitchAPI: TwitchConfigOptions;
+	//TwitchListener: TwitchListenConf;
 	DatabaseURL: String;
 }
 
@@ -38,7 +41,6 @@ interface TwitterOptions {
 	UserAccessToken: string;
 	UserAccessTokenSecret: string;
 }
-
 export class BotClient extends Client {
 	Token: string;
 	owners: string[];
@@ -52,6 +54,9 @@ export class BotClient extends Client {
 	Prefix: string;
 	uptime: any;
 	dburl: any;
+	//twitch: TwitchClient
+	//twitchConf: TwitchConfigOptions
+	//twitchlistener: TwitchListenConf
 
 	constructor(options: ClientOptions) {
 		super({
@@ -62,6 +67,8 @@ export class BotClient extends Client {
 		this.Token = options.Token;
 		this.owners = options.Owners;
 		this.dburl = options.DatabaseURL;
+		//this.twitchConf = options.TwitchAPI;
+		//this.twitchlistener = options.TwitchListener;
 		this.Prefix = '$';
 
 		// Collections and other mappings
@@ -72,6 +79,7 @@ export class BotClient extends Client {
 		this.twitterdata = new Map();
 		this.utils = new Util(this);
 		this.twitterClient = new TwitterClient(options.TwitterAPI, this);
+		//this.twitch = new TwitchClient(this, this.twitchConf, this.twitchlistener);
 		
 	}
 
@@ -94,6 +102,7 @@ export class BotClient extends Client {
 			_twitterdata.set(key, value.Twitter);
 		});
 		await this.twitterClient.start(this.twitterdata)
+		//await this.twitch.start()
 		
 
 		// this.twitterdata needs to be an array of twitter handles from the collection. Same collection will be used for discord channel checking and matching.
