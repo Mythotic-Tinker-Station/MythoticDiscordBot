@@ -12,4 +12,18 @@
         "UserAccessToken": "TwitterUserAccessTokenHere",
         "UserAccessTokenSecret": "TwitterUserAccessTokenSecretHere"
     }
+
+    "TwitchAPI": {
+        "ClientId": "TwitchAPIKeyHere",
+        "ClientSecret": "TwitchAPISecretHere",
+        "HostName": "HostNameHere-ItsRequired",
+        "ListenerPort": "ListenerPort"
+    },
+
+    "TwitchListener" : {
+        "HostName": "example.com",
+        "ListenerPort": "8090"
+    },
+
+    "DatabaseURL" : "mongodb://localhost:27017/MythoticDiscordBot"
 }
