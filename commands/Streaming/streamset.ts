@@ -46,7 +46,7 @@ module.exports = class extends (
 
 	async run(message, setting, value) {
 		const validSettings = ['streamchannelid', 'streampoststyle', 'deletemessage', 'pingrole'];
-		const newValue = value.toString().replace(/<|>|#/gi, '');
+		const newValue = value.toString().replace(/<|>|#|@|&/gi, '');
 		console.log(setting, newValue);
 
 		try {
@@ -71,9 +71,23 @@ module.exports = class extends (
 					setting,
 					newValue
 				);
-				await message.channel.send(
-					`***${setting}*** has been changed to: \`${newValue}\``
-				);
+				
+				if (setting === 'pingrole') {
+					await message.channel.send(
+						`***${setting}*** has been changed to: <@&${newValue}>`
+					);
+				}
+				else if (setting === 'streamchannelid') {
+					await message.channel.send(
+						`***${setting}*** has been changed to: <#${newValue}>`
+					);
+				}
+				else {
+					await message.channel.send(
+						`***${setting}*** has been changed to: \`${newValue}\``
+					);
+				}
+
 			} else if (!doesSettingExist || !newValue) {
 				if (!doesSettingExist) {
 					throw new Error(`The setting ${setting} does not exist`);
