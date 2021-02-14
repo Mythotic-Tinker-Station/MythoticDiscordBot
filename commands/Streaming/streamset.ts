@@ -23,6 +23,10 @@ module.exports = class extends (
 					description:
 						'Define the post style the bot will use. Available values are: <NORMAL|SMALL|MEE6_STYLE>',
 				},
+				deletemessage: {
+					description:
+						'After streaming is done, delete the notification post',
+				}
 			},
 		};
 
@@ -37,7 +41,7 @@ module.exports = class extends (
 	}
 
 	async run(message, setting, value) {
-		const validSettings = ['streamchannelid', 'streampoststyle'];
+		const validSettings = ['streamchannelid', 'streampoststyle', 'deletemessage'];
 		const newValue = value.toString().replace(/<|>|#/gi, '');
 		console.log(setting, newValue);
 
