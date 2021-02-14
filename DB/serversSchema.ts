@@ -27,6 +27,7 @@ interface Iserver {
 		Streampoststyle: String, //Not useable currently
 		Streamfeeds: Array<String>,
 		Deletemessage: Boolean,
+		Pingrole: String,
 	};
 }
 
@@ -54,6 +55,7 @@ const serverSchema: Iserver | Schema = new Schema({
 		Streampoststyle: String,
 		Streamfeeds: [],
 		Deletemessage: Boolean,
+		Pingrole: String,
 	},
 });
 
