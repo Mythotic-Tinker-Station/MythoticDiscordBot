@@ -26,6 +26,10 @@ module.exports = class extends (
 				deletemessage: {
 					description:
 						'After streaming is done, delete the notification post',
+				},
+				pingrole: {
+					description:
+						'A role to ping as part of the streaming notification for your server'
 				}
 			},
 		};
@@ -41,7 +45,7 @@ module.exports = class extends (
 	}
 
 	async run(message, setting, value) {
-		const validSettings = ['streamchannelid', 'streampoststyle', 'deletemessage'];
+		const validSettings = ['streamchannelid', 'streampoststyle', 'deletemessage', 'pingrole'];
 		const newValue = value.toString().replace(/<|>|#/gi, '');
 		console.log(setting, newValue);
 
