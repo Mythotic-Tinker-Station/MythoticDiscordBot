@@ -27,13 +27,10 @@ module.exports = class extends (Event) {
     async run(oldPresence: Presence, newPresence: Presence) {
         // If there is an old presense, if so then we will need to check if they were streaming.
         if (oldPresence) {
-            console.log(oldPresence)
             const serverConfigs: Map<any, any> = this.client.serverdata
             for (const activity of newPresence.activities) {
                 if (activity.type == "STREAMING") {
                     // Lets check to make sure we got the old data saved also, and make sure it matches. Pretty important
-                    console.log(this.pressenceData);
-                    console.log(this.messageIds);
 
                     if (this.pressenceData.includes(oldPresence)) {
                         // If it matches, lets keep going. Checking to see if the user tag exists in messageIds by finding them all.
@@ -49,21 +46,18 @@ module.exports = class extends (Event) {
 
             }
         }
-        
 
         // Handle each presence type here when required. Obviously streaming first :)
         if (!newPresence.activities) return false;
         for (const activity of newPresence.activities) {
             if (activity.type == "STREAMING") {
                 console.log(`${newPresence.user.tag} is streaming at ${activity.url}.`);
-                console.log(newPresence)
 
                 // We need to determine if the user is in a server where they have the streaming settings configured
                 const serverConfigs: Map<any, any> = this.client.serverdata
                 //console.log(serverConfigs)
 
                 const guildsFromPresence: Collection<any, any> = newPresence.user.client.guilds.cache
-                console.log(guildsFromPresence)
 
                 guildsFromPresence.forEach(async (guild: Guild ) => {
                     
@@ -77,13 +71,13 @@ module.exports = class extends (Event) {
                     // If server config was found, check to see if the setting matches the user
                     if (serverConfig) {
                         // Check Streaming Feeds is set
-                        if (serverConfig.Streams.Streamfeeds.includes(newPresence.user.tag) === true) {
+                        if (serverConfig.Streams.Streamfeeds.includes(newPresence.user.id) === true) {
                             let channelMessage = null
                             if (serverConfig.Streams.Pingrole) {
-                                channelMessage = `<@${serverConfig.Streams.Pingrole}> **${newPresence.user.tag}** is now streaming! - Click the following link to watch: ${activity.url}`;
+                                channelMessage = `<@${serverConfig.Streams.Pingrole}> **${newPresence.user.username}** is now streaming! - Click the following link to watch: ${activity.url}`;
                             }
                             else {
-                                channelMessage = `**${newPresence.user.tag}** is now streaming! - Click the following link to watch: ${activity.url}`;
+                                channelMessage = `**${newPresence.user.username}** is now streaming! - Click the following link to watch: ${activity.url}`;
                             }
                             if (serverConfig.Streams.Deletemessage === true) {
                                 this.pressenceData.push(newPresence);
