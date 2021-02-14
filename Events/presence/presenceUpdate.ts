@@ -78,9 +78,13 @@ module.exports = class extends (Event) {
                     if (serverConfig) {
                         // Check Streaming Feeds is set
                         if (serverConfig.Streams.Streamfeeds.includes(newPresence.user.tag) === true) {
-                            // In this case, got em. Lets set up the post and set some other variables before firing the message
-                            const channelMessage = `**${newPresence.user.tag}** is now streaming! - Click the following link to watch: ${activity.url}`;
-
+                            let channelMessage = null
+                            if (serverConfig.Streams.Pingrole) {
+                                channelMessage = `<@${serverConfig.Streams.Pingrole}> **${newPresence.user.tag}** is now streaming! - Click the following link to watch: ${activity.url}`;
+                            }
+                            else {
+                                channelMessage = `**${newPresence.user.tag}** is now streaming! - Click the following link to watch: ${activity.url}`;
+                            }
                             if (serverConfig.Streams.Deletemessage === true) {
                                 this.pressenceData.push(newPresence);
                                 const channel: GuildChannel = guild.channels.cache.find(channel => channel.id === serverConfig.Streams.Streamchannelid);
