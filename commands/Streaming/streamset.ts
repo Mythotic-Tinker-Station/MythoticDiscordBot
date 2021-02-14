@@ -21,7 +21,7 @@ module.exports = class extends (
 				},
 				streampoststyle: {
 					description:
-						'Define the post style the bot will use. Available values are: <NORMAL|SMALL|MEE6_STYLE>',
+						'Define the post style the bot will use. Available values are: <NORMAL|SMALL|MEE6_STYLE> **NOTE** This command is WIP and it does not set anything at the moment',
 				},
 				deletemessage: {
 					description:
