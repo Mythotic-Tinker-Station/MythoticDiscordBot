@@ -21,7 +21,7 @@ import { Event } from './Event';
 import fs from 'fs';
 import Config from '../config.json';
 import { BotClient } from './BotClient';
-import DB from '../DB';
+import DB from '../db';
 
 export class Util {
 	private client: BotClient;
