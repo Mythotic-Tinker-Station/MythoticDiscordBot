@@ -17,7 +17,7 @@
 	Events are located in the Events folder, they should be named as discord events that you would like to listen for
 */
 
-import { Client, Collection } from 'discord.js';
+import { Client, Collection, Intents } from 'discord.js';
 import { TwitterClient } from './TwitterClient';
 import { Util } from './Util';
 
@@ -52,6 +52,7 @@ export class BotClient extends Client {
 	Prefix: string;
 	uptime: any;
 	dburl: any;
+	intents: Intents;
 
 	constructor(options: ClientOptions) {
 		super({
@@ -72,6 +73,21 @@ export class BotClient extends Client {
 		this.twitterdata = new Map();
 		this.utils = new Util(this);
 		this.twitterClient = new TwitterClient(options.TwitterAPI, this);
+		this.intents = new Intents()
+
+		this.intents.add([
+			'GUILDS',
+			'GUILD_MEMBERS',
+			'GUILD_PRESENCES',
+			'GUILD_BANS',
+			'GUILD_EMOJIS',
+			'GUILD_WEBHOOKS',
+			'GUILD_VOICE_STATES',
+			'GUILD_MESSAGES',
+			'GUILD_MESSAGE_REACTIONS',
+			'DIRECT_MESSAGES',
+			'DIRECT_MESSAGE_REACTIONS'
+		])
 		
 	}
 
