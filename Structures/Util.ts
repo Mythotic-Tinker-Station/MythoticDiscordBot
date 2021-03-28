@@ -289,7 +289,7 @@ export class Util {
 			...setting.slice(1),
 		].join('');
 
-		console.log(value)
+		//console.log(value)
 
 		svrConfig.Streams[formattedSettingName] = value;
 		try {
