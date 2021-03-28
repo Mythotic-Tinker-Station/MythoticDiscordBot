@@ -40,6 +40,7 @@ export class TwitterClient extends Twitter {
 			consumer_secret: options.ApiSecretKey,
 			access_token: options.UserAccessToken,
 			access_token_secret: options.UserAccessTokenSecret,
+
 		});
 		this.botClient = botClient;
 		this.newStream = null;
@@ -68,6 +69,20 @@ export class TwitterClient extends Twitter {
 			console.log(tweet);
 			this.handleTweetEvent(tweet).catch((err) => console.log(err))
 		});
+
+		this.newStream.on('disconnect', (disconnectMessage) => {
+			console.log(disconnectMessage);
+		})
+
+		this.newStream.on('warning', (warning) => {
+			console.log(warning)
+		})
+
+		this.newStream.on(`error`, (statusCode, code, message) => {
+			console.log(statusCode);
+			console.log(code);
+			console.log(message);
+		})
 	}
 
 	async handleTweetEvent(tweetResponse: any) {
