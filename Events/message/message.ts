@@ -156,7 +156,7 @@ module.exports = class extends (
 						return value;
 					});
 
-					console.log(filteredTokens);
+					//console.log(filteredTokens);
 
 					const command = (this.client.commands.get(
 						cmd.toLowerCase()
