@@ -90,7 +90,6 @@ export class TwitterClient extends Twitter {
 			(serverFeed) =>
 				serverFeed.TwitterHandle === tweetResponse.user.screen_name.toLowerCase()
 		);
-		console.log(channelsListening);
 		channelsListening.forEach(async (serverFeed) => {
 			const channel: TextChannel = (await this.botClient.channels.fetch(
 				serverFeed.DiscordChannelId
