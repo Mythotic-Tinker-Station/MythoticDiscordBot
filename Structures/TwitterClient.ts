@@ -66,7 +66,7 @@ export class TwitterClient extends Twitter {
 		})
 
 		this.newStream.on('tweet', (tweet) => {
-			console.log(tweet);
+			//console.log(tweet);
 			this.handleTweetEvent(tweet).catch((err) => console.log(err))
 		});
 
@@ -90,7 +90,6 @@ export class TwitterClient extends Twitter {
 			(serverFeed) =>
 				serverFeed.TwitterHandle === tweetResponse.user.screen_name.toLowerCase()
 		);
-		console.log(channelsListening);
 		channelsListening.forEach(async (serverFeed) => {
 			const channel: TextChannel = (await this.botClient.channels.fetch(
 				serverFeed.DiscordChannelId
