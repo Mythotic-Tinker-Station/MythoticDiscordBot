@@ -20,6 +20,7 @@
 import Twitter, { Stream } from 'twit';
 import { MessageEmbed, TextChannel } from 'discord.js';
 import { BotClient } from './BotClient';
+import fs from 'fs';
 
 interface TwitterOptions {
 	ApiKey: string;
@@ -66,8 +67,15 @@ export class TwitterClient extends Twitter {
 		})
 
 		this.newStream.on('tweet', (tweet) => {
-			//console.log(tweet);
-			this.handleTweetEvent(tweet).catch((err) => console.log(err))
+			const tweetData = JSON.stringify(tweet);
+			fs.writeFile('cazzTweets.json', tweetData, (err) => {
+				if (err) {
+					throw err;
+				}
+
+				console.log(`Tweet data saved for debugging purposes`)
+			})
+			this.handleTweetEvent(tweet).catch((err) => console.log(err));
 		});
 
 		this.newStream.on('disconnect', (disconnectMessage) => {
