@@ -67,14 +67,7 @@ export class TwitterClient extends Twitter {
 		})
 
 		this.newStream.on('tweet', (tweet) => {
-			const tweetData = JSON.stringify(tweet);
-			fs.writeFile('cazzTweets.json', tweetData, (err) => {
-				if (err) {
-					throw err;
-				}
-
-				console.log(`Tweet data saved for debugging purposes`)
-			})
+			console.log(tweet)
 			this.handleTweetEvent(tweet).catch((err) => console.log(err));
 		});
 
