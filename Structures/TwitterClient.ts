@@ -67,7 +67,10 @@ export class TwitterClient extends Twitter {
 		})
 
 		this.newStream.on('tweet', (tweet) => {
-			console.log(tweet)
+			let data = JSON.stringify(tweet)
+
+			console.log(data)
+
 			this.handleTweetEvent(tweet).catch((err) => console.log(err));
 		});
 
