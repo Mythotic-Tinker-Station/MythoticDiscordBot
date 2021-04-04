@@ -37,6 +37,7 @@ export class TwitterClient extends Twitter {
 	streamBuffer2Active: boolean
 	serverTwitterHandles: Array<any>;
 	twitUserIdArray: Array<any>;
+	previousTweet: any;
 
 	constructor(options: TwitterOptions, botClient: BotClient) {
 		super({
@@ -51,6 +52,7 @@ export class TwitterClient extends Twitter {
 		this.newStream2 = null;
 		this.twitUserIdArray = [];
 		this.serverTwitterHandles = [];
+		this.previousTweet = null
 	}
 
 	/* TODO:
@@ -72,13 +74,25 @@ export class TwitterClient extends Twitter {
 				console.log(`Twitter Stream buffer 2 online. Now proceeding to stop the other stream buffer`);
 
 				this.newStream.stop()
+				this.newStream.removeAllListeners()
 
 				this.newStream2.on('tweet', (tweet) => {
-					let data = JSON.stringify(tweet)
+
+					if (this.previousTweet === null) {
+						this.previousTweet = tweet
+						this.handleTweetEvent(tweet).catch((err) => console.log(err));
+					}
+					else {
+						if (this.previousTweet.id_str) {
+
+							// Check the received tweet, is the same as the previous one.
+							if (this.previousTweet.id_str === tweet.id_str) return
+							this.previousTweet = tweet
+							this.handleTweetEvent(tweet).catch((err) => console.log(err));
+						}
+					}
 		
-					console.log(data)
 		
-					this.handleTweetEvent(tweet).catch((err) => console.log(err));
 				});
 		
 				this.newStream2.on('disconnect', (disconnectMessage) => {
@@ -95,6 +109,7 @@ export class TwitterClient extends Twitter {
 					console.log(message);
 				})
 
+
 				this.streamBuffer2Active = true
 				this.streamBufferActive = false
 			})
@@ -108,13 +123,23 @@ export class TwitterClient extends Twitter {
 				console.log(`Twitter Stream buffer 1 online. Now proceeding to stop the other stream buffer`);
 
 				this.newStream2.stop()
+				this.newStream2.removeAllListeners()
 
 				this.newStream.on('tweet', (tweet) => {
-					let data = JSON.stringify(tweet)
+					if (this.previousTweet === null) {
+						this.previousTweet = tweet
+						this.handleTweetEvent(tweet).catch((err) => console.log(err));
+					}
+					else {
+						if (this.previousTweet.id_str) {
+
+							// Check the received tweet, is the same as the previous one.
+							if (this.previousTweet.id_str === tweet.id_str) return
+							this.previousTweet = tweet
+							this.handleTweetEvent(tweet).catch((err) => console.log(err));
+						}
+					}
 		
-					console.log(data)
-		
-					this.handleTweetEvent(tweet).catch((err) => console.log(err));
 				});
 		
 				this.newStream.on('disconnect', (disconnectMessage) => {
@@ -145,11 +170,20 @@ export class TwitterClient extends Twitter {
 			console.log('New Twitter Stream online...');
 
 			this.newStream.on('tweet', (tweet) => {
-				let data = JSON.stringify(tweet)
+				if (this.previousTweet === null) {
+					this.previousTweet = tweet
+					this.handleTweetEvent(tweet).catch((err) => console.log(err));
+				}
+				else {
+					if (this.previousTweet.id_str) {
+
+						// Check the received tweet, is the same as the previous one.
+						if (this.previousTweet.id_str === tweet.id_str) return
+						this.previousTweet = tweet
+						this.handleTweetEvent(tweet).catch((err) => console.log(err));
+					}
+				}
 	
-				console.log(data)
-	
-				this.handleTweetEvent(tweet).catch((err) => console.log(err));
 			});
 	
 			this.newStream.on('disconnect', (disconnectMessage) => {
@@ -217,15 +251,37 @@ export class TwitterClient extends Twitter {
 				embed.setColor('GREEN');
 			}
 
-			if (tweetResponse.entities.media) {
-				const mediaUrl = tweetResponse.entities.media[0].media_url;
-				console.log(mediaUrl);
-				embed.setImage(mediaUrl);
+			if (tweetResponse.hasOwnProperty('extended_tweet') === true) {
+				try {
+					if (tweetResponse.extended_tweet.entities.media) {
+						const mediaUrl = tweetResponse.extended_tweet.entities.media[0].media_url;
+						console.log(mediaUrl);
+						embed.setImage(mediaUrl);
+					}
+				}
+				catch(e) {
+					throw new Error(e) 
+				}
+			
 			}
-			else if (tweetResponse.retweeted_status.entities.media) {
-				const mediaUrl = tweetResponse.retweeted_status.entities.media[0].media_url;
-				console.log(mediaUrl);
-				embed.setImage(mediaUrl);
+			else if (tweetResponse.hasOwnProperty('retweeted_status') === true) {
+				try {
+					if (tweetResponse.retweeted_status.entities.media) {
+						const mediaUrl = tweetResponse.retweeted_status.entities.media[0].media_url;
+						console.log(mediaUrl);
+						embed.setImage(mediaUrl);
+					}
+					else if (tweetResponse.retweeted_status.hasOwnProperty('extended_tweet') === true) {
+						if (tweetResponse.retweeted_status.extended_tweet.entities.media) {
+							const mediaUrl = tweetResponse.retweeted_status.extended_tweet.entities.media[0].media_url;
+							console.log(mediaUrl);
+							embed.setImage(mediaUrl);
+						}
+					}
+				}
+				catch(e) {
+					throw new Error(e)
+				}
 			}
 
 			if(tweetResponse.truncated === true) {
