@@ -222,9 +222,17 @@ export class TwitterClient extends Twitter {
 				console.log(mediaUrl);
 				embed.setImage(mediaUrl);
 			}
+			else if (tweetResponse.retweeted_status.entities.media) {
+				const mediaUrl = tweetResponse.retweeted_status.entities.media[0].media_url;
+				console.log(mediaUrl);
+				embed.setImage(mediaUrl);
+			}
 
 			if(tweetResponse.truncated === true) {
 				embed.setDescription(tweetResponse.extended_tweet.full_text);
+			}
+			else if (tweetResponse.retweeted_status.truncated === true) {
+				embed.setDescription(tweetResponse.retweeted_status.extended_tweet.full_text);
 			}
 			else {
 				embed.setDescription(tweetResponse.text);
