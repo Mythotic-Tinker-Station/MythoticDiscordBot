@@ -31,7 +31,10 @@ interface TwitterOptions {
 
 export class TwitterClient extends Twitter {
 	botClient: BotClient;
-	newStream: any;
+	newStream: Stream;
+	newStream2: Stream;
+	streamBufferActive: boolean;
+	streamBuffer2Active: boolean
 	serverTwitterHandles: Array<any>;
 	twitUserIdArray: Array<any>;
 
@@ -45,6 +48,7 @@ export class TwitterClient extends Twitter {
 		});
 		this.botClient = botClient;
 		this.newStream = null;
+		this.newStream2 = null;
 		this.twitUserIdArray = [];
 		this.serverTwitterHandles = [];
 	}
@@ -56,37 +60,115 @@ export class TwitterClient extends Twitter {
 
 	// note: check currentStreams for a common feed first
 	async createStream() {
-		// check the streams to see if existing stream exists. If so then stop the stream fist.
-		if (this.newStream) this.newStream.stop()
+		// check for an active stream buffer, (one of them should be active while the other one is not). We need to determine which one to activate and which one to not activate
+		// Lets check the first buffer first
 
-		// Create new stream and monitor events
+		if (this.streamBufferActive === true) {
+			
+			// If first buffer is currently active, then do the following and activate the 2nd buffer
+			this.newStream2 = this.stream('statuses/filter', { follow: this.twitUserIdArray });
+
+			this.newStream2.once('connected', (res) => {
+				console.log(`Twitter Stream buffer 2 online. Now proceeding to stop the other stream buffer`);
+
+				this.newStream.stop()
+
+				this.newStream2.on('tweet', (tweet) => {
+					let data = JSON.stringify(tweet)
+		
+					console.log(data)
+		
+					this.handleTweetEvent(tweet).catch((err) => console.log(err));
+				});
+		
+				this.newStream2.on('disconnect', (disconnectMessage) => {
+					console.log(disconnectMessage);
+				})
+		
+				this.newStream2.on('warning', (warning) => {
+					console.log(warning)
+				})
+		
+				this.newStream2.on(`error`, (statusCode, code, message) => {
+					console.log(statusCode);
+					console.log(code);
+					console.log(message);
+				})
+
+				this.streamBuffer2Active = true
+				this.streamBufferActive = false
+			})
+
+		}
+		else if (this.streamBuffer2Active === true) {
+			// If second buffer is currently active, then do the following and activate the 2nd buffer
+			this.newStream = this.stream('statuses/filter', { follow: this.twitUserIdArray });
+
+			this.newStream.once('connected', (res) => {
+				console.log(`Twitter Stream buffer 1 online. Now proceeding to stop the other stream buffer`);
+
+				this.newStream2.stop()
+
+				this.newStream.on('tweet', (tweet) => {
+					let data = JSON.stringify(tweet)
+		
+					console.log(data)
+		
+					this.handleTweetEvent(tweet).catch((err) => console.log(err));
+				});
+		
+				this.newStream.on('disconnect', (disconnectMessage) => {
+					console.log(disconnectMessage);
+				})
+		
+				this.newStream.on('warning', (warning) => {
+					console.log(warning)
+				})
+		
+				this.newStream.on(`error`, (statusCode, code, message) => {
+					console.log(statusCode);
+					console.log(code);
+					console.log(message);
+				})
+
+				this.streamBuffer2Active = false
+				this.streamBufferActive = true
+			})
+		}
+		
+	}
+
+	async initialStreamCreate() {
 		this.newStream = this.stream('statuses/filter', { follow: this.twitUserIdArray })
 		
 		this.newStream.once('connected', (res) => {
 			console.log('New Twitter Stream online...');
+
+			this.newStream.on('tweet', (tweet) => {
+				let data = JSON.stringify(tweet)
+	
+				console.log(data)
+	
+				this.handleTweetEvent(tweet).catch((err) => console.log(err));
+			});
+	
+			this.newStream.on('disconnect', (disconnectMessage) => {
+				console.log(disconnectMessage);
+			})
+	
+			this.newStream.on('warning', (warning) => {
+				console.log(warning)
+			})
+	
+			this.newStream.on(`error`, (statusCode, code, message) => {
+				console.log(statusCode);
+				console.log(code);
+				console.log(message);
+			})
+
+			this.streamBufferActive = true
 		})
 
-		this.newStream.on('tweet', (tweet) => {
-			let data = JSON.stringify(tweet)
-
-			console.log(data)
-
-			this.handleTweetEvent(tweet).catch((err) => console.log(err));
-		});
-
-		this.newStream.on('disconnect', (disconnectMessage) => {
-			console.log(disconnectMessage);
-		})
-
-		this.newStream.on('warning', (warning) => {
-			console.log(warning)
-		})
-
-		this.newStream.on(`error`, (statusCode, code, message) => {
-			console.log(statusCode);
-			console.log(code);
-			console.log(message);
-		})
 	}
 
 	async handleTweetEvent(tweetResponse: any) {
@@ -140,9 +222,17 @@ export class TwitterClient extends Twitter {
 				console.log(mediaUrl);
 				embed.setImage(mediaUrl);
 			}
+			else if (tweetResponse.retweeted_status.entities.media) {
+				const mediaUrl = tweetResponse.retweeted_status.entities.media[0].media_url;
+				console.log(mediaUrl);
+				embed.setImage(mediaUrl);
+			}
 
 			if(tweetResponse.truncated === true) {
 				embed.setDescription(tweetResponse.extended_tweet.full_text);
+			}
+			else if (tweetResponse.retweeted_status.truncated === true) {
+				embed.setDescription(tweetResponse.retweeted_status.extended_tweet.full_text);
 			}
 			else {
 				embed.setDescription(tweetResponse.text);
@@ -253,7 +343,7 @@ export class TwitterClient extends Twitter {
 							
 							if (!this.twitUserIdArray.includes(twitterUserID)) {
 								this.twitUserIdArray.push(twitterUserID);
-								await this.createStream()
+								await this.initialStreamCreate()
 							}
 						})
 
