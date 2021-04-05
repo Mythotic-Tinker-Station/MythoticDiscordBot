@@ -287,8 +287,8 @@ export class TwitterClient extends Twitter {
 			if(tweetResponse.truncated === true) {
 				embed.setDescription(tweetResponse.extended_tweet.full_text);
 			}
-			else if (tweetResponse.retweeted_status.truncated === true) {
-				embed.setDescription(tweetResponse.retweeted_status.extended_tweet.full_text);
+			else if (tweetResponse.retweeted_status.hasOwnProperty('truncated') === true) {
+				if (tweetResponse.retweeted_status.truncated === true) embed.setDescription(tweetResponse.retweeted_status.extended_tweet.full_text);
 			}
 			else {
 				embed.setDescription(tweetResponse.text);
