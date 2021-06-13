@@ -1,6 +1,7 @@
 import { Command, CommandOptions } from '../../Structures/Command';
 import client from '../../index';
 import Responses from '../../LocalData/8ballResponses.json'
+import { CommandInteraction } from 'discord.js';
 
 const emojiList: Object = {
     HAPPY: "<:afinasmileemoji:718531783548731472>",
@@ -39,6 +40,16 @@ module.exports = class extends (
 			description: 'Ask Afina a question and she will reply! She can tell you how the future may play out...',
 			category: 'Fun',
 			usage: '8ball <your question>',
+            slash_options: {
+                name: '8ball',
+                description: 'Ask Afina a question and she will reply! She can tell you how the future may play out... Good luck!',
+                options: [{
+                    name: 'question',
+                    description: "The question you would like to ask Afina",
+                    type: "STRING",
+                    required: true
+                }]
+            }
         };
 
 		super(client, name, options, args);
@@ -99,6 +110,49 @@ module.exports = class extends (
             default:
                 // If none of the types match up, just facepalm
                 return await message.channel.send(`${emojiList["FACEPALM"]} Come again???`)
+        }
+	}
+
+    async slash_run(command, commandInfo: CommandInteraction, args) {
+        const setting: string = args[0]
+        console.log(setting)
+        
+        // Must extract the type of question first, required if we are going to check which type it is
+        const questionType = setting.split(' ').shift()
+        console.log(questionType)
+        let chosenResponse = null
+        let reply = null
+    
+        // Switch to determine which respose collection to use and generate the response accordingly
+
+        switch (questionType.toLowerCase()) {
+            case "what":
+                chosenResponse = await this.selectResponse(whatResponses)
+                reply = await this.responseGenerate(chosenResponse.Emoji, chosenResponse.Text)
+                return reply
+            case "when":
+                chosenResponse = await this.selectResponse(whenResponses)
+                reply = await this.responseGenerate(chosenResponse.Emoji, chosenResponse.Text)
+                return reply
+            case "how":
+                chosenResponse = await this.selectResponse(howResponses)
+                reply = await this.responseGenerate(chosenResponse.Emoji, chosenResponse.Text)
+                return reply
+            case "where":
+                chosenResponse = await this.selectResponse(whereResponses)
+                reply = await this.responseGenerate(chosenResponse.Emoji, chosenResponse.Text)
+                return reply
+            case "why":
+                chosenResponse = await this.selectResponse(whyResponses)
+                reply = await this.responseGenerate(chosenResponse.Emoji, chosenResponse.Text)
+                return reply
+            case "which":
+                chosenResponse = await this.selectResponse(whichResponses)
+                reply = await this.responseGenerate(chosenResponse.Emoji, chosenResponse.Text)
+                return reply
+            default:
+                // If none of the types match up, just facepalm
+                return `${emojiList["FACEPALM"]} Come again???`
         }
 	}
 };

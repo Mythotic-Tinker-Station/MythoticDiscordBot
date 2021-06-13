@@ -1,5 +1,6 @@
 import { Command, CommandOptions } from '../../Structures/Command';
 import client from '../../index';
+import { CommandInteraction } from 'discord.js';
 
 module.exports = class extends (
 	Command
@@ -24,6 +25,32 @@ module.exports = class extends (
 						'Controls weather the bot will post Replies or not',
 				},
 			},
+			slash_options: {
+				name: 'twitterset',
+				description: 'Set up twitter settings for your server',
+				options: [{
+					name: 'setting',
+					type: 'STRING',
+					description: 'The Twitter Setting to change',
+					required: true,
+					choices: [
+						{
+							name: 'Block Retweets',
+							value: 'blockretweets'
+						},
+						{
+							name: 'Block Replies',
+							value: 'blockreplies'
+						}
+					]
+				},
+				{
+					name: 'value',
+					description: 'True/False',
+					type: 'BOOLEAN',
+					required: true
+				}]
+			}
 		};
 
 		super(client, name, options, args);
@@ -68,6 +95,48 @@ module.exports = class extends (
 			await message.channel.send(
 				`Failed to run this command: ***${err}***`
 			);
+		}
+	}
+
+	async slash_run(command, commandInfo: CommandInteraction, args) {
+		const setting = args[0]
+		const validSettings = ['blockretweets', 'blockreplies'];
+		let newValue = null
+		
+		if (args[1] === true) {
+			newValue = "true"
+		}
+		else {
+			newValue = "false"
+		}
+
+		console.log(args[0], newValue);
+
+		try {
+			const doesSettingExist = validSettings.includes(setting);
+			if ((doesSettingExist && newValue === 'true') || newValue === 'false') {
+				console.log(
+					'Valid Setting passed with value, proceed with changing setting...'
+				);
+				const guildid = commandInfo.guild.id;
+
+				await this.client.utils.editTwitterSetting(
+					guildid,
+					setting,
+					newValue
+				);
+				
+				return `***${setting}*** has been changed to: \`${newValue}\``;
+			} else if (!doesSettingExist || !newValue) {
+				if (!doesSettingExist) {
+					throw new Error(`The setting ${setting} does not exist`);
+				} else {
+					throw new Error('Invalid setting/value passed');
+				}
+			}
+		} catch (err) {
+			
+			return `Failed to run this command: ***${err}***`;
 		}
 	}
 };

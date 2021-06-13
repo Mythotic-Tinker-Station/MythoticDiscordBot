@@ -1,5 +1,5 @@
 import { Command, CommandOptions } from '../../Structures/Command';
-import { MessageEmbed } from 'discord.js';
+import { CommandInteraction, MessageEmbed } from 'discord.js';
 import client from '../../index';
 
 module.exports = class extends (
@@ -13,6 +13,16 @@ module.exports = class extends (
 			aliases: ['halp', 'manual', 'rtfm'],
 			usage: '[command]',
 			category: 'Information',
+			slash_options: {
+				name: 'help',
+				description: 'Displays Help information from Afina!',
+				options: [{
+					name: 'command',
+					description: 'The command you would like info on',
+					type: 'STRING',
+					required: false
+				}]
+			}
 		};
 
 		super(client, name, options, args);
@@ -123,6 +133,107 @@ module.exports = class extends (
 					);
 				}
 				return message.channel.send(embed);
+			}
+		}
+	}
+
+	async slash_run(command, commandinfo: CommandInteraction, args) {
+		if (this.client.user) {
+			const serverconf = this.client.serverdata.get(commandinfo.guildID);
+			const Prefix = serverconf.Settings.Prefix;
+
+			const embed = new MessageEmbed()
+				.setColor('BLUE')
+				.setAuthor(
+					`${commandinfo.guild.name} Help Menu`,
+					commandinfo.guild.iconURL({ dynamic: true })
+				)
+				.setThumbnail(this.client.user.displayAvatarURL())
+				.setFooter(
+					`Requested by ${commandinfo.user.username}`,
+					commandinfo.user.displayAvatarURL({ dynamic: true })
+				)
+				.setTimestamp();
+
+			if (args) {
+				const extCommand = args.toString() || null;
+				const cmd: any =
+					this.client.commands.get(extCommand) ||
+					this.client.commands.get(
+						this.client.aliases.get(extCommand)
+					);
+
+				if (!cmd) {
+					const error = `Invalid Command named. \`${command}\``
+					return error;
+				}
+					
+
+				embed.setAuthor(
+					`${this.client.utils.captialise(cmd.name)} Command Help`,
+					this.client.user.displayAvatarURL()
+				);
+				embed.setDescription([
+					`**❯ Aliases:** ${
+						cmd.options.aliases.length
+							? cmd.options.aliases
+									.map((alias) => `\`${alias}\``)
+									.join(' ')
+							: 'No Aliases'
+					}`,
+					`**❯ Description:** ${cmd.options.description}`,
+					`**❯ Category:** ${cmd.options.category}`,
+					`**❯ Permission:** ${cmd.options.permission}`,
+					`**❯ Usage:** ${Prefix}${cmd.options.usage}`,
+					`**❯ Arguments:** \n${
+						cmd.options.subcommands
+							? Object.keys(cmd.options.subcommands)
+									.map(
+										(argName) =>
+											`> \`${argName}\`: ${cmd.options.subcommands[argName].description}`
+									)
+									.join('\n')
+							: 'Not Required'
+					}`,
+				]);
+				return embed;
+			} else {
+				embed.setDescription([
+					`These are the available commands for ${commandinfo.guild.name}`,
+					`The bot's prefix is: ${Prefix}`,
+					'Command Parameters: `<>` is strict & `[]` is optional',
+				]);
+				let categories = null;
+				if (!this.client.owners.includes(commandinfo.user.id)) {
+					categories = this.client.utils.removeDuplicates(
+						this.client.commands
+							.filter(
+								(cmd: any) => cmd.options.category !== 'Owner'
+							)
+							.map((cmd: any) => cmd.options.category)
+					);
+					console.log(categories);
+				} else {
+					categories = this.client.utils.removeDuplicates(
+						this.client.commands.map(
+							(cmd: any) => cmd.options.category
+						)
+					);
+					console.log(categories);
+				}
+
+				for (const category of categories) {
+					embed.addField(
+						`**${this.client.utils.captialise(category)}**`,
+						this.client.commands
+							.filter(
+								(cmd: any) => cmd.options.category === category
+							)
+							.map((cmd: any) => `\`${cmd.options.name}\``)
+							.join(' ')
+					);
+				}
+				return embed;
 			}
 		}
 	}
