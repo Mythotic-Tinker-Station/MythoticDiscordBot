@@ -59,7 +59,7 @@ export class Command {
 	) {
 		try {
 			// Check if user does not have admin perms or is on any of the AdminRoles groups.
-			if (message.member.hasPermission(this.options.permission)) {
+			if (message.member.permissions.has(this.options.permission, true)) {
 				const slashcommand = false
 				if (this.options.subcommands) {
 					await this.run(message, args[0], filteredTokens);
