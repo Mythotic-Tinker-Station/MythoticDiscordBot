@@ -56,7 +56,21 @@ export class BotClient extends Client {
 
 	constructor(options: ClientOptions) {
 		super({
-			disableMentions: 'everyone',
+			intents: [
+				'GUILDS',
+				'GUILD_MEMBERS',
+				'GUILD_PRESENCES',
+				'GUILD_BANS',
+				'GUILD_EMOJIS',
+				'GUILD_WEBHOOKS',
+				'GUILD_VOICE_STATES',
+				'GUILD_MESSAGES',
+				'GUILD_MESSAGE_REACTIONS',
+				'DIRECT_MESSAGES',
+				'DIRECT_MESSAGE_REACTIONS',
+				'DIRECT_MESSAGE_TYPING',
+				'GUILD_MESSAGE_TYPING'
+			]
 		});
 
 		// Config options
@@ -103,6 +117,7 @@ export class BotClient extends Client {
 		// Load and Process Server configurations
 		await this.utils.processServerConfigs();
 		await this.utils.loadServerConfigs();
+		
 		//load twitter related stuff
 		const _twitterdata = this.twitterdata;
 
@@ -110,6 +125,9 @@ export class BotClient extends Client {
 			_twitterdata.set(key, value.Twitter);
 		});
 		await this.twitterClient.start(this.twitterdata)
+
+		// Load up the Slash Commands
+		await this.utils.loadSlashCommands();
 		
 
 		// this.twitterdata needs to be an array of twitter handles from the collection. Same collection will be used for discord channel checking and matching.
