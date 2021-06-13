@@ -1,5 +1,5 @@
 import { Command, CommandOptions } from '../../Structures/Command';
-import { MessageEmbed } from 'discord.js';
+import { CommandInteraction, MessageEmbed } from 'discord.js';
 import client from '../../index';
 
 module.exports = class extends (
@@ -14,6 +14,23 @@ module.exports = class extends (
 			category: 'Moderation',
 			permission: ['BAN_MEMBERS'],
 			usage: '<@Username> [reason]',
+			slash_options: {
+				name: 'ban',
+				description: 'Ban someone from your server',
+				options: [{
+					name: 'user',
+					description: 'The users snowflake ID or User (if they are in this server)',
+					type: 'USER',
+					required: true
+				},
+				{
+					name: 'reason',
+					type: 'STRING',
+					description: 'The ban reason (optional)',
+					required: false
+				}
+			]
+			}
 		};
 
 		super(client, name, options, args);
@@ -76,6 +93,60 @@ module.exports = class extends (
 			await message.channel.send(
 				`**${argUser}** is not a valid mention. Try again`
 			);
+		}
+	}
+
+	async slash_run(command, commandInfo: CommandInteraction, args) {
+		if (commandInfo.guild.members.cache.get(args[0])) {
+			const embed = new MessageEmbed()
+				.setColor('RED')
+				.setAuthor('!!!WARNING!!! A user has been BANNED')
+				.setThumbnail(
+					'https://png2.cleanpng.com/sh/c9e9df36b83579a2c9964faa72ba5bd5/L0KzQYm3VcE0N5hqiZH0aYP2gLBuTfhidZ5qip9wYX3oPcHsjwNqd58yitdBaXX6Pbr1lPVzdpZ5RdV7b4X3f7A0VfFnQGFqUKVuZUi7Roi1VcEzOGo9TKI6NUK5QoG9UMg0QWg8RuJ3Zx==/kisspng-hammer-game-pension-review-internet-crouton-5af80e83ee8867.512098401526206083977.png'
+				)
+				.setFooter(`Action requested by ${commandInfo.user.username}`)
+				.setTimestamp();
+
+			try {
+				const username = commandInfo.guild.members.cache.get(args[0])
+				console.log(
+					`Attempting to ban ${username.user.username} from ${commandInfo.guild.name}`
+				);
+				const member = username;
+				let reason = null
+
+				if (args[1]) {
+					reason = args[1]
+				}
+				else {
+					reason = "No Reason"
+				}
+
+				if (member) {
+					if (member.bannable === true) {
+						await member.ban({ reason: reason || 'No Reason' }).then(() => {
+							embed.setDescription([
+								`${username} has been banned from ${commandInfo.guild.name}`,
+								`***Reason:*** ${reason}`,
+							]);
+							return embed;
+						});
+					} else {
+						throw new Error(
+							`${member.user.username} is not able to be banned by me!`
+						);
+					}
+				} else {
+					throw new Error(
+						`${args[0]} is not a member of this guild`
+					);
+				}
+				
+			} catch (err) {
+				return `Unable to process ban: ***${err}***`;
+			}
+		} else {
+				return `**${args[0]}** is not a valid mention. Try again`;
 		}
 	}
 };

@@ -1,6 +1,6 @@
 /* eslint-disable comma-dangle */
 import { Command, CommandOptions } from '../../Structures/Command';
-import { MessageEmbed } from 'discord.js';
+import { CommandInteraction, MessageEmbed } from 'discord.js';
 import client from '../../index';
 import moment from 'moment';
 
@@ -44,6 +44,10 @@ module.exports = class extends (
 			description: 'Displays information about your Discord Server',
 			aliases: ['server', 'guild', 'guildinfo', 'myserver'],
 			category: 'Information',
+			slash_options: {
+				name: 'serverinfo',
+				description: 'Display this Servers Information'
+			}
 		};
 
 		super(client, name, options, args);
@@ -146,5 +150,104 @@ module.exports = class extends (
 			.setTimestamp();
 
 		message.channel.send(embed);
+	}
+
+	async slash_run(command, commandInfo: CommandInteraction) {
+		const roles = commandInfo.guild.roles.cache
+			.sort((a, b) => b.position)
+			.map((role) => role.toString());
+		const members = commandInfo.guild.members.cache;
+		const channels = commandInfo.guild.channels.cache;
+		const emojis = commandInfo.guild.emojis.cache;
+		const guild = this.client.guilds.cache.get(commandInfo.guildID)
+
+		const embed = new MessageEmbed()
+			.setDescription(
+				`**Server Information for __${commandInfo.guild.name}__**`
+			)
+			.setColor('CYAN')
+			.setThumbnail(commandInfo.guild.iconURL({ dynamic: true }))
+			.addField('General', [
+				`**❯ Name:** ${commandInfo.guild.name}`,
+				`**❯ ID:** ${commandInfo.guild.id}`,
+				`**❯ Owner:** ${(await guild.fetchOwner()).user.username} (${commandInfo.guild.ownerID})`,
+				`**❯ Region:** ${regions[commandInfo.guild.region]}`,
+				`**❯ Boost Tier:** ${
+					commandInfo.guild.premiumTier
+						? `Tier ${commandInfo.guild.premiumTier}`
+						: 'None'
+				}`,
+				`**❯ Explicit Filter:** ${
+					filterLevels[commandInfo.guild.explicitContentFilter]
+				}`,
+				`**❯ Verification Level:** ${
+					verificationLevels[commandInfo.guild.verificationLevel]
+				}`,
+				`**❯ Time Created:** ${moment(
+					commandInfo.guild.createdTimestamp
+				).format('LT')} ${moment(commandInfo.guild.createdTimestamp).format(
+					'LL'
+				)} ${moment(commandInfo.guild.createdTimestamp).fromNow()}`,
+				'\u200b',
+			])
+			.addField('Stats', [
+				`**❯ Role Count:** ${roles.length}`,
+				`**❯ Emoji Count:** ${emojis.size}`,
+				`**❯ Regular Emoji Count:** ${
+					emojis.filter((emoji) => !emoji.animated).size
+				}`,
+				`**❯ Animated Emoji Count:** ${
+					emojis.filter((emoji) => emoji.animated).size
+				}`,
+				`**❯ Humans:** ${
+					members.filter((member) => !member.user.bot).size
+				}`,
+				`**❯ Bots:** ${
+					members.filter((member) => member.user.bot).size
+				}`,
+				`**❯ Text Channels:** ${
+					channels.filter((channel) => channel.type === 'text').size
+				}`,
+				`**❯ Voice Channels:** ${
+					channels.filter((channel) => channel.type === 'voice').size
+				}`,
+				`**❯ Boost Count:** ${
+					commandInfo.guild.premiumSubscriptionCount || '0'
+				}`,
+				'\u200b',
+			])
+			.addField('Presence', [
+				`**❯ Online:** ${
+					members.filter(
+						(member) => member.presence.status === 'online'
+					).size
+				}`,
+				`**❯ Idle:** ${
+					members.filter(
+						(member) => member.presence.status === 'idle'
+					).size
+				}`,
+				`**❯ Do Not Disturb:** ${
+					members.filter((member) => member.presence.status === 'dnd')
+						.size
+				}`,
+				`**❯ Offline:** ${
+					members.filter(
+						(member) => member.presence.status === 'offline'
+					).size
+				}`,
+				'\u200b',
+			])
+			.addField(
+				`Roles [${roles.length - 1}]`,
+				roles.length < 10
+					? roles.join(', ')
+					: roles.length > 10
+					? this.client.utils.trimArray(roles)
+					: 'None'
+			)
+			.setTimestamp();
+
+		return embed;
 	}
 };

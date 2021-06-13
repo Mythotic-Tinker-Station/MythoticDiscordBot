@@ -18,6 +18,7 @@
 		- filteredTokens: Optional, but this is used if a command needs additional arguments
 */
 
+import { ApplicationCommand, ApplicationCommandData, CommandInteraction } from 'discord.js';
 import { BotClient } from './BotClient';
 
 export interface CommandOptions {
@@ -25,6 +26,7 @@ export interface CommandOptions {
 	aliases: Array<string>; // Extra names people can use instead
 	description: string; // What does the command do?
 	category: string; // Command Category
+	slash_options?: ApplicationCommandData
 	usage?: string; // Optional, if required to explain how the command is used
 	permission?: Array<string>; // Optional, Discord permission required. In future the bot will be able to add roles as admins instead
 	subcommands?: any; // Optional, if arguments in a command are supposed to act as sub commands, and if so what they do.
@@ -35,6 +37,7 @@ export class Command {
 	name: string;
 	options: CommandOptions;
 	args: any;
+	slashcommand: boolean
 
 	constructor(
 		client: BotClient,
@@ -56,7 +59,8 @@ export class Command {
 	) {
 		try {
 			// Check if user does not have admin perms or is on any of the AdminRoles groups.
-			if (message.member.hasPermission(this.options.permission)) {
+			if (message.member.permissions.has(this.options.permission, true)) {
+				const slashcommand = false
 				if (this.options.subcommands) {
 					await this.run(message, args[0], filteredTokens);
 				} else {
@@ -82,5 +86,10 @@ export class Command {
 		throw new Error(
 			`Command ${this.options.name} does not have a run method. Did you code it correctly?`
 		);
+	}
+	
+	async slash_run(command: any, commandinfo: CommandInteraction, args?: Array<any>) {
+		const error: any = `Command ${this.options.name} does not have a run method. Did you code it correctly?`
+		return error
 	}
 }
