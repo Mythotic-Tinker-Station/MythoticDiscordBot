@@ -72,7 +72,7 @@ module.exports = class extends (
 			await this.client.twitterClient
 				.removeTwitterFeed(commandInfo, twitter_handle.toString(), commandInfo.guild.id)
 				.then(() => {
-					this.client.twitterClient.createStream();
+					this.client.twitterClient.restartStream();
 					return `Twitter handle **@${twitter_handle}** is no longer being followed.`;
 				});
 		} catch (err) {

@@ -80,7 +80,7 @@ module.exports = class extends (
 								`Twitter handle **@${twitterHandle}** is now being followed. Tweets will appear in ${feedSettings[1]}`
 							);
 							console.log(this.client.twitterClient.twitUserIdArray);
-							this.client.twitterClient.createStream();
+							this.client.twitterClient.restartStream();
 						});
 				});
 		} catch (err) {

@@ -33,8 +33,6 @@ export class TwitterClient extends Twitter {
 	botClient: BotClient;
 	newStream: Stream;
 	newStream2: Stream;
-	streamBufferActive: boolean;
-	streamBuffer2Active: boolean
 	serverTwitterHandles: Array<any>;
 	twitUserIdArray: Array<any>;
 	previousTweet: any;
@@ -59,151 +57,62 @@ export class TwitterClient extends Twitter {
         - Add a way to stop and restart the stream if a twitterhandle is removed/added
         - Anything else i missed to get this working.
     */
+   async restartStream() {
+	   this.newStream.stop();
+	   this.newStream.start()
+   }
 
 	// note: check currentStreams for a common feed first
 	async createStream() {
 		// check for an active stream buffer, (one of them should be active while the other one is not). We need to determine which one to activate and which one to not activate
 		// Lets check the first buffer first
+	
+		// If first buffer is currently active, then do the following and activate the 2nd buffer
+		this.newStream = this.stream('statuses/filter', { follow: this.twitUserIdArray });
 
-		if (this.streamBufferActive === true) {
-			
-			// If first buffer is currently active, then do the following and activate the 2nd buffer
-			this.newStream2 = this.stream('statuses/filter', { follow: this.twitUserIdArray });
-
-			this.newStream2.once('connected', (res) => {
-				console.log(`Twitter Stream buffer 2 online. Now proceeding to stop the other stream buffer`);
-
-				this.newStream.stop()
-				this.newStream.removeAllListeners()
-
-				this.newStream2.on('tweet', (tweet) => {
-
-					if (this.previousTweet === null) {
-						this.previousTweet = tweet
-						this.handleTweetEvent(tweet).catch((err) => console.log(err));
-					}
-					else {
-						if (this.previousTweet.id_str) {
-
-							// Check the received tweet, is the same as the previous one.
-							if (this.previousTweet.id_str === tweet.id_str) return
-							this.previousTweet = tweet
-							this.handleTweetEvent(tweet).catch((err) => console.log(err));
-						}
-					}
-		
-		
-				});
-		
-				this.newStream2.on('disconnect', (disconnectMessage) => {
-					console.log(disconnectMessage);
-				})
-		
-				this.newStream2.on('warning', (warning) => {
-					console.log(warning)
-				})
-		
-				this.newStream2.on(`error`, (statusCode, code, message) => {
-					console.log(statusCode);
-					console.log(code);
-					console.log(message);
-				})
-
-
-				this.streamBuffer2Active = true
-				this.streamBufferActive = false
-			})
-
-		}
-		else if (this.streamBuffer2Active === true) {
-			// If second buffer is currently active, then do the following and activate the 2nd buffer
-			this.newStream = this.stream('statuses/filter', { follow: this.twitUserIdArray });
-
-			this.newStream.once('connected', (res) => {
-				console.log(`Twitter Stream buffer 1 online. Now proceeding to stop the other stream buffer`);
-
-				this.newStream2.stop()
-				this.newStream2.removeAllListeners()
-
-				this.newStream.on('tweet', (tweet) => {
-					if (this.previousTweet === null) {
-						this.previousTweet = tweet
-						this.handleTweetEvent(tweet).catch((err) => console.log(err));
-					}
-					else {
-						if (this.previousTweet.id_str) {
-
-							// Check the received tweet, is the same as the previous one.
-							if (this.previousTweet.id_str === tweet.id_str) return
-							this.previousTweet = tweet
-							this.handleTweetEvent(tweet).catch((err) => console.log(err));
-						}
-					}
-		
-				});
-		
-				this.newStream.on('disconnect', (disconnectMessage) => {
-					console.log(disconnectMessage);
-				})
-		
-				this.newStream.on('warning', (warning) => {
-					console.log(warning)
-				})
-		
-				this.newStream.on(`error`, (statusCode, code, message) => {
-					console.log(statusCode);
-					console.log(code);
-					console.log(message);
-				})
-
-				this.streamBuffer2Active = false
-				this.streamBufferActive = true
-			})
-		}
-		
-	}
-
-	async initialStreamCreate() {
-		this.newStream = this.stream('statuses/filter', { follow: this.twitUserIdArray })
-		
 		this.newStream.once('connected', (res) => {
-			console.log('New Twitter Stream online...');
+			console.log(`Twitter Stream Connected`);
+		})
 
-			this.newStream.on('tweet', (tweet) => {
-				if (this.previousTweet === null) {
+		this.newStream.on('tweet', (tweet) => {
+
+			if (this.previousTweet === null) {
+				this.previousTweet = tweet
+				this.handleTweetEvent(tweet).catch((err) => console.log(err));
+			}
+			else {
+				if (this.previousTweet.id_str) {
+
+					// Check the received tweet, is the same as the previous one.
+					if (this.previousTweet.id_str === tweet.id_str) return
 					this.previousTweet = tweet
 					this.handleTweetEvent(tweet).catch((err) => console.log(err));
 				}
-				else {
-					if (this.previousTweet.id_str) {
+			}
 
-						// Check the received tweet, is the same as the previous one.
-						if (this.previousTweet.id_str === tweet.id_str) return
-						this.previousTweet = tweet
-						this.handleTweetEvent(tweet).catch((err) => console.log(err));
-					}
-				}
-	
-			});
-	
-			this.newStream.on('disconnect', (disconnectMessage) => {
-				console.log(disconnectMessage);
-			})
-	
-			this.newStream.on('warning', (warning) => {
-				console.log(warning)
-			})
-	
-			this.newStream.on(`error`, (statusCode, code, message) => {
-				console.log(statusCode);
-				console.log(code);
-				console.log(message);
-			})
 
-			this.streamBufferActive = true
+		});
+
+		this.newStream.on('disconnect', (disconnectMessage) => {
+			console.log(disconnectMessage);
+			this.restartStream();
 		})
 
+		this.newStream.on('warning', (warning) => {
+			console.log(warning)
+		})
+
+		this.newStream.on(`error`, (statusCode, code, message) => {
+			console.log(statusCode);
+			console.log(code);
+			console.log(message);
+		})
+		
+		this.newStream.on('reconnect', (request, response, connectInterval) => {
+			console.log(`Reconnecting at ${connectInterval}`);
+		  })
 	}
+
 
 	async handleTweetEvent(tweetResponse: any) {
 		const channelsListening = this.serverTwitterHandles.filter(
@@ -404,7 +313,7 @@ export class TwitterClient extends Twitter {
 							
 							if (!this.twitUserIdArray.includes(twitterUserID)) {
 								this.twitUserIdArray.push(twitterUserID);
-								await this.initialStreamCreate()
+								await this.createStream()
 							}
 						})
 
