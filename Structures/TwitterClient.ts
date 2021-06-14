@@ -104,8 +104,8 @@ export class TwitterClient extends Twitter {
 
 		this.newStream.on(`error`, (statusCode, code, message) => {
 			console.log(statusCode);
-			console.log(code);
-			console.log(message);
+			console.log(`Restarting Stream...`);
+			this.restartStream();
 		})
 		
 		this.newStream.on('reconnect', (request, response, connectInterval) => {
