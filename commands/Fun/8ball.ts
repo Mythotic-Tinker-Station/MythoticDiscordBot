@@ -19,7 +19,8 @@ const emojiList: Object = {
     FACEPALM: "<:afinaemojifacepalm:724700382806147072>",
     FOOD: "<:afinaemojidrool:719912373212676126>",
     EVIL: "<:afinaemojidevil:724586267068858378>",
-    BLEH: "<:afinaemojibleh:719661813230338148>"
+    BLEH: "<:afinaemojibleh:719661813230338148>",
+    NONE: "NONE"
 }
 
 const whatResponses = Responses.What;
@@ -63,6 +64,10 @@ module.exports = class extends (
 	}
 
     async responseGenerate(emoji, text: String) {
+        if (emoji === 'NONE' || emoji === null) {
+            const reply = `${text}`;
+            return reply
+        }
         const reply = `${emojiList[emoji]} ${text}`;
         return reply
     }
@@ -72,18 +77,29 @@ module.exports = class extends (
         return selectedResponse
     }
 
-	async run(message, setting) {
+	async run(message, setting: Array<string>) {
         console.log(setting)
         
         // Must extract the type of question first, required if we are going to check which type it is
+        const question = setting.join(' ')
         const questionType = setting[0]
         let chosenResponse = null
         let reply = null
+        console.log(question)
 
         // Switch to determine which respose collection to use and generate the response accordingly
 
         switch (questionType.toLowerCase()) {
             case "what":
+            case "what's":
+                if (question.endsWith('time?') === true) {
+                    chosenResponse = {
+                        Emoji: "NONE",
+                        Text: "The Time is: (WIP)"
+                    }
+                    reply = await this.responseGenerate(chosenResponse.Emoji, chosenResponse.Text)
+                    return await message.channel.send(reply)
+                }
                 chosenResponse = await this.selectResponse(whatResponses)
                 reply = await this.responseGenerate(chosenResponse.Emoji, chosenResponse.Text)
                 return await message.channel.send(reply)
