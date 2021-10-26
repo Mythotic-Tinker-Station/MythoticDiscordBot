@@ -3,3 +3,5 @@ config.json
 /node_modules/*
 /ServerData/*
 !/ServerData/_ServerDataTemplate.json
+.vs/
+bin/
