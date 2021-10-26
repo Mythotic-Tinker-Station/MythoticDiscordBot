@@ -20,4 +20,10 @@
     <Resource Include="Config\config.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Config\config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
