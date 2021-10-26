@@ -4382,7 +4382,8 @@
       "DSharpPlus.CommandsNext >= 4.1.0",
       "DSharpPlus.Interactivity >= 4.1.0",
       "DSharpPlus.Lavalink >= 4.1.0",
-      "DSharpPlus.VoiceNext >= 4.1.0"
+      "DSharpPlus.VoiceNext >= 4.1.0",
+      "Newtonsoft.Json >= 13.0.1"
     ]
   },
   "packageFolders": {
@@ -4450,6 +4451,10 @@
           "DSharpPlus.VoiceNext": {
             "target": "Package",
             "version": "[4.1.0, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.1, )"
           }
         },
         "imports": [
