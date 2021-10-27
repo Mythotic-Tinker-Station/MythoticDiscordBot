@@ -1,4 +1,15 @@
-﻿using System;
+﻿/* 
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~ The Mythotic Discord Bot ~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    JSON Classes. Required for storing configs.
+
+
+ */
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
