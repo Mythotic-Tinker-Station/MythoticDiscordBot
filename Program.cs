@@ -12,7 +12,8 @@ using DSharpPlus;
 using System;
 using System.Threading.Tasks;
 using System.IO;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
+using static MythoticDiscordBot.JsonClasses;
 
 namespace MythoticBot
 {
@@ -26,12 +27,12 @@ namespace MythoticBot
         static async Task MainAsync()
         {
             // First, lets read the config!
-            JObject config = JObject.Parse(File.ReadAllText("Config\\config.json"));
-            
+            ConfigJson config = JsonSerializer.Deserialize<ConfigJson>(File.ReadAllText("Config\\config.json"));
+
             // Setup the Discord Client
-            var discord = new DiscordClient(new DiscordConfiguration()
+            DiscordClient discord = new(new()
             {
-                Token = (string)config.GetValue("Token"),
+                Token = config.Token,
                 TokenType = TokenType.Bot,
                 Intents = DiscordIntents.All
             });
