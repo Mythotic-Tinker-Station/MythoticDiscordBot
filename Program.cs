@@ -14,11 +14,14 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Text.Json;
 using static MythoticDiscordBot.JsonClasses;
+using MythoticDiscordBot;
 
 namespace MythoticBot
 {
     class Program
     {
+        static EventLogic events;
+
         static async Task Main(string[] args)
         {
             // First, lets read the config!
@@ -32,30 +35,11 @@ namespace MythoticBot
                 Intents = DiscordIntents.All
             });
 
-            discord.MessageCreated += Discord_MessageCreated;
+            CommandLogic.SetCommand("test", "Testing!");
+            events = new(discord);
 
             await discord.ConnectAsync();
             await Task.Delay(-1);
-        }
-
-        private static Task Discord_MessageCreated(DiscordClient sender, DSharpPlus.EventArgs.MessageCreateEventArgs e)
-        {
-            Console.WriteLine($"{e.Channel.Name}: {e.Message.Content}");
-            if (e.Channel.Name.Equals("discordbot-dev"))
-            {
-                switch (e.Message.Content)
-                {
-                    case "test":
-                        sender.SendMessageAsync(e.Channel, "Test Successful!");
-                        break;
-                    case "quit":
-                        sender.DisconnectAsync();
-                        Environment.Exit(0);
-                        break;
-                }
-            }
-
-            return Task.CompletedTask;
         }
     }
 }
