@@ -19,12 +19,7 @@ namespace MythoticBot
 {
     class Program
     {
-        static void Main(string[] args)
-        {
-            MainAsync().GetAwaiter().GetResult();
-        }
-
-        static async Task MainAsync()
+        static async Task Main(string[] args)
         {
             // First, lets read the config!
             ConfigJson config = JsonSerializer.Deserialize<ConfigJson>(File.ReadAllText("Config\\config.json"));
