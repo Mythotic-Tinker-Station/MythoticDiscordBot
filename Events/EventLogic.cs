@@ -24,6 +24,10 @@ namespace MythoticDiscordBot
     {
         public EventLogic(DiscordClient discord)
         {
+            // Discord's OnReady Event
+            discord.Ready += OnReady.Discord_OnReady;
+            
+            // Message Created Event Mapping
             discord.MessageCreated += MessageCreated.Discord_MessageCreated;
         }
     }
