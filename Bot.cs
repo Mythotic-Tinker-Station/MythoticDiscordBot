@@ -5,6 +5,8 @@
 
     Main file - Contains the initalization for the bot
 
+    To Edit events please check the Events Folder. For Commands, the Commands Folder.
+
 
  */
 

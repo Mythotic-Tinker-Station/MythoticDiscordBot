@@ -1,4 +1,16 @@
-﻿using DSharpPlus;
+﻿/* 
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~ The Mythotic Discord Bot ~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    OnReady.cs - On Ready Discord Event
+
+    All functions that should be called once the bot ready should be called here.
+
+
+ */
+
+using DSharpPlus;
 
 using System;
 using System.Collections.Generic;

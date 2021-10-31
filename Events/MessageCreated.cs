@@ -1,4 +1,16 @@
-﻿using DSharpPlus;
+﻿/* 
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~ The Mythotic Discord Bot ~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    MessageCreated.cs - Message Created Discord Event
+
+    All functions that should be called once an message is created should be called here. Idealy this will call commands.
+
+
+ */
+
+using DSharpPlus;
 
 using System;
 using System.Collections.Generic;

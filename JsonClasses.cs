@@ -3,7 +3,7 @@
     ~ The Mythotic Discord Bot ~
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    JSON Classes. Required for storing configs.
+    JSON Classes. Required for storing configs or Values
 
 
  */

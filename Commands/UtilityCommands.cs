@@ -1,4 +1,16 @@
-﻿using System;
+﻿/* 
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~ The Mythotic Discord Bot ~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    UtilityCommands.cs - Utility Command Module
+
+    Contains all commands that are utility such as ping, display server info etc
+
+
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
