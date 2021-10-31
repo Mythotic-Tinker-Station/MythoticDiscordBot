@@ -20,6 +20,7 @@ using DSharpPlus.Interactivity.Extensions;
 using DSharpPlus.Interactivity;
 using DSharpPlus.CommandsNext;
 using MythoticDiscordBot.Commands;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MythoticDiscordBot.Bot
 {
@@ -45,6 +46,13 @@ namespace MythoticDiscordBot.Bot
 
             DiscordClient discord = new(DiscordConfig);
 
+            // Create a Service Provider
+            // https://dsharpplus.github.io/articles/commands/dependency_injection.html
+            // Add any types to the service provider when required
+            ServiceProvider services = new ServiceCollection()
+                .AddSingleton<Random>()
+                .BuildServiceProvider();
+
             discord.UseInteractivity(new InteractivityConfiguration
             {
                 Timeout = TimeSpan.FromMinutes(2)
@@ -56,6 +64,7 @@ namespace MythoticDiscordBot.Bot
                 EnableDms = false,
                 EnableMentionPrefix = true,
                 DmHelp = true,
+                Services = services
             };
 
             Commands = discord.UseCommandsNext(commandsConfig);
