@@ -21,8 +21,10 @@ using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity.Extensions;
 using DSharpPlus.Interactivity;
 using DSharpPlus.CommandsNext;
+using DSharpPlus.SlashCommands;
 using MythoticDiscordBot.Commands;
 using Microsoft.Extensions.DependencyInjection;
+using MythoticDiscordBot.SlashCommands;
 
 namespace MythoticDiscordBot.Bot
 {
@@ -32,6 +34,7 @@ namespace MythoticDiscordBot.Bot
         public DiscordClient discord { get; private set; }
         public InteractivityExtension Interactivity { get; private set; }
         public CommandsNextExtension Commands { get; private set; }
+        public SlashCommandsExtension SlashCommands {  get; private set; }
 
         public async Task RunAsync()
         {
@@ -55,11 +58,13 @@ namespace MythoticDiscordBot.Bot
                 .AddSingleton<Random>()
                 .BuildServiceProvider();
 
+            // Interactivity Setup
             discord.UseInteractivity(new InteractivityConfiguration
             {
                 Timeout = TimeSpan.FromMinutes(2)
             });
 
+            // Command Initization
             CommandsNextConfiguration commandsConfig = new CommandsNextConfiguration
             {
                 StringPrefixes = new string[] { "!" },
@@ -70,12 +75,23 @@ namespace MythoticDiscordBot.Bot
             };
 
             Commands = discord.UseCommandsNext(commandsConfig);
-
             Commands.RegisterCommands<UtilityCommands>();
 
-            //CommandLogic.SetCommand("test", "Testing!");
+            // Slash Commands Initization
+            SlashCommandsConfiguration slashCommandsConfig = new SlashCommandsConfiguration
+            {
+                Services = services,
+                
+            };
+
+            SlashCommands = discord.UseSlashCommands(slashCommandsConfig);
+            SlashCommands.RegisterCommands<UtilitySlashCmds>(guildId: 456744423343128597);
+
+            // Events Initization
             events = new(discord);
 
+
+            // Start the bot!
             await discord.ConnectAsync();
             await Task.Delay(-1);
 
