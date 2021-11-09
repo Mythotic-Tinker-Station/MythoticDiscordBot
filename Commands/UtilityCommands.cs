@@ -44,6 +44,7 @@ namespace MythoticDiscordBot.Commands
                 .WithTitle(ctx.Guild.Name)
                 .WithAuthor(ctx.Message.Author.Username)
                 .WithColor(DiscordColor.Cyan)
+                .WithImageUrl(ctx.Guild.IconUrl)
                 .WithDescription("Server Information")
                 .AddField("General", $"**❯ Name:** {ctx.Guild.Name}\n" +
                 $"**❯ ID:** {ctx.Guild.Id}\n" +
