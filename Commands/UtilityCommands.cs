@@ -20,6 +20,9 @@ using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
 
+using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.Scripting;
+
 namespace MythoticDiscordBot.Commands
 {
     public class UtilityCommands : BaseCommandModule
@@ -72,16 +75,18 @@ namespace MythoticDiscordBot.Commands
         [Command("userinfo")]
         [Description("Display User Information for users in the server (or yourself)")]
         [Aliases("user", "ui")]
-        public async Task UserInfo(CommandContext ctx, DiscordMember? member)
+        public async Task UserInfo(CommandContext ctx, params DiscordMember[] input)
         {
-            if (member == null)
+            if (input.Length == 0)
             {
                 DiscordMessage errorMessage = await new DiscordMessageBuilder()
-                    .WithContent("This Command requires an User in order to run")
+                    .WithContent("This Command requires a User in order to run")
                     .SendAsync(ctx.Channel);
             }
             else
             {
+                DiscordMember member = input[0];
+
                 DiscordEmbed discordEmbed = new DiscordEmbedBuilder()
                 .WithTitle($"User Information for {member.DisplayName}")
                 .WithThumbnail(member.AvatarUrl)
@@ -101,6 +106,32 @@ namespace MythoticDiscordBot.Commands
             }
 
         }
-    }
 
+        // Evaluate C# code via command
+        [Command("eval")]
+        [Description("Evaluate C# Code")]
+        public async Task Eval(CommandContext ctx, params string[] input)
+        {
+            if (input.Length == 0)
+            {
+                await new DiscordMessageBuilder().WithContent("!eval <code>").SendAsync(ctx.Channel);
+            }
+            else
+            {
+                object output;
+
+                try
+                {
+                    output = await CSharpScript.EvaluateAsync(string.Concat(input), ScriptOptions.Default.WithImports("System"));
+
+                }
+                catch (CompilationErrorException ex)
+                {
+                    output = $"```{ex.Message}```";
+                }
+
+                await new DiscordMessageBuilder().WithContent(output.ToString()).SendAsync(ctx.Channel);
+            }
+        }
+    }
 }
