@@ -44,7 +44,7 @@ namespace MythoticDiscordBot.Commands
                 .WithTitle(ctx.Guild.Name)
                 .WithAuthor(ctx.Message.Author.Username)
                 .WithColor(DiscordColor.Cyan)
-                .WithImageUrl(ctx.Guild.IconUrl)
+                .WithThumbnail(ctx.Guild.IconUrl)
                 .WithDescription("Server Information")
                 .AddField("General", $"**❯ Name:** {ctx.Guild.Name}\n" +
                 $"**❯ ID:** {ctx.Guild.Id}\n" +
@@ -66,6 +66,40 @@ namespace MythoticDiscordBot.Commands
             DiscordMessage message = await new DiscordMessageBuilder()
                 .WithEmbed(discordEmbed)
                 .SendAsync(ctx.Channel);
+        }
+
+        // Display Userinfo for the person who runs the command or the user passed in as an argument
+        [Command("userinfo")]
+        [Description("Display User Information for users in the server (or yourself)")]
+        [Aliases("user", "ui")]
+        public async Task UserInfo(CommandContext ctx, DiscordMember? member)
+        {
+            if (member == null)
+            {
+                DiscordMessage errorMessage = await new DiscordMessageBuilder()
+                    .WithContent("This Command requires an User in order to run")
+                    .SendAsync(ctx.Channel);
+            }
+            else
+            {
+                DiscordEmbed discordEmbed = new DiscordEmbedBuilder()
+                .WithTitle($"User Information for {member.DisplayName}")
+                .WithThumbnail(member.AvatarUrl)
+                .WithColor(DiscordColor.Azure)
+                .WithDescription("User Description")
+
+                .AddField("User", $"**❯ Username:** {member.Username}\n" +
+                $"**❯ Discriminator:** {member.Discriminator}\n" +
+                $"**❯ ID:** {member.Id}\n" +
+                $"**❯ Flags:** {member.Flags}\n")
+
+                .Build();
+
+                DiscordMessage message = await new DiscordMessageBuilder()
+                    .WithEmbed(discordEmbed)
+                    .SendAsync(ctx.Channel);
+            }
+
         }
     }
 
