@@ -122,15 +122,14 @@ namespace MythoticDiscordBot.Commands
 
                 try
                 {
-                    output = await CSharpScript.EvaluateAsync(string.Concat(input), ScriptOptions.Default.WithImports("System"));
-
+                    output = await CSharpScript.EvaluateAsync(string.Concat(input), ScriptOptions.Default.WithImports("System"), ctx, typeof(CommandContext));
                 }
                 catch (CompilationErrorException ex)
                 {
                     output = $"```{ex.Message}```";
                 }
 
-                await new DiscordMessageBuilder().WithContent(output.ToString()).SendAsync(ctx.Channel);
+                await new DiscordMessageBuilder().WithContent(output == null ? "null" : output.ToString()).SendAsync(ctx.Channel);
             }
         }
     }
