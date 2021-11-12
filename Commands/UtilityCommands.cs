@@ -106,7 +106,7 @@ namespace MythoticDiscordBot.Commands
                 $"**❯ Game:** {Game}\n")
 
                 .AddField("Member Details", $"**❯ Server Join Date:** {member.JoinedAt.DateTime}\n" +
-                $"**❯ Roles [{member.Roles.Count()}]:**\n{string.Join('\n', member.Roles.Select(role => role.Mention))}")
+                $"**❯ Roles [{member.Roles.Count()}]:**\n{string.Join('\n', member.Roles.Select(role => $"**❯❯** {role.Mention}"))}")
 
                 .Build();
 
