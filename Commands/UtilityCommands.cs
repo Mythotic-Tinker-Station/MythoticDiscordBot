@@ -85,18 +85,10 @@ namespace MythoticDiscordBot.Commands
             }
             else
             {
-                string Game;
                 DiscordMember member = input[0];
 
                 // Check if the user being queried is doing anything
-                if (member.Presence.Activity.Name == null)
-                {
-                    Game = "Not Doing anything right now";
-                }
-                else
-                {
-                    Game = member.Presence.Activity.Name;
-                }
+                string Game = member.Presence.Activity.Name ?? "Not Doing anything right now";
 
                 DiscordEmbed discordEmbed = new DiscordEmbedBuilder()
                 .WithTitle($"User Information for {member.DisplayName}")
@@ -108,13 +100,13 @@ namespace MythoticDiscordBot.Commands
                 $"**❯ Discriminator:** {member.Discriminator}\n" +
                 $"**❯ ID:** {member.Id}\n" +
                 $"**❯ Flags:** {member.Flags}\n" +
-                $"**❯ Avatar:** {member.AvatarUrl}\n" +
+                $"**❯ Avatar:** [\\[Link to Avatar\\]]({member.AvatarUrl})\n" +
                 $"**❯ Time Created:** {member.CreationTimestamp}\n" +
                 $"**❯ Status:** {member.Presence.Status}\n" +
                 $"**❯ Game:** {Game}\n")
 
                 .AddField("Member Details", $"**❯ Server Join Date:** {member.JoinedAt.DateTime}\n" +
-                $"**❯ Roles [{member.Roles.Count()}]:** {member.Roles.Join()}")
+                $"**❯ Roles [{member.Roles.Count()}]:**\n{string.Join('\n', member.Roles.Select(role => role.Mention))}")
 
                 .Build();
 
