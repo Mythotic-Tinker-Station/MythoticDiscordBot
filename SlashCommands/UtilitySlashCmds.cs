@@ -65,5 +65,39 @@ namespace MythoticDiscordBot.SlashCommands
 
             await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder().AddEmbed(discordEmbed));
         }
+
+        // Display Userinfo for the person who runs the command or the user passed in as an argument
+        [SlashCommand("usrinfo", "Display User Information for users in the server (or yourself)")]
+        public async Task UserInfo(InteractionContext ctx, [Option("user", "The user you want info on")] DiscordUser user)
+        {
+
+            DiscordMember member = (DiscordMember)user;
+
+            // Check if the user being queried is doing anything
+            string Game = member.Presence.Activity.Name ?? "Not Doing anything right now";
+
+            DiscordEmbed discordEmbed = new DiscordEmbedBuilder()
+            .WithTitle($"User Information for {member.Username}")
+            .WithThumbnail(member.AvatarUrl)
+            .WithColor(DiscordColor.Azure)
+            .WithDescription("User Information")
+
+            .AddField("User", $"**❯ Username:** {member.Username}\n" +
+            $"**❯ Discriminator:** {member.Discriminator}\n" +
+            $"**❯ ID:** {member.Id}\n" +
+            $"**❯ Flags:** {member.Flags}\n" +
+            $"**❯ Avatar:** [\\[Link to Avatar\\]]({member.AvatarUrl})\n" +
+            $"**❯ Time Created:** {member.CreationTimestamp}\n" +
+            $"**❯ Status:** {member.Presence.Status}\n" +
+            $"**❯ Game:** {Game}\n")
+
+
+            .AddField("Member Details", $"**❯ Server Join Date:** {member.JoinedAt.DateTime}\n" +
+            $"**❯ Roles [{member.Roles.Count()}]:**\n{string.Join('\n', member.Roles.Select(role => $"**❯❯** {role.Mention}"))}")
+
+            .Build();
+
+            await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder().AddEmbed(discordEmbed));
+        }
     }
 }
