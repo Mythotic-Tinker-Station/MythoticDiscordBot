@@ -15,6 +15,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DSharpPlus;
+using MythoticDiscordBot;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
@@ -22,6 +24,7 @@ using DSharpPlus.Interactivity;
 
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
+using System.Runtime.InteropServices;
 
 namespace MythoticDiscordBot.Commands
 {
@@ -116,6 +119,50 @@ namespace MythoticDiscordBot.Commands
             }
 
         }
+
+        // Display bot information
+        [Command("botinfo")]
+        [Description("Displays information about ME! (The bot)")]
+        [Aliases("info", "bot")]
+        public async Task BotInfo (CommandContext ctx)
+        {
+            // First lets make things easy by getting some stats about the bot
+            int commandCount = ctx.CommandsNext.RegisteredCommands.Count(); // This should be the same number as slash commands, if not, each command needs a slash command ver
+            int serverCount = ctx.Client.Guilds.Count();
+            // Get a total USER count **Future Feature**
+            // Get a total Channels count **Future Feature**
+            DateTime creationDate = ctx.Client.CurrentUser.CreationTimestamp.DateTime;
+
+            DiscordEmbed discordEmbed = new DiscordEmbedBuilder()
+                .WithTitle("Afina the Archmage")
+                .WithDescription("Magic and Technology, together at last. - Powered by The Mythotic Bot - v0.1")
+                .WithThumbnail(ctx.Client.CurrentUser.AvatarUrl)
+                .WithUrl("https://github.com/Mythotic-Tinker-Station/MythoticDiscordBot")
+                .WithColor(DiscordColor.Gold)
+
+                .AddField("General Info", $"**❯ Client:** {ctx.Client.CurrentUser.Username} ({ctx.Client.CurrentUser.Id})\n" +
+                $"**❯ Commands:** {commandCount}\n" +
+                $"**❯ Servers:** {serverCount}\n" +
+                $"**❯ Creation Date:** {creationDate}\n" +
+                $"**❯ .NET Version:** {RuntimeInformation.FrameworkDescription}\n" +
+                $"**❯ DSharpPlus Version:** 4.2.0 Nightly\n")
+
+                .AddField("System Information", "Coming Soon\n")
+
+                .AddField("The Mythotic TinkerStation Team", $"**❯ Project Lead:** {ctx.Client.GetUserAsync(171142963550879744).Result.Mention}\n" +
+                $"**❯ Developers:** {ctx.Client.GetUserAsync(132765406468243456).Result.Mention}, {ctx.Client.GetUserAsync(225665151993511937).Result.Mention}\n" +
+                $"**❯ Contributers:** {ctx.Client.GetUserAsync(175250564764925952).Result.Mention}")
+
+                .AddField("Support Information", $"**❯ Discord Server:** [\\[Join our Discord!\\]](https://discord.gg/afinaslexicon)")
+
+                .Build();
+
+
+            DiscordMessage message = await new DiscordMessageBuilder()
+                    .WithEmbed(discordEmbed)
+                    .SendAsync(ctx.Channel);
+        }
+
 
         // Evaluate C# code via command
         [Command("eval")]
