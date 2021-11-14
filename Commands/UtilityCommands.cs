@@ -186,7 +186,7 @@ namespace MythoticDiscordBot.Commands
                     output = $"```{ex.Message}```";
                 }
 
-                await new DiscordMessageBuilder().WithContent(output == null ? "null" : output.ToString()).SendAsync(ctx.Channel);
+                await new DiscordMessageBuilder().WithContent(output == null ? "*null*" : output.ToString()).SendAsync(ctx.Channel);
             }
         }
     }
