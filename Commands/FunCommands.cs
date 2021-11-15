@@ -12,7 +12,7 @@ namespace MythoticDiscordBot.Commands
 {
     internal class FunCommands : BaseCommandModule
     {
-        private static Dictionary<string, DateTime> PoorBastards = new();
+        private Dictionary<string, DateTime> PoorBastards = new();
 
         // Evaluate C# code via command
         [Command("weednuke")]
@@ -21,7 +21,7 @@ namespace MythoticDiscordBot.Commands
         {
             foreach (KeyValuePair<string, DateTime> bastard in PoorBastards)
             {
-                if (bastard.Value > DateTime.Now)
+                if (DateTime.Now > bastard.Value)
                 {
                     PoorBastards.Remove(bastard.Key);
                 }
@@ -36,12 +36,12 @@ namespace MythoticDiscordBot.Commands
             {
                 if (PoorBastards.ContainsKey(poorBastard.Username))
                 {
-                    await ctx.RespondAsync($"**{origin.Username}**, while high, nuked himself, making him even more high!").ConfigureAwait(false);
+                    await ctx.RespondAsync($"**{origin.Username}**, while high, nuked themself, making them even more high!").ConfigureAwait(false);
                     PoorBastards[poorBastard.Username] = DateTime.Now.AddSeconds(300);
                 }
                 else
                 {
-                    await ctx.RespondAsync($"**{origin.Username}** launched a weednuke at himself... Idiot.").ConfigureAwait(false);
+                    await ctx.RespondAsync($"**{origin.Username}** launched a weednuke at themself... Idiot.").ConfigureAwait(false);
                     PoorBastards.Add(poorBastard.Username, DateTime.Now.AddSeconds(300));
                 }
             }
