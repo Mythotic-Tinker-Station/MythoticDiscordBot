@@ -25,6 +25,7 @@ using DSharpPlus.Interactivity;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using System.Runtime.InteropServices;
+using MythoticDiscordBot.Utilities;
 
 namespace MythoticDiscordBot.Commands
 {
@@ -44,33 +45,8 @@ namespace MythoticDiscordBot.Commands
         [Aliases("servinfo", "serverinf")]
         public async Task ServerInfo(CommandContext ctx)
         {
-            string boostTier = ctx.Guild.PremiumTier.ToString();
-
-            DiscordEmbed discordEmbed = new DiscordEmbedBuilder()
-                .WithTitle(ctx.Guild.Name)
-                .WithAuthor(ctx.Message.Author.Username)
-                .WithColor(DiscordColor.Cyan)
-                .WithThumbnail(ctx.Guild.IconUrl)
-                .WithDescription("Server Information")
-                .AddField("General", $"**❯ Name:** {ctx.Guild.Name}\n" +
-                $"**❯ ID:** {ctx.Guild.Id}\n" +
-                $"**❯ Owner:** {ctx.Guild.Owner.Username} ({ctx.Guild.OwnerId})\n" +
-                $"**❯ Boost Tier:** {boostTier}\n" +
-                $"**❯ Explicit Filter:** {ctx.Guild.ExplicitContentFilter}\n" +
-                $"**❯ Verification Level:** {ctx.Guild.VerificationLevel}\n" +
-                $"**❯ Time Created:** {ctx.Guild.CreationTimestamp.DateTime}\n")
-
-                .AddField("Stats", $"**❯ Role Count:** {ctx.Guild.Roles.Count}\n" +
-                $"**❯ Emoji Count:** {ctx.Guild.Emojis.Count}\n" +
-                $"**❯ Members:** {ctx.Guild.Members.Count}\n" +
-                $"**❯ Channels:** {ctx.Guild.Channels.Count}\n" +
-                $"**❯ Boost Count:** {ctx.Guild.PremiumSubscriptionCount}\n")
-
-                // Add Presence stats later, dont know what prop has them
-                .Build();
-
             DiscordMessage message = await new DiscordMessageBuilder()
-                .WithEmbed(discordEmbed)
+                .WithEmbed(CommandUtils.GetServerInfo(ctx.Guild, ctx.Member))
                 .SendAsync(ctx.Channel);
         }
 
@@ -82,39 +58,14 @@ namespace MythoticDiscordBot.Commands
         {
             if (input.Length == 0)
             {
-                DiscordMessage errorMessage = await new DiscordMessageBuilder()
+                await new DiscordMessageBuilder()
                     .WithContent("This Command requires a User in order to run")
                     .SendAsync(ctx.Channel);
             }
             else
             {
-                DiscordMember member = input[0];
-
-                // Check if the user being queried is doing anything
-                string Game = member.Presence.Activity.Name ?? "Not Doing anything right now";
-
-                DiscordEmbed discordEmbed = new DiscordEmbedBuilder()
-                .WithTitle($"User Information for {member.DisplayName}")
-                .WithThumbnail(member.AvatarUrl)
-                .WithColor(DiscordColor.Azure)
-                .WithDescription("User Information")
-
-                .AddField("User", $"**❯ Username:** {member.Username}\n" +
-                $"**❯ Discriminator:** {member.Discriminator}\n" +
-                $"**❯ ID:** {member.Id}\n" +
-                $"**❯ Flags:** {member.Flags}\n" +
-                $"**❯ Avatar:** [\\[Link to Avatar\\]]({member.AvatarUrl})\n" +
-                $"**❯ Time Created:** {member.CreationTimestamp}\n" +
-                $"**❯ Status:** {member.Presence.Status}\n" +
-                $"**❯ Game:** {Game}\n")
-
-                .AddField("Member Details", $"**❯ Server Join Date:** {member.JoinedAt.DateTime}\n" +
-                $"**❯ Roles [{member.Roles.Count()}]:**\n{string.Join('\n', member.Roles.Select(role => $"**❯❯** {role.Mention}"))}")
-
-                .Build();
-
-                DiscordMessage message = await new DiscordMessageBuilder()
-                    .WithEmbed(discordEmbed)
+                await new DiscordMessageBuilder()
+                    .WithEmbed(CommandUtils.GetUserInfo(input[0]))
                     .SendAsync(ctx.Channel);
             }
 
@@ -126,41 +77,8 @@ namespace MythoticDiscordBot.Commands
         [Aliases("info", "bot")]
         public async Task BotInfo(CommandContext ctx)
         {
-            // First lets make things easy by getting some stats about the bot
-            int commandCount = ctx.CommandsNext.RegisteredCommands.Count; // This should be the same number as slash commands, if not, each command needs a slash command ver
-            int serverCount = ctx.Client.Guilds.Count;
-            // Get a total USER count **Future Feature**
-            // Get a total Channels count **Future Feature**
-            DateTime creationDate = ctx.Client.CurrentUser.CreationTimestamp.DateTime;
-
-            DiscordEmbed discordEmbed = new DiscordEmbedBuilder()
-                .WithTitle("Afina the Archmage")
-                .WithDescription("Magic and Technology, together at last. - Powered by The Mythotic Bot - v0.1")
-                .WithThumbnail(ctx.Client.CurrentUser.AvatarUrl)
-                .WithUrl("https://github.com/Mythotic-Tinker-Station/MythoticDiscordBot")
-                .WithColor(DiscordColor.Gold)
-
-                .AddField("General Info", $"**❯ Client:** {ctx.Client.CurrentUser.Username} ({ctx.Client.CurrentUser.Id})\n" +
-                $"**❯ Commands:** {commandCount}\n" +
-                $"**❯ Servers:** {serverCount}\n" +
-                $"**❯ Creation Date:** {creationDate}\n" +
-                $"**❯ Uptime:** {DateTime.Now - Program.ReadyTime:d\\:hh\\:mm\\:ss}\n" +
-                $"**❯ .NET Version:** {RuntimeInformation.FrameworkDescription}\n" +
-                $"**❯ DSharpPlus Version:** {ctx.Client.VersionString}\n")
-
-                .AddField("System Information", "Coming Soon\n")
-
-                .AddField("The Mythotic TinkerStation Team", $"**❯ Project Lead:** {ctx.Client.GetUserAsync(171142963550879744).Result.Mention}\n" +
-                $"**❯ Developers:** {ctx.Client.GetUserAsync(132765406468243456).Result.Mention}, {ctx.Client.GetUserAsync(225665151993511937).Result.Mention}\n" +
-                $"**❯ Contributers:** {ctx.Client.GetUserAsync(175250564764925952).Result.Mention}")
-
-                .AddField("Support Information", $"**❯ Discord Server:** [\\[Join our Discord!\\]](https://discord.gg/afinaslexicon)")
-
-                .Build();
-
-
-            DiscordMessage message = await new DiscordMessageBuilder()
-                    .WithEmbed(discordEmbed)
+            await new DiscordMessageBuilder()
+                    .WithEmbed(CommandUtils.GetBotInfo(ctx.CommandsNext, ctx.Client))
                     .SendAsync(ctx.Channel);
         }
 
