@@ -45,7 +45,7 @@ namespace MythoticDiscordBot.Commands
         [Aliases("servinfo", "serverinf")]
         public async Task ServerInfo(CommandContext ctx)
         {
-            DiscordMessage message = await new DiscordMessageBuilder()
+            await new DiscordMessageBuilder()
                 .WithEmbed(CommandUtils.GetServerInfo(ctx.Guild, ctx.Member))
                 .SendAsync(ctx.Channel);
         }
@@ -78,7 +78,7 @@ namespace MythoticDiscordBot.Commands
         public async Task BotInfo(CommandContext ctx)
         {
             await new DiscordMessageBuilder()
-                    .WithEmbed(CommandUtils.GetBotInfo(ctx.CommandsNext, ctx.Client))
+                    .WithEmbed(CommandUtils.GetBotInfo(ctx.Client, ctx.CommandsNext))
                     .SendAsync(ctx.Channel);
         }
 

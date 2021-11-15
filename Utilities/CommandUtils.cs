@@ -1,6 +1,19 @@
-﻿using DSharpPlus;
+﻿/* 
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~ The Mythotic Discord Bot ~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    CommandUtils.cs - Command Utilities
+
+    Contains useful methods and variables for commands.
+
+
+ */
+
+using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.Entities;
+using DSharpPlus.SlashCommands;
 
 using System;
 using System.Collections.Generic;
@@ -61,16 +74,21 @@ namespace MythoticDiscordBot.Utilities
             .Build();
         }
 
-        public static DiscordEmbed GetBotInfo(CommandsNextExtension cne, DiscordClient client)
+        public static DiscordEmbed GetBotInfo(DiscordClient client, CommandsNextExtension cne = null, SlashCommandsExtension sce = null)
         {
+            if (cne == null && sce == null)
+            {
+                throw new Exception("CommandsNextExtension and SlashCommandsExtension are null.");
+            }
+
             // First lets make things easy by getting some stats about the bot
-            int commandCount = cne.RegisteredCommands.Count; // This should be the same number as slash commands, if not, each command needs a slash command ver
+            int commandCount = cne != null ? cne.RegisteredCommands.Count : sce.RegisteredCommands.Count; // This should be the same number as slash commands, if not, each command needs a slash command ver
             int serverCount = client.Guilds.Count;
             // Get a total USER count **Future Feature**
             // Get a total Channels count **Future Feature**
             DateTime creationDate = client.CurrentUser.CreationTimestamp.DateTime;
 
-            DiscordEmbed discordEmbed = new DiscordEmbedBuilder()
+            return new DiscordEmbedBuilder()
                 .WithTitle("Afina the Archmage")
                 .WithDescription("Magic and Technology, together at last. - Powered by The Mythotic Bot - v0.1")
                 .WithThumbnail(client.CurrentUser.AvatarUrl)
