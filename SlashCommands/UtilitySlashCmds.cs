@@ -36,7 +36,7 @@ namespace MythoticDiscordBot.SlashCommands
         public async Task Ping(InteractionContext ctx)
         {
             await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder()
-                .WithContent("Pong"));
+                .WithContent($"**Ping Times:** {ctx.Client.Ping}"));
         }
 
         // Display Discord Server info

@@ -33,10 +33,10 @@ namespace MythoticDiscordBot.Commands
     {
         // Just a Ping Command
         [Command("ping")]
-        [Description("It returns pong... How orginial")]
+        [Description("Get ping times for the bot")]
         public async Task Ping(CommandContext ctx)
         {
-            await ctx.RespondAsync("Pong").ConfigureAwait(false);
+            await ctx.RespondAsync($"**Ping Times:** {ctx.Client.Ping}").ConfigureAwait(false);
         }
 
         // Display Discord Server info
