@@ -82,7 +82,6 @@ namespace MythoticDiscordBot.Commands
                     .SendAsync(ctx.Channel);
         }
 
-
         // Evaluate C# code via command
         [Command("eval")]
         [Description("Evaluate C# Code")]

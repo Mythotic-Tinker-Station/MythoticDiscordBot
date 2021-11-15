@@ -51,6 +51,7 @@ namespace MythoticDiscordBot.Utilities
                 // Add Presence stats later, dont know what prop has them
                 .Build();
         }
+
         public static DiscordEmbed GetUserInfo(DiscordMember member)
         {
             return new DiscordEmbedBuilder()

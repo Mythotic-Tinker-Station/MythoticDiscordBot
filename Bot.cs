@@ -76,6 +76,7 @@ namespace MythoticDiscordBot.Bot
 
             Commands = discord.UseCommandsNext(commandsConfig);
             Commands.RegisterCommands<UtilityCommands>();
+            Commands.RegisterCommands<FunCommands>();
 
             // Slash Commands Initization
             SlashCommandsConfiguration slashCommandsConfig = new SlashCommandsConfiguration
