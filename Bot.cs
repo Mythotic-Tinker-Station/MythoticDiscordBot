@@ -90,7 +90,6 @@ namespace MythoticDiscordBot.Bot
             // Events Initization
             events = new(discord);
 
-
             // Start the bot!
             await discord.ConnectAsync();
             await Task.Delay(-1);

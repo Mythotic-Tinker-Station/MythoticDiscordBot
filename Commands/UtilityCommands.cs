@@ -124,11 +124,11 @@ namespace MythoticDiscordBot.Commands
         [Command("botinfo")]
         [Description("Displays information about ME! (The bot)")]
         [Aliases("info", "bot")]
-        public async Task BotInfo (CommandContext ctx)
+        public async Task BotInfo(CommandContext ctx)
         {
             // First lets make things easy by getting some stats about the bot
-            int commandCount = ctx.CommandsNext.RegisteredCommands.Count(); // This should be the same number as slash commands, if not, each command needs a slash command ver
-            int serverCount = ctx.Client.Guilds.Count();
+            int commandCount = ctx.CommandsNext.RegisteredCommands.Count; // This should be the same number as slash commands, if not, each command needs a slash command ver
+            int serverCount = ctx.Client.Guilds.Count;
             // Get a total USER count **Future Feature**
             // Get a total Channels count **Future Feature**
             DateTime creationDate = ctx.Client.CurrentUser.CreationTimestamp.DateTime;
@@ -144,8 +144,9 @@ namespace MythoticDiscordBot.Commands
                 $"**❯ Commands:** {commandCount}\n" +
                 $"**❯ Servers:** {serverCount}\n" +
                 $"**❯ Creation Date:** {creationDate}\n" +
+                $"**❯ Uptime:** {DateTime.Now - Program.ReadyTime:d\\:hh\\:mm\\:ss}\n" +
                 $"**❯ .NET Version:** {RuntimeInformation.FrameworkDescription}\n" +
-                $"**❯ DSharpPlus Version:** 4.2.0 Nightly\n")
+                $"**❯ DSharpPlus Version:** {ctx.Client.VersionString}\n")
 
                 .AddField("System Information", "Coming Soon\n")
 

@@ -25,6 +25,8 @@ namespace MythoticDiscordBot.Events
         public static Task Discord_OnReady(DiscordClient sender, DSharpPlus.EventArgs.ReadyEventArgs e)
         {
             Console.WriteLine("The Bot is now ready!");
+            Program.ReadyTime = DateTime.Now;
+            
             return Task.CompletedTask;
         }
     }
