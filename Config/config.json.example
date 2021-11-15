@@ -3,7 +3,7 @@
 
     "Token" : "Your-Token-Goes-Here",
 
-    "Owners" : ['OwnerIDs']
+    "Owners" : ["OwnerIDs"],
     
     "TwitterAPI": {
         "ApiKey": "TwitterApiKeyHere",
