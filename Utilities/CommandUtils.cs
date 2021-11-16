@@ -108,9 +108,9 @@ namespace MythoticDiscordBot.Utilities
                 .AddField("System Information", "Coming Soon\n")
 
                 .AddField("The Mythotic TinkerStation Team",
-                $"**❯ Project Lead:** {client.GetUserAsync(171142963550879744).Result.Mention}\n" +
-                $"**❯ Developers:** {client.GetUserAsync(132765406468243456).Result.Mention}, {client.GetUserAsync(225665151993511937).Result.Mention}\n" +
-                $"**❯ Contributers:** {client.GetUserAsync(175250564764925952).Result.Mention}")
+                $"**❯ Project Lead:** {client.GetUserAsync(171142963550879744).Result.Username}#{client.GetUserAsync(171142963550879744).Result.Discriminator}\n" +
+                $"**❯ Developers:** {client.GetUserAsync(132765406468243456).Result.Username}#{client.GetUserAsync(132765406468243456).Result.Discriminator}, {client.GetUserAsync(225665151993511937).Result.Username}#{client.GetUserAsync(225665151993511937).Result.Discriminator}\n" +
+                $"**❯ Contributers:** {client.GetUserAsync(175250564764925952).Result.Username}#{client.GetUserAsync(175250564764925952).Result.Discriminator}")
 
                 .AddField("Support Information", $"**❯ Discord Server:** [\\[Join our Discord!\\]](https://discord.gg/afinaslexicon)")
 
