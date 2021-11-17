@@ -1,6 +1,6 @@
 ﻿using MythoticDiscordBot.Bot;
 
-namespace MythoticDiscordBot
+namespace MythoticDiscordBot.Bot
 {
     class Program
     {

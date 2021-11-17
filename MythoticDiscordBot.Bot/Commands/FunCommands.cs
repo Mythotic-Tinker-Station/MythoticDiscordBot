@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MythoticDiscordBot.Commands
+namespace MythoticDiscordBot.Bot.Commands
 {
     internal class FunCommands : BaseCommandModule
     {

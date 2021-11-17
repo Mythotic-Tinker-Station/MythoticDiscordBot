@@ -18,7 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MythoticDiscordBot.Events
+namespace MythoticDiscordBot.Bot.Events
 {
     internal class OnReady
     {

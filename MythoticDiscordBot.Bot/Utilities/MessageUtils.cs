@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MythoticDiscordBot.Utilities
+namespace MythoticDiscordBot.Bot.Utilities
 {
     internal class MessageUtils
     {

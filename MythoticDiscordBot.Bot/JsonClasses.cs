@@ -15,7 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MythoticDiscordBot
+namespace MythoticDiscordBot.Bot
 {
     internal class JsonClasses
     {

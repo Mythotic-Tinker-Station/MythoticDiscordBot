@@ -15,7 +15,7 @@ using System;
 using System.Threading.Tasks;
 using System.IO;
 using System.Text.Json;
-using static MythoticDiscordBot.JsonClasses;
+using static MythoticDiscordBot.Bot.JsonClasses;
 using MythoticDiscordBot;
 using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity.Extensions;

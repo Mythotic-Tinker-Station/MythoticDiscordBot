@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MythoticDiscordBot.Utilities
+namespace MythoticDiscordBot.Bot.Utilities
 {
     internal class CommandUtils
     {

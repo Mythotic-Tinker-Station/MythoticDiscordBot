@@ -10,7 +10,7 @@
 
 using DSharpPlus;
 
-using MythoticDiscordBot.Events;
+using MythoticDiscordBot.Bot.Events;
 
 using System;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MythoticDiscordBot
+namespace MythoticDiscordBot.Bot
 {
     internal class EventLogic
     {

@@ -25,10 +25,10 @@ using DSharpPlus.Interactivity;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using System.Runtime.InteropServices;
-using MythoticDiscordBot.Utilities;
+using MythoticDiscordBot.Bot.Utilities;
 using DSharpPlus.Exceptions;
 
-namespace MythoticDiscordBot.Commands
+namespace MythoticDiscordBot.Bot.Commands
 {
     public class UtilityCommands : BaseCommandModule
     {

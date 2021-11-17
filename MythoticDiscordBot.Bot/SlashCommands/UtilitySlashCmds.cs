@@ -25,9 +25,9 @@ using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
 using DSharpPlus.SlashCommands.Attributes;
 
-using MythoticDiscordBot.Utilities;
+using MythoticDiscordBot.Bot.Utilities;
 
-namespace MythoticDiscordBot.SlashCommands
+namespace MythoticDiscordBot.Bot.SlashCommands
 {
     public class UtilitySlashCmds : ApplicationCommandModule
     {
