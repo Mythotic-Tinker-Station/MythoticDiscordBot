@@ -8,8 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="obj\Debug\net6.0\.NETCoreApp,Version=v6.0.AssemblyAttributes.cs" />
-    <Compile Include="obj\Debug\net6.0\MythoticDiscordBot.AssemblyInfo.cs" />
     <Compile Include="obj\Debug\net6.0\MythoticDiscordBot.GlobalUsings.g.cs" />
   </ItemGroup>
 
