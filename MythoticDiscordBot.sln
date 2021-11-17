@@ -7,10 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MythoticDiscordBot", "Mytho
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MythoticDiscordBot.Bot", "MythoticDiscordBot.Bot", "{E935F9E6-CF8F-4D84-8201-34AB3F2D64B0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MythoticDiscordBot.DAL", "MythoticDiscordBot.DAL", "{51402C0D-8105-4C64-A55F-5BA6C609D5F4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MythoticDiscordBot.DAL", "MythoticDiscordBot.DAL\MythoticDiscordBot.DAL.csproj", "{411AE677-095C-4EAB-B293-27EF60B87725}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,17 +17,12 @@ Global
 		{5D89AE76-DC50-4763-8B4F-8F5DB25E6A39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D89AE76-DC50-4763-8B4F-8F5DB25E6A39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D89AE76-DC50-4763-8B4F-8F5DB25E6A39}.Release|Any CPU.Build.0 = Release|Any CPU
-		{411AE677-095C-4EAB-B293-27EF60B87725}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{411AE677-095C-4EAB-B293-27EF60B87725}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{411AE677-095C-4EAB-B293-27EF60B87725}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{411AE677-095C-4EAB-B293-27EF60B87725}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5D89AE76-DC50-4763-8B4F-8F5DB25E6A39} = {E935F9E6-CF8F-4D84-8201-34AB3F2D64B0}
-		{411AE677-095C-4EAB-B293-27EF60B87725} = {51402C0D-8105-4C64-A55F-5BA6C609D5F4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3D96A96-E91A-4E9D-BEFA-5BF6485D1695}
