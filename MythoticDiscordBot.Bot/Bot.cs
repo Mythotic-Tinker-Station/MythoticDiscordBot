@@ -22,9 +22,9 @@ using DSharpPlus.Interactivity.Extensions;
 using DSharpPlus.Interactivity;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.SlashCommands;
-using MythoticDiscordBot.Commands;
+using MythoticDiscordBot.Bot.Commands;
 using Microsoft.Extensions.DependencyInjection;
-using MythoticDiscordBot.SlashCommands;
+using MythoticDiscordBot.Bot.SlashCommands;
 
 namespace MythoticDiscordBot.Bot
 {
