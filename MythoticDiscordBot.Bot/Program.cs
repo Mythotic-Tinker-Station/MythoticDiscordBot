@@ -10,8 +10,7 @@ namespace MythoticDiscordBot.Bot
         
         static void Main(string[] args)
         {
-            BotClient bot = new BotClient();
-            bot.RunAsync().GetAwaiter().GetResult();
+            CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
