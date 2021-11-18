@@ -36,7 +36,7 @@ namespace MythoticDiscordBot.Bot
         public CommandsNextExtension Commands { get; private set; }
         public SlashCommandsExtension SlashCommands {  get; private set; }
 
-        public async Task RunAsync()
+        public BotClient(IServiceProvider services)
         {
             // First, lets read the config!
             ConfigJson config = JsonSerializer.Deserialize<ConfigJson>(File.ReadAllText("Config\\config.json"));
@@ -50,13 +50,6 @@ namespace MythoticDiscordBot.Bot
             });
 
             DiscordClient discord = new(DiscordConfig);
-
-            // Create a Service Provider
-            // https://dsharpplus.github.io/articles/commands/dependency_injection.html
-            // Add any types to the service provider when required
-            ServiceProvider services = new ServiceCollection()
-                .AddSingleton<Random>()
-                .BuildServiceProvider();
 
             // Interactivity Setup
             discord.UseInteractivity(new InteractivityConfiguration
@@ -82,7 +75,7 @@ namespace MythoticDiscordBot.Bot
             SlashCommandsConfiguration slashCommandsConfig = new SlashCommandsConfiguration
             {
                 Services = services,
-                
+
             };
 
             SlashCommands = discord.UseSlashCommands(slashCommandsConfig);
@@ -92,9 +85,8 @@ namespace MythoticDiscordBot.Bot
             events = new(discord);
 
             // Start the bot!
-            await discord.ConnectAsync();
-            await Task.Delay(-1);
-
+            discord.ConnectAsync();
+            Task.Delay(-1);
         }
 
     }
