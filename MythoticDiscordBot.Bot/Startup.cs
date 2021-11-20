@@ -16,7 +16,7 @@ namespace MythoticDiscordBot.Bot
 
             services.AddDbContext<ServerConfigContext>(options =>
             {
-                options.UseSqlServer(config.DatabaseURL,
+                options.UseSqlServer(config.DatabaseConnectionString,
                     x => x.MigrationsAssembly("MythoticDiscordBot.DAL.Migrations"));
             });
             
