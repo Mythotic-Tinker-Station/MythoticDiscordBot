@@ -11,8 +11,8 @@ namespace MythoticDiscordBot.DAL.Models.ServerConfig
     {
         public string ServerId { get; set; }
         public string ServerName { get; set; }
-        public string[]? AdminRoles { get; set; }
-        public string[]? ModeratorRoles { get; set; }
+        public string? AdminRole { get; set; }
+        public string? ModeratorRole { get; set; }
         public string Prefix { get; set; }
     }
 }
