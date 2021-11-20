@@ -27,7 +27,7 @@ namespace MythoticDiscordBot.Bot
             public Twitterapi TwitterAPI { get; set; }
             public Twitchapi TwitchAPI { get; set; }
             public Twitchlistener TwitchListener { get; set; }
-            public string DatabaseURL { get; set; }
+            public string DatabaseConnectionString { get; set; }
         }
 
         public class Twitterapi
