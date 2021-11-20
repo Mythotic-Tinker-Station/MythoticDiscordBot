@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using static MythoticDiscordBot.Bot.JsonClasses;
 using MythoticDiscordBot.DAL;
+using System.Text.Json;
 
 namespace MythoticDiscordBot.Bot
 {
@@ -9,6 +11,9 @@ namespace MythoticDiscordBot.Bot
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            // First, lets read the config!
+            ConfigJson config = JsonSerializer.Deserialize<ConfigJson>(File.ReadAllText("Config\\config.json"));
+
             services.AddDbContext<ServerConfigContext>(options =>
             {
                 options.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=ServerConfigContext;Trusted_Connection=True;MultipleActiveResultSets=true",
@@ -17,7 +22,7 @@ namespace MythoticDiscordBot.Bot
             
             ServiceProvider serviceProvider = services.BuildServiceProvider();
 
-            BotClient botClient = new BotClient(serviceProvider);
+            BotClient botClient = new BotClient(serviceProvider, config);
             services.AddSingleton(botClient);
         }
 
