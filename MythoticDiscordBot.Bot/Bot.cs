@@ -36,11 +36,8 @@ namespace MythoticDiscordBot.Bot
         public CommandsNextExtension Commands { get; private set; }
         public SlashCommandsExtension SlashCommands {  get; private set; }
 
-        public BotClient(IServiceProvider services)
+        public BotClient(IServiceProvider services, ConfigJson config)
         {
-            // First, lets read the config!
-            ConfigJson config = JsonSerializer.Deserialize<ConfigJson>(File.ReadAllText("Config\\config.json"));
-
             // Setup the Discord Client
             DiscordConfiguration DiscordConfig = new(new()
             {
