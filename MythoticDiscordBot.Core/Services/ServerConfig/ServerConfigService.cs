@@ -25,7 +25,7 @@ namespace MythoticDiscordBot.Core.Services.ServerConfigService
         
         public async Task CreateServerConfig(ServerConfig config)
         {
-            await _context.ServerConfigs.AddAsync(config);
+            await _context.AddAsync(config);
 
             await _context.SaveChangesAsync();
         }
