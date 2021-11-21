@@ -26,7 +26,7 @@ namespace MythoticDiscordBot.Bot
 
             ServiceProvider serviceProvider = services.BuildServiceProvider();
 
-            BotClient botClient = new BotClient(serviceProvider, config);
+            BotClient botClient = new(serviceProvider, config);
             services.AddSingleton(botClient);
         }
 
