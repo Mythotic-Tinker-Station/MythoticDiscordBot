@@ -29,6 +29,9 @@ namespace MythoticDiscordBot.Bot
             
             // Message Created Event Mapping
             discord.MessageCreated += MessageCreated.Discord_MessageCreated;
+
+            // Joined a new server
+            discord.GuildCreated += GuildCreated.Discord_GuildCreated;
         }
     }
 }

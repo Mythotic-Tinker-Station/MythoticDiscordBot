@@ -55,7 +55,7 @@ namespace MythoticDiscordBot.Bot
             });
 
             // Command Initization
-            CommandsNextConfiguration commandsConfig = new CommandsNextConfiguration
+            CommandsNextConfiguration commandsConfig = new()
             {
                 StringPrefixes = new string[] { "!" },
                 EnableDms = false,
@@ -69,14 +69,16 @@ namespace MythoticDiscordBot.Bot
             Commands.RegisterCommands<FunCommands>();
 
             // Slash Commands Initization
-            SlashCommandsConfiguration slashCommandsConfig = new SlashCommandsConfiguration
+            SlashCommandsConfiguration slashCommandsConfig = new()
             {
-                Services = services,
-
+                Services = services
             };
 
             SlashCommands = discord.UseSlashCommands(slashCommandsConfig);
-            SlashCommands.RegisterCommands<UtilitySlashCmds>(guildId: 456744423343128597);
+            SlashCommands.RegisterCommands<UtilitySlashCmds>(456744423343128597);
+
+            // TODO: Assign Program.ConfigService before events.
+            //Program.ConfigService = ...;
 
             // Events Initization
             events = new(discord);

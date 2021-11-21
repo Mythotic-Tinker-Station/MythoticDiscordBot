@@ -14,7 +14,6 @@ namespace MythoticDiscordBot.Bot.Commands
     {
         private readonly Dictionary<string, DateTime> PoorBastards = new();
 
-        // Evaluate C# code via command
         [Command("weednuke")]
         [Description(":D")]
         public async Task WeedNuke(CommandContext ctx)

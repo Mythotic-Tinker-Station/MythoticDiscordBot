@@ -13,17 +13,10 @@ namespace MythoticDiscordBot.Bot.Events
 {
     public class GuildCreated
     {
-        private readonly IServerConfigService _serverConfigService;
-
-        public GuildCreated(IServerConfigService serverConfigService)
-        {
-            _serverConfigService = serverConfigService;
-        }
-        
-        public async Task Discord_GuildCreated(DiscordClient client, DSharpPlus.EventArgs.GuildCreateEventArgs guild)
+        public static async Task Discord_GuildCreated(DiscordClient client, DSharpPlus.EventArgs.GuildCreateEventArgs guild)
         {
             // First, lets build an ServerConfig
-            ServerConfig config = new ServerConfig
+            ServerConfig config = new()
             {
                 ServerId = guild.Guild.Id,
                 ServerName = guild.Guild.Name,
@@ -32,11 +25,11 @@ namespace MythoticDiscordBot.Bot.Events
 
             try
             {
-                await _serverConfigService.CreateServerConfig(config);
+                await Program.ConfigService.CreateServerConfig(config);
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine(ex);
+                Console.WriteLine(ex);
             }
             
         }
