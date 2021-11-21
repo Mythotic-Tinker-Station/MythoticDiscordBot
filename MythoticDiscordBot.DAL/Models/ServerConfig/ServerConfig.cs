@@ -9,7 +9,7 @@ namespace MythoticDiscordBot.DAL.Models.ServerConfig
 {
     public class ServerConfig : Entity
     {
-        public string ServerId { get; set; }
+        public ulong ServerId { get; set; }
         public string ServerName { get; set; }
         public string? AdminRole { get; set; }
         public string? ModeratorRole { get; set; }
