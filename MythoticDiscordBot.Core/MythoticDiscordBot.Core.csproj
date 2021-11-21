@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MythoticDiscordBot.DAL.Migrations\MythoticDiscordBot.DAL.Migrations.csproj" />
+    <ProjectReference Include="..\MythoticDiscordBot.DAL\MythoticDiscordBot.DAL.csproj" />
+  </ItemGroup>
+
 </Project>
