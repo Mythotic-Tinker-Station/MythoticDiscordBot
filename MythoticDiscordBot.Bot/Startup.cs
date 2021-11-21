@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using static MythoticDiscordBot.Bot.JsonClasses;
 using MythoticDiscordBot.DAL;
 using System.Text.Json;
+using MythoticDiscordBot.Core.Services.ServerConfigService;
 
 namespace MythoticDiscordBot.Bot
 {
@@ -18,8 +19,11 @@ namespace MythoticDiscordBot.Bot
             {
                 options.UseSqlServer(config.DatabaseConnectionString,
                     x => x.MigrationsAssembly("MythoticDiscordBot.DAL.Migrations"));
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
             
+            services.AddScoped<IServerConfigService, ServerConfigService>();
+
             ServiceProvider serviceProvider = services.BuildServiceProvider();
 
             BotClient botClient = new BotClient(serviceProvider, config);
