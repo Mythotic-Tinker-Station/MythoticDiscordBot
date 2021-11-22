@@ -10,6 +10,6 @@ namespace MythoticDiscordBot.DAL
     public abstract class Entity
     {
         [Key]
-        public string Id { get; set; }
+        public int Id { get; set; }
     }
 }

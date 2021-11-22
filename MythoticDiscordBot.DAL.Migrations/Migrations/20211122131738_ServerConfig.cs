@@ -4,7 +4,7 @@
 
 namespace MythoticDiscordBot.DAL.Migrations.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class ServerConfig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,8 +12,9 @@ namespace MythoticDiscordBot.DAL.Migrations.Migrations
                 name: "ServerConfigs",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ServerId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ServerId = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
                     ServerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AdminRole = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModeratorRole = table.Column<string>(type: "nvarchar(max)", nullable: true),

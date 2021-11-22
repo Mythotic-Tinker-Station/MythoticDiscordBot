@@ -11,8 +11,8 @@ using MythoticDiscordBot.DAL;
 namespace MythoticDiscordBot.DAL.Migrations.Migrations
 {
     [DbContext(typeof(ServerConfigContext))]
-    [Migration("20211120042307_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20211122131738_ServerConfig")]
+    partial class ServerConfig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,8 +25,11 @@ namespace MythoticDiscordBot.DAL.Migrations.Migrations
 
             modelBuilder.Entity("MythoticDiscordBot.DAL.Models.ServerConfig.ServerConfig", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AdminRole")
                         .HasColumnType("nvarchar(max)");
@@ -38,9 +41,8 @@ namespace MythoticDiscordBot.DAL.Migrations.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ServerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("ServerId")
+                        .HasColumnType("decimal(20,0)");
 
                     b.Property<string>("ServerName")
                         .IsRequired()
