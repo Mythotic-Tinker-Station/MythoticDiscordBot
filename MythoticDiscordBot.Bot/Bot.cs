@@ -25,6 +25,7 @@ using DSharpPlus.SlashCommands;
 using MythoticDiscordBot.Bot.Commands;
 using Microsoft.Extensions.DependencyInjection;
 using MythoticDiscordBot.Bot.SlashCommands;
+using MythoticDiscordBot.Core.Services.ServerConfigService;
 
 namespace MythoticDiscordBot.Bot
 {
@@ -34,7 +35,7 @@ namespace MythoticDiscordBot.Bot
         public DiscordClient discord { get; private set; }
         public InteractivityExtension Interactivity { get; private set; }
         public CommandsNextExtension Commands { get; private set; }
-        public SlashCommandsExtension SlashCommands {  get; private set; }
+        public SlashCommandsExtension SlashCommands { get; private set; }
 
         public BotClient(IServiceProvider services, ConfigJson config)
         {
@@ -77,8 +78,7 @@ namespace MythoticDiscordBot.Bot
             SlashCommands = discord.UseSlashCommands(slashCommandsConfig);
             SlashCommands.RegisterCommands<UtilitySlashCmds>(456744423343128597);
 
-            // TODO: Assign Program.ConfigService before events.
-            //Program.ConfigService = ...;
+            Program.ConfigService = services.GetService<IServerConfigService>();
 
             // Events Initization
             events = new(discord);
