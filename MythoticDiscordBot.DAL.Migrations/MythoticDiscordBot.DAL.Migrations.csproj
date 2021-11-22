@@ -17,4 +17,8 @@
     <ProjectReference Include="..\MythoticDiscordBot.DAL\MythoticDiscordBot.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>
