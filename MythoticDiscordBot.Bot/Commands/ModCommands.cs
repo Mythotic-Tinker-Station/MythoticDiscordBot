@@ -65,7 +65,7 @@ namespace MythoticDiscordBot.Bot.Commands
                 }
                 else
                 {
-                    await ctx.Channel.SendMessageAsync($"**Error banning user:**\n```{ex}```");
+                    await ctx.RespondAsync($"**Error banning user:**\n```{ex}```");
                 }
             }
         }
@@ -150,7 +150,7 @@ namespace MythoticDiscordBot.Bot.Commands
                 }
                 else
                 {
-                    await ctx.Channel.SendMessageAsync($"**Error kicking user:**\n```{ex}```");
+                    await ctx.RespondAsync($"**Error kicking user:**\n```{ex}```");
                 }
             }
         }
