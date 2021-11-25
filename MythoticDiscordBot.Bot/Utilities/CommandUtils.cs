@@ -116,5 +116,10 @@ namespace MythoticDiscordBot.Bot.Utilities
 
                 .Build();
         }
+
+        public static void BanUser()
+        {
+
+        }
     }
 }

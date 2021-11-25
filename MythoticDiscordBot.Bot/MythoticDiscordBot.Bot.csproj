@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="obj\Debug\net6.0\MythoticDiscordBot.GlobalUsings.g.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="bin\Debug\net6.0\ConcurrentCollections.dll" />
     <None Include="bin\Debug\net6.0\Config\config.json" />
     <None Include="bin\Debug\net6.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll" />
