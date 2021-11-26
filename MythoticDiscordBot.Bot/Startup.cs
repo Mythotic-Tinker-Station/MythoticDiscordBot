@@ -21,7 +21,7 @@ namespace MythoticDiscordBot.Bot
                     x => x.MigrationsAssembly("MythoticDiscordBot.DAL.Migrations"));
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
-            
+
             services.AddScoped<IServerConfigService, ServerConfigService>();
 
             ServiceProvider serviceProvider = services.BuildServiceProvider();
@@ -32,7 +32,20 @@ namespace MythoticDiscordBot.Bot
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/ErrorPage");
+            }
 
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapGet("/", () => "Hello, Afina!");
+            });
         }
     }
 }

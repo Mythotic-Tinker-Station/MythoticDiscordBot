@@ -28,7 +28,6 @@ namespace MythoticDiscordBot.Bot.Commands
     {
         // Ban command
         [Command("ban")]
-        [Aliases("banhammer", "banuser")]
         [Description("Ban a user from your discord server.")]
         public async Task Ban(CommandContext ctx)
         {
@@ -72,14 +71,12 @@ namespace MythoticDiscordBot.Bot.Commands
 
         // Hackban command
         [Command("hackban")]
-        [Aliases("shadowban")]
         [Description("Ban a user from your discord server if they are not already in the server. (Hackban/Shadowban)")]
         public async Task HackBan(CommandContext ctx)
         {
             await ctx.RespondAsync($"No user ID specified.");
         }
 
-        // Hackban command
         [Command("hackban")]
         [Aliases("shadowban")]
         [Description("Ban a user from your discord server if they are not already in the server. (Hackban/Shadowban)")]
@@ -113,7 +110,6 @@ namespace MythoticDiscordBot.Bot.Commands
 
         // Kick command
         [Command("kick")]
-        [Aliases("boot", "kickuser", "removeuser")]
         [Description("Kick a user from your discord server.")]
         public async Task Kick(CommandContext ctx)
         {

@@ -85,9 +85,14 @@ namespace MythoticDiscordBot.Bot.Utilities
             // First lets make things easy by getting some stats about the bot
             int commandCount = cne != null ? cne.RegisteredCommands.Count : sce.RegisteredCommands.Count; // This should be the same number as slash commands, if not, each command needs a slash command ver
             int serverCount = client.Guilds.Count;
-            // Get a total USER count **Future Feature**
-            // Get a total Channels count **Future Feature**
+            int memberCount = client.Guilds.Values.Sum(g => g.MemberCount);
+            int channelCount = client.Guilds.Values.Sum(g => g.Channels.Count);
             DateTime creationDate = client.CurrentUser.CreationTimestamp.DateTime;
+
+            DiscordUser mifu = client.GetUserAsync(171142963550879744).Result;
+            DiscordUser rt = client.GetUserAsync(132765406468243456).Result;
+            DiscordUser kat = client.GetUserAsync(225665151993511937).Result;
+            DiscordUser shaewn = client.GetUserAsync(175250564764925952).Result;
 
             return new DiscordEmbedBuilder()
                 .WithTitle("Afina the Archmage")
@@ -100,6 +105,8 @@ namespace MythoticDiscordBot.Bot.Utilities
                 $"**❯ Client:** {client.CurrentUser.Username} ({client.CurrentUser.Id})\n" +
                 $"**❯ Commands:** {commandCount}\n" +
                 $"**❯ Servers:** {serverCount}\n" +
+                $"**❯ Members:** {memberCount}\n" +
+                $"**❯ Channels:** {channelCount}\n" +
                 $"**❯ Creation Date:** {creationDate}\n" +
                 $"**❯ Uptime:** {DateTime.Now - Program.ReadyTime:d\\:hh\\:mm\\:ss}\n" +
                 $"**❯ .NET Version:** {RuntimeInformation.FrameworkDescription}\n" +
@@ -108,9 +115,9 @@ namespace MythoticDiscordBot.Bot.Utilities
                 .AddField("System Information", "Coming Soon\n")
 
                 .AddField("The Mythotic TinkerStation Team",
-                $"**❯ Project Lead:** {client.GetUserAsync(171142963550879744).Result.Username}#{client.GetUserAsync(171142963550879744).Result.Discriminator}\n" +
-                $"**❯ Developers:** {client.GetUserAsync(132765406468243456).Result.Username}#{client.GetUserAsync(132765406468243456).Result.Discriminator}, {client.GetUserAsync(225665151993511937).Result.Username}#{client.GetUserAsync(225665151993511937).Result.Discriminator}\n" +
-                $"**❯ Contributers:** {client.GetUserAsync(175250564764925952).Result.Username}#{client.GetUserAsync(175250564764925952).Result.Discriminator}")
+                $"**❯ Project Lead:** {mifu.Username}#{mifu.Discriminator}\n" +
+                $"**❯ Developers:** {rt.Username}#{rt.Discriminator}, {kat.Username}#{kat.Discriminator}\n" +
+                $"**❯ Contributers:** {shaewn.Username}#{shaewn.Discriminator}")
 
                 .AddField("Support Information", $"**❯ Discord Server:** [\\[Join our Discord!\\]](https://discord.gg/afinaslexicon)")
 
