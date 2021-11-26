@@ -16,7 +16,10 @@ namespace MythoticDiscordBot.Bot
             ConfigJson config = JsonSerializer.Deserialize<ConfigJson>(File.ReadAllText("Config\\config.json"));
 
             // Enable MVC
-            services.AddMvc().AddMvcOptions((o) => o.EnableEndpointRouting = false);
+            services.AddMvc();
+
+            services.AddServerSideBlazor();
+            services.AddControllersWithViews();
 
             // Add DB stuff
             services.AddDbContext<ServerConfigContext>(options =>
@@ -46,7 +49,15 @@ namespace MythoticDiscordBot.Bot
                 app.UseExceptionHandler("/ErrorPage");
             }
 
-            app.UseMvc((r) => r.MapRoute("default", "{area=WebUI}/{controller=Home}/{action=Index}/{id?}"));
+            app.UseStaticFiles();
+
+            app.UseRouting();
+            app.UseEndpoints(e =>
+            {
+                e.MapControllerRoute("default", "{area=WebUI}/{controller=Home}/{action=Index}/{id?}");
+                e.MapBlazorHub();
+            });
+
         }
     }
 }
