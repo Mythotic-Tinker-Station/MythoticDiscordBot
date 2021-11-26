@@ -1,0 +1,23 @@
+﻿@using DSharpPlus.Entities
+@using MythoticDiscordBot.Bot
+@using MythoticDiscordBot.Bot.Utilities
+
+@model object
+
+@{
+	ViewBag.Title = "Home";
+
+	DiscordEmbed embed = CommandUtils.GetBotInfo(BotClient.Discord, BotClient.Commands);
+}
+
+<h2><a href=@embed.Url>@embed.Title</a></h2>
+<h3>@embed.Description</h3>
+
+@foreach (DiscordEmbedField f in embed.Fields)
+{
+	<b>@f.Name</b>
+	<br />
+	@Html.Raw(f.Value.Replace("\n", "<br />"));
+	<br />
+
+}

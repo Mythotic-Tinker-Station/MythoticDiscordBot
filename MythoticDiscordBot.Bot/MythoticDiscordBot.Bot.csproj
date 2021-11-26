@@ -196,4 +196,10 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\WebUI\Models\" />
+    <Folder Include="Areas\WebUI\ViewModels\" />
+    <Folder Include="Areas\WebUI\ViewComponents\" />
+  </ItemGroup>
+
 </Project>

@@ -31,10 +31,9 @@ namespace MythoticDiscordBot.Bot
 {
     class BotClient
     {
-        static EventLogic events;
-        public DiscordClient discord { get; private set; }
+        public static DiscordClient Discord { get; private set; }
         public InteractivityExtension Interactivity { get; private set; }
-        public CommandsNextExtension Commands { get; private set; }
+        public static CommandsNextExtension Commands { get; private set; }
         public SlashCommandsExtension SlashCommands { get; private set; }
 
         public BotClient(IServiceProvider services, ConfigJson config)
@@ -47,10 +46,10 @@ namespace MythoticDiscordBot.Bot
                 Intents = DiscordIntents.All
             });
 
-            DiscordClient discord = new(DiscordConfig);
+            Discord = new(DiscordConfig);
 
             // Interactivity Setup
-            discord.UseInteractivity(new InteractivityConfiguration
+            Discord.UseInteractivity(new InteractivityConfiguration
             {
                 Timeout = TimeSpan.FromMinutes(2)
             });
@@ -65,7 +64,7 @@ namespace MythoticDiscordBot.Bot
                 Services = services
             };
 
-            Commands = discord.UseCommandsNext(commandsConfig);
+            Commands = Discord.UseCommandsNext(commandsConfig);
             Commands.RegisterCommands<UtilityCommands>();
             Commands.RegisterCommands<FunCommands>();
             Commands.RegisterCommands<ModCommands>();
@@ -76,16 +75,16 @@ namespace MythoticDiscordBot.Bot
                 Services = services
             };
 
-            SlashCommands = discord.UseSlashCommands(slashCommandsConfig);
+            SlashCommands = Discord.UseSlashCommands(slashCommandsConfig);
             SlashCommands.RegisterCommands<UtilitySlashCmds>(456744423343128597);
 
             Program.ConfigService = services.GetService<IServerConfigService>();
 
             // Events Initization
-            events = new(discord);
+            new EventLogic(Discord);
 
             // Start the bot!
-            discord.ConnectAsync();
+            Discord.ConnectAsync();
             Task.Delay(-1);
         }
 

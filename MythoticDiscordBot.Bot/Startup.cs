@@ -15,6 +15,10 @@ namespace MythoticDiscordBot.Bot
             // First, lets read the config!
             ConfigJson config = JsonSerializer.Deserialize<ConfigJson>(File.ReadAllText("Config\\config.json"));
 
+            // Enable MVC
+            services.AddMvc().AddMvcOptions((o) => o.EnableEndpointRouting = false);
+
+            // Add DB stuff
             services.AddDbContext<ServerConfigContext>(options =>
             {
                 options.UseSqlServer(config.DatabaseConnectionString,
@@ -26,6 +30,7 @@ namespace MythoticDiscordBot.Bot
 
             ServiceProvider serviceProvider = services.BuildServiceProvider();
 
+            // Run bot
             BotClient botClient = new(serviceProvider, config);
             services.AddSingleton(botClient);
         }
@@ -41,11 +46,7 @@ namespace MythoticDiscordBot.Bot
                 app.UseExceptionHandler("/ErrorPage");
             }
 
-            app.UseRouting();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/", () => "Hello, Afina!");
-            });
+            app.UseMvc((r) => r.MapRoute("default", "{area=WebUI}/{controller=Home}/{action=Index}/{id?}"));
         }
     }
 }
