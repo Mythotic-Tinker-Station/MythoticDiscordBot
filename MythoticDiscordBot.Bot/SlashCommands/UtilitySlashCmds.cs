@@ -29,6 +29,7 @@ using MythoticDiscordBot.Bot.Utilities;
 
 namespace MythoticDiscordBot.Bot.SlashCommands
 {
+    [SlashCommandGroup("Utility", "Utility commands")]
     public class UtilitySlashCmds : ApplicationCommandModule
     {
         // Just a Ping Command

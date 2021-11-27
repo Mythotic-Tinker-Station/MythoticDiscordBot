@@ -30,6 +30,7 @@ using DSharpPlus.Exceptions;
 
 namespace MythoticDiscordBot.Bot.Commands
 {
+    [GroupAttribute("Utility")]
     public class UtilityCommands : BaseCommandModule
     {
         // Just a Ping Command

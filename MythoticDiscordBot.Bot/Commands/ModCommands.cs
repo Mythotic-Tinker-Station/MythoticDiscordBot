@@ -24,7 +24,8 @@ using MythoticDiscordBot.Bot.Utilities;
 
 namespace MythoticDiscordBot.Bot.Commands
 {
-    internal class ModCommands : BaseCommandModule
+    [GroupAttribute("Moderation")]
+    public class ModCommands : BaseCommandModule
     {
         // Ban command
         [Command("ban")]
