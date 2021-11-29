@@ -8,11 +8,9 @@
 <h3>@embed.Description</h3>
 
 @((MarkupString)infoHTML)
-<br />
-@*<button @onclick="UpdateInfo">Update</button>*@
 
 @code {
-	DiscordEmbed embed = CommandUtils.GetBotInfo(BotClient.Discord, BotClient.Commands);
+	DiscordEmbed embed = CommandUtils.GetBotInfo();
 
 	System.Timers.Timer timer;
 	void StartTimer()
@@ -25,7 +23,7 @@
 	string infoHTML = string.Empty;
 	public void UpdateInfo(object sender, System.Timers.ElapsedEventArgs e)
 	{
-		embed = CommandUtils.GetBotInfo(BotClient.Discord, BotClient.Commands);
+		embed = CommandUtils.GetBotInfo();
 
 		infoHTML = string.Empty;
 		foreach (DiscordEmbedField f in embed.Fields)

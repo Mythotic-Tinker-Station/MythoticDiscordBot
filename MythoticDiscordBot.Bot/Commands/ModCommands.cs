@@ -21,13 +21,14 @@ using System.Text;
 using System.Threading.Tasks;
 using DSharpPlus.Exceptions;
 using MythoticDiscordBot.Bot.Utilities;
+using DSharpPlus;
 
 namespace MythoticDiscordBot.Bot.Commands
 {
-    [GroupAttribute("Moderation")]
     public class ModCommands : BaseCommandModule
     {
         // Ban command
+        [RequirePermissions(Permissions.BanMembers, true)]
         [Command("ban")]
         [Description("Ban a user from your discord server.")]
         public async Task Ban(CommandContext ctx)
@@ -35,6 +36,7 @@ namespace MythoticDiscordBot.Bot.Commands
             await ctx.RespondAsync($"No user specified.");
         }
 
+        [RequirePermissions(Permissions.BanMembers, true)]
         [Command("ban")]
         [Aliases("banhammer", "banuser")]
         [Description("Ban a user from your discord server.")]
@@ -71,6 +73,7 @@ namespace MythoticDiscordBot.Bot.Commands
         }
 
         // Hackban command
+        [RequirePermissions(Permissions.BanMembers, true)]
         [Command("hackban")]
         [Description("Ban a user from your discord server if they are not already in the server. (Hackban/Shadowban)")]
         public async Task HackBan(CommandContext ctx)
@@ -78,6 +81,7 @@ namespace MythoticDiscordBot.Bot.Commands
             await ctx.RespondAsync($"No user ID specified.");
         }
 
+        [RequirePermissions(Permissions.BanMembers, true)]
         [Command("hackban")]
         [Aliases("shadowban")]
         [Description("Ban a user from your discord server if they are not already in the server. (Hackban/Shadowban)")]
@@ -110,6 +114,7 @@ namespace MythoticDiscordBot.Bot.Commands
         }
 
         // Kick command
+        [RequirePermissions(Permissions.KickMembers, true)]
         [Command("kick")]
         [Description("Kick a user from your discord server.")]
         public async Task Kick(CommandContext ctx)
@@ -117,11 +122,14 @@ namespace MythoticDiscordBot.Bot.Commands
             await ctx.RespondAsync($"No user specified.");
         }
 
+        [RequirePermissions(Permissions.KickMembers, true)]
         [Command("kick")]
         [Aliases("boot", "kickuser", "removeuser")]
         [Description("Kick a user from your discord server.")]
         public async Task Kick(CommandContext ctx, DiscordMember user, params string[] reason)
         {
+            await ctx.Client.SendMessageAsync(ctx.Channel, b => b.WithReply(ctx.Message.Id).WithContent("Test"));
+
             try
             {
                 await user.RemoveAsync(reason.Length > 0 ? string.Join(' ', reason) : "No reason specified.");

@@ -34,17 +34,17 @@ namespace MythoticDiscordBot.Bot
         public static DiscordClient Discord { get; private set; }
         public InteractivityExtension Interactivity { get; private set; }
         public static CommandsNextExtension Commands { get; private set; }
-        public SlashCommandsExtension SlashCommands { get; private set; }
+        public static SlashCommandsExtension SlashCommands { get; private set; }
 
         public BotClient(IServiceProvider services, ConfigJson config)
         {
             // Setup the Discord Client
-            DiscordConfiguration DiscordConfig = new(new()
+            DiscordConfiguration DiscordConfig = new()
             {
                 Token = config.Token,
                 TokenType = TokenType.Bot,
                 Intents = DiscordIntents.All
-            });
+            };
 
             Discord = new(DiscordConfig);
 
@@ -81,12 +81,11 @@ namespace MythoticDiscordBot.Bot
             Program.ConfigService = services.GetService<IServerConfigService>();
 
             // Events Initization
-            new EventLogic(Discord);
+            _ = new EventLogic(Discord);
 
             // Start the bot!
             Discord.ConnectAsync();
             Task.Delay(-1);
         }
-
     }
 }

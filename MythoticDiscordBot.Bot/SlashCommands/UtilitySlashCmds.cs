@@ -61,7 +61,7 @@ namespace MythoticDiscordBot.Bot.SlashCommands
         public async Task BotInfo(InteractionContext ctx)
         {
             await ctx.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource, new DiscordInteractionResponseBuilder()
-                .AddEmbed(CommandUtils.GetBotInfo(ctx.Client, sce: ctx.SlashCommandsExtension)));
+                .AddEmbed(CommandUtils.GetBotInfo()));
 
         }
     }

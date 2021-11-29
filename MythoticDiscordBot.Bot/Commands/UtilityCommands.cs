@@ -30,7 +30,6 @@ using DSharpPlus.Exceptions;
 
 namespace MythoticDiscordBot.Bot.Commands
 {
-    [GroupAttribute("Utility")]
     public class UtilityCommands : BaseCommandModule
     {
         // Just a Ping Command
@@ -79,7 +78,7 @@ namespace MythoticDiscordBot.Bot.Commands
         [Aliases("info", "bot")]
         public async Task BotInfo(CommandContext ctx)
         {
-            await MessageUtils.SendMessage(ctx.Channel, CommandUtils.GetBotInfo(ctx.Client, ctx.CommandsNext));
+            await MessageUtils.SendMessage(ctx.Channel, CommandUtils.GetBotInfo());
         }
 
         // Evaluate C# code via command

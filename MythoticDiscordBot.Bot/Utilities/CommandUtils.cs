@@ -75,15 +75,12 @@ namespace MythoticDiscordBot.Bot.Utilities
             .Build();
         }
 
-        public static DiscordEmbed GetBotInfo(DiscordClient client, CommandsNextExtension cne = null, SlashCommandsExtension sce = null)
+        public static DiscordEmbed GetBotInfo()
         {
-            if (cne == null && sce == null)
-            {
-                throw new Exception("CommandsNextExtension and SlashCommandsExtension are null.");
-            }
+            DiscordClient client = BotClient.Discord;
 
             // First lets make things easy by getting some stats about the bot
-            int commandCount = cne != null ? cne.RegisteredCommands.Count : sce.RegisteredCommands.Count; // This should be the same number as slash commands, if not, each command needs a slash command ver
+            int commandCount = BotClient.Commands.RegisteredCommands.Count; //BotClient.SlashCommands.RegisteredCommands.Count; // This should be the same number as slash commands, if not, each command needs a slash command ver
             int serverCount = client.Guilds.Count;
             int memberCount = client.Guilds.Values.Sum(g => g.MemberCount);
             int channelCount = client.Guilds.Values.Sum(g => g.Channels.Count);

@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace MythoticDiscordBot.Bot.Commands
 {
-    [GroupAttribute("Fun")]
     public class FunCommands : BaseCommandModule
     {
         private readonly Dictionary<string, DateTime> PoorBastards = new();
