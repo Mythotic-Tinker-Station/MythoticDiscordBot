@@ -18,6 +18,7 @@ namespace MythoticDiscordBot.Bot
             // Enable MVC
             services.AddMvc();
 
+            // Enable Blazor
             services.AddServerSideBlazor();
             services.AddControllersWithViews();
 
@@ -46,7 +47,7 @@ namespace MythoticDiscordBot.Bot
             }
             else
             {
-                app.UseExceptionHandler("/ErrorPage");
+                app.UseExceptionHandler("/Error");
             }
 
             app.UseStaticFiles();

@@ -8,30 +8,35 @@ using System.Threading.Tasks;
 
 using MythoticDiscordBot.DAL.Models.ServerConfig;
 using MythoticDiscordBot.Core.Services.ServerConfigService;
+using DSharpPlus.EventArgs;
 
 namespace MythoticDiscordBot.Bot.Events
 {
     public class GuildCreated
     {
-        public static async Task Discord_GuildCreated(DiscordClient client, DSharpPlus.EventArgs.GuildCreateEventArgs guild)
+        public static async Task Discord_GuildCreated(DiscordClient client, GuildCreateEventArgs guild)
         {
-            // First, lets build an ServerConfig
-            ServerConfig config = new()
-            {
-                ServerId = guild.Guild.Id,
-                ServerName = guild.Guild.Name,
-                Prefix = "!"
-            };
+            ServerConfig serverConfig = Program.ConfigService.Context.ServerConfigs.SingleOrDefault(c => c.ServerId == guild.Guild.Id);
 
-            try
+            if (serverConfig == null)
             {
-                await Program.ConfigService.CreateServerConfig(config);
+                // First, lets build an ServerConfig
+                ServerConfig newConfig = new()
+                {
+                    ServerId = guild.Guild.Id,
+                    ServerName = guild.Guild.Name,
+                    Prefix = "!"
+                };
+
+                try
+                {
+                    await Program.ConfigService.CreateServerConfig(newConfig);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
-            
         }
     }
 }
