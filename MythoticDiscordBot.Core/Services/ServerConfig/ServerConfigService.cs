@@ -10,6 +10,8 @@ namespace MythoticDiscordBot.Core.Services.ServerConfigService
 {
     public interface IServerConfigService
     {
+        ServerConfigContext Context { get; }
+
         Task<ServerConfig> GetServerConfigByServerId(string serverId);
         Task CreateServerConfig(ServerConfig config);
     }
@@ -17,12 +19,13 @@ namespace MythoticDiscordBot.Core.Services.ServerConfigService
     public class ServerConfigService : IServerConfigService
     {
         private readonly ServerConfigContext _context;
+        public ServerConfigContext Context => _context;
 
         public ServerConfigService(ServerConfigContext context)
         {
             _context = context;
         }
-        
+
         public async Task CreateServerConfig(ServerConfig config)
         {
             await _context.AddAsync(config);
