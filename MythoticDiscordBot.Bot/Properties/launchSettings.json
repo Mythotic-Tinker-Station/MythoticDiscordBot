@@ -12,14 +12,18 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "VaultUri": "https://mythoticvault.vault.azure.net/",
+        "AZURE_USERNAME": "mifu@mythotic.com"
       }
     },
     "MythoticDiscordBot.Bot": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "VaultUri": "https://mythoticvault.vault.azure.net/",
+        "AZURE_USERNAME": "mifu@mythotic.com"
       },
       "applicationUrl": "https://localhost:5001;http://localhost:5000"
     }

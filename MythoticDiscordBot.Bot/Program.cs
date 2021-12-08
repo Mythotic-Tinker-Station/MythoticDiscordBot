@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Hosting;
 using MythoticDiscordBot.Bot;
 using MythoticDiscordBot.Core.Services.ServerConfigService;
+using Azure.Identity;
+using Microsoft.Extensions.Configuration;
 
 namespace MythoticDiscordBot.Bot
 {
@@ -17,6 +19,11 @@ namespace MythoticDiscordBot.Bot
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+.ConfigureAppConfiguration((context, config) =>
+{
+var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
+config.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
+})
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseStartup<Startup>();
