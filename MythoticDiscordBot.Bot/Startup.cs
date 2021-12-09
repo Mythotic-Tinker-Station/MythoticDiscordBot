@@ -5,6 +5,9 @@ using static MythoticDiscordBot.Bot.JsonClasses;
 using MythoticDiscordBot.DAL;
 using System.Text.Json;
 using MythoticDiscordBot.Core.Services.ServerConfigService;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
+using Azure.Core;
 
 namespace MythoticDiscordBot.Bot
 {
@@ -25,7 +28,7 @@ namespace MythoticDiscordBot.Bot
             // Add DB stuff
             services.AddDbContext<ServerConfigContext>(options =>
             {
-                options.UseSqlServer(config.DatabaseConnectionString,
+                options.UseSqlServer("name=MythoticConnection",
                     x => x.MigrationsAssembly("MythoticDiscordBot.DAL.Migrations"));
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
