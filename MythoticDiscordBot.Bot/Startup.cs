@@ -6,7 +6,6 @@ using MythoticDiscordBot.DAL;
 using System.Text.Json;
 using MythoticDiscordBot.Core.Services.ServerConfigService;
 using Azure.Identity;
-using Azure.Security.KeyVault.Secrets;
 using Azure.Core;
 
 namespace MythoticDiscordBot.Bot
