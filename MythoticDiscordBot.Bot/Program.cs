@@ -21,8 +21,12 @@ namespace MythoticDiscordBot.Bot
             Host.CreateDefaultBuilder(args)
             .ConfigureAppConfiguration((context, config) =>
             {
-            var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
-            config.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
+                config.AddJsonFile("appsettings.json");
+                config.AddEnvironmentVariables();
+                
+                String keyVaultEndpointString = Environment.GetEnvironmentVariable("VaultUri");
+                Uri keyVaultEndpoint = new(keyVaultEndpointString);
+                config.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
             })
             .ConfigureWebHostDefaults(webBuilder =>
             {

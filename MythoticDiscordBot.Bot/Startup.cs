@@ -12,6 +12,13 @@ namespace MythoticDiscordBot.Bot
 {
     public class Startup
     {
+        private IConfiguration _configuration;
+
+        public Startup(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
             // First, lets read the config!
@@ -19,6 +26,7 @@ namespace MythoticDiscordBot.Bot
 
             // Enable MVC
             services.AddMvc();
+            
 
             // Enable Blazor
             services.AddServerSideBlazor();
@@ -27,7 +35,7 @@ namespace MythoticDiscordBot.Bot
             // Add DB stuff
             services.AddDbContext<ServerConfigContext>(options =>
             {
-                options.UseSqlServer("name=MythoticConnection",
+                options.UseSqlServer(config.DatabaseConnectionString,
                     x => x.MigrationsAssembly("MythoticDiscordBot.DAL.Migrations"));
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });

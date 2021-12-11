@@ -11,8 +11,8 @@ using MythoticDiscordBot.DAL;
 namespace MythoticDiscordBot.DAL.Migrations.Migrations
 {
     [DbContext(typeof(ServerConfigContext))]
-    [Migration("20211122131738_ServerConfig")]
-    partial class ServerConfig
+    [Migration("20211211125555_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
