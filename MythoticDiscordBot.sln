@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31717.71
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MythoticDiscordBot.Bot", "MythoticDiscordBot.Bot\MythoticDiscordBot.Bot.csproj", "{5D89AE76-DC50-4763-8B4F-8F5DB25E6A39}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MythoticDiscordBot.Bot", "MythoticDiscordBot.Bot", "{E935F9E6-CF8F-4D84-8201-34AB3F2D64B0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MythoticDiscordBot.DAL", "MythoticDiscordBot.DAL", "{C6A6CD69-3A03-42F4-97B4-A46699217CAF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MythoticDiscordBot.DAL", "MythoticDiscordBot.DAL\MythoticDiscordBot.DAL.csproj", "{5EF72B16-645D-478A-B14D-000A63A918B8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MythoticDiscordBot.DAL.Migrations", "MythoticDiscordBot.DAL.Migrations\MythoticDiscordBot.DAL.Migrations.csproj", "{E4869F87-5959-442C-9666-25AE2336B1A8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MythoticDiscordBot.Core", "MythoticDiscordBot.Core", "{F14DB37A-2FEA-442E-9885-CFE5617993D0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MythoticDiscordBot.Core", "MythoticDiscordBot.Core\MythoticDiscordBot.Core.csproj", "{B501632C-F587-4198-ABD3-F8929E5CB3A1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5D89AE76-DC50-4763-8B4F-8F5DB25E6A39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D89AE76-DC50-4763-8B4F-8F5DB25E6A39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D89AE76-DC50-4763-8B4F-8F5DB25E6A39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D89AE76-DC50-4763-8B4F-8F5DB25E6A39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EF72B16-645D-478A-B14D-000A63A918B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EF72B16-645D-478A-B14D-000A63A918B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EF72B16-645D-478A-B14D-000A63A918B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EF72B16-645D-478A-B14D-000A63A918B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4869F87-5959-442C-9666-25AE2336B1A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4869F87-5959-442C-9666-25AE2336B1A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4869F87-5959-442C-9666-25AE2336B1A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4869F87-5959-442C-9666-25AE2336B1A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B501632C-F587-4198-ABD3-F8929E5CB3A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B501632C-F587-4198-ABD3-F8929E5CB3A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B501632C-F587-4198-ABD3-F8929E5CB3A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B501632C-F587-4198-ABD3-F8929E5CB3A1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5D89AE76-DC50-4763-8B4F-8F5DB25E6A39} = {E935F9E6-CF8F-4D84-8201-34AB3F2D64B0}
+		{5EF72B16-645D-478A-B14D-000A63A918B8} = {C6A6CD69-3A03-42F4-97B4-A46699217CAF}
+		{E4869F87-5959-442C-9666-25AE2336B1A8} = {C6A6CD69-3A03-42F4-97B4-A46699217CAF}
+		{B501632C-F587-4198-ABD3-F8929E5CB3A1} = {F14DB37A-2FEA-442E-9885-CFE5617993D0}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C3D96A96-E91A-4E9D-BEFA-5BF6485D1695}
+	EndGlobalSection
+EndGlobal

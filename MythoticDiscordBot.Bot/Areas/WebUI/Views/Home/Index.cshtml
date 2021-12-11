@@ -1,0 +1,8 @@
+﻿@using MythoticDiscordBot.Bot.Areas.WebUI.Views.Shared.Component
+@model object
+
+@{
+	ViewBag.Title = "Home";
+}
+
+@(await Html.RenderComponentAsync<BotInfo>(RenderMode.ServerPrerendered))

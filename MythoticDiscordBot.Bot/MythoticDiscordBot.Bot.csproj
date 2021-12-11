@@ -1,0 +1,207 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net6.0\ConcurrentCollections.dll" />
+    <None Include="bin\Debug\net6.0\Config\config.json" />
+    <None Include="bin\Debug\net6.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net6.0\cs\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+    <None Include="bin\Debug\net6.0\cs\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net6.0\cs\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+    <None Include="bin\Debug\net6.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net6.0\de\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+    <None Include="bin\Debug\net6.0\de\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net6.0\de\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+    <None Include="bin\Debug\net6.0\DnsClient.dll" />
+    <None Include="bin\Debug\net6.0\DSharpPlus.CommandsNext.dll" />
+    <None Include="bin\Debug\net6.0\DSharpPlus.dll" />
+    <None Include="bin\Debug\net6.0\DSharpPlus.Interactivity.dll" />
+    <None Include="bin\Debug\net6.0\DSharpPlus.Lavalink.dll" />
+    <None Include="bin\Debug\net6.0\DSharpPlus.SlashCommands.dll" />
+    <None Include="bin\Debug\net6.0\DSharpPlus.VoiceNext.dll" />
+    <None Include="bin\Debug\net6.0\Emzi0767.Common.dll" />
+    <None Include="bin\Debug\net6.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net6.0\es\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+    <None Include="bin\Debug\net6.0\es\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net6.0\es\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+    <None Include="bin\Debug\net6.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net6.0\fr\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+    <None Include="bin\Debug\net6.0\fr\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net6.0\fr\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+    <None Include="bin\Debug\net6.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net6.0\it\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+    <None Include="bin\Debug\net6.0\it\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net6.0\it\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+    <None Include="bin\Debug\net6.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net6.0\ja\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+    <None Include="bin\Debug\net6.0\ja\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net6.0\ja\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+    <None Include="bin\Debug\net6.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net6.0\ko\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+    <None Include="bin\Debug\net6.0\ko\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net6.0\ko\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+    <None Include="bin\Debug\net6.0\libzstd.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.AspNetCore.Hosting.Abstractions.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.AspNetCore.Hosting.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.AspNetCore.Http.Abstractions.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.AspNetCore.Http.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.AspNetCore.Http.Extensions.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.AspNetCore.Http.Features.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.AspNetCore.WebUtilities.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.CodeAnalysis.CSharp.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.CodeAnalysis.CSharp.Scripting.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.CodeAnalysis.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.CodeAnalysis.Scripting.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Configuration.Binder.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Configuration.CommandLine.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Configuration.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Configuration.EnvironmentVariables.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Configuration.FileExtensions.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Configuration.Json.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Configuration.UserSecrets.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.FileProviders.Abstractions.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.FileProviders.Physical.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.FileSystemGlobbing.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Hosting.Abstractions.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Hosting.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Logging.Configuration.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Logging.Console.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Logging.Debug.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Logging.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Logging.EventLog.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Logging.EventSource.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.ObjectPool.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Options.ConfigurationExtensions.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Options.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll" />
+    <None Include="bin\Debug\net6.0\Microsoft.Net.Http.Headers.dll" />
+    <None Include="bin\Debug\net6.0\mongocrypt.dll" />
+    <None Include="bin\Debug\net6.0\MongoDB.Bson.dll" />
+    <None Include="bin\Debug\net6.0\MongoDB.Driver.Core.dll" />
+    <None Include="bin\Debug\net6.0\MongoDB.Driver.dll" />
+    <None Include="bin\Debug\net6.0\MongoDB.Libmongocrypt.dll" />
+    <None Include="bin\Debug\net6.0\MythoticDiscordBot.deps.json" />
+    <None Include="bin\Debug\net6.0\MythoticDiscordBot.dll" />
+    <None Include="bin\Debug\net6.0\MythoticDiscordBot.exe" />
+    <None Include="bin\Debug\net6.0\MythoticDiscordBot.pdb" />
+    <None Include="bin\Debug\net6.0\MythoticDiscordBot.runtimeconfig.json" />
+    <None Include="bin\Debug\net6.0\Newtonsoft.Json.dll" />
+    <None Include="bin\Debug\net6.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net6.0\pl\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+    <None Include="bin\Debug\net6.0\pl\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net6.0\pl\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+    <None Include="bin\Debug\net6.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net6.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+    <None Include="bin\Debug\net6.0\pt-BR\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net6.0\pt-BR\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+    <None Include="bin\Debug\net6.0\ref\MythoticDiscordBot.dll" />
+    <None Include="bin\Debug\net6.0\runtimes\linux\native\libmongocrypt.so" />
+    <None Include="bin\Debug\net6.0\runtimes\osx\native\libmongocrypt.dylib" />
+    <None Include="bin\Debug\net6.0\runtimes\win-x64\native\libopus.dll" />
+    <None Include="bin\Debug\net6.0\runtimes\win-x64\native\libsodium.dll" />
+    <None Include="bin\Debug\net6.0\runtimes\win-x86\native\libopus.dll" />
+    <None Include="bin\Debug\net6.0\runtimes\win-x86\native\libsodium.dll" />
+    <None Include="bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Diagnostics.EventLog.dll" />
+    <None Include="bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Diagnostics.EventLog.Messages.dll" />
+    <None Include="bin\Debug\net6.0\runtimes\win\native\libzstd.dll" />
+    <None Include="bin\Debug\net6.0\runtimes\win\native\mongocrypt.dll" />
+    <None Include="bin\Debug\net6.0\runtimes\win\native\snappy32.dll" />
+    <None Include="bin\Debug\net6.0\runtimes\win\native\snappy64.dll" />
+    <None Include="bin\Debug\net6.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net6.0\ru\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+    <None Include="bin\Debug\net6.0\ru\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net6.0\ru\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+    <None Include="bin\Debug\net6.0\SharpCompress.dll" />
+    <None Include="bin\Debug\net6.0\snappy32.dll" />
+    <None Include="bin\Debug\net6.0\snappy64.dll" />
+    <None Include="bin\Debug\net6.0\System.Diagnostics.EventLog.dll" />
+    <None Include="bin\Debug\net6.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net6.0\tr\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+    <None Include="bin\Debug\net6.0\tr\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net6.0\tr\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+    <None Include="bin\Debug\net6.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net6.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+    <None Include="bin\Debug\net6.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net6.0\zh-Hans\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+    <None Include="bin\Debug\net6.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net6.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+    <None Include="bin\Debug\net6.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net6.0\zh-Hant\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+    <None Include="obj\Debug\net6.0\apphost.exe" />
+    <None Include="obj\Debug\net6.0\MythoticDiscordBot.AssemblyInfoInputs.cache" />
+    <None Include="obj\Debug\net6.0\MythoticDiscordBot.assets.cache" />
+    <None Include="obj\Debug\net6.0\MythoticDiscordBot.csproj.AssemblyReference.cache" />
+    <None Include="obj\Debug\net6.0\MythoticDiscordBot.csproj.BuildWithSkipAnalyzers" />
+    <None Include="obj\Debug\net6.0\MythoticDiscordBot.csproj.CopyComplete" />
+    <None Include="obj\Debug\net6.0\MythoticDiscordBot.csproj.CoreCompileInputs.cache" />
+    <None Include="obj\Debug\net6.0\MythoticDiscordBot.csproj.FileListAbsolute.txt" />
+    <None Include="obj\Debug\net6.0\MythoticDiscordBot.dll" />
+    <None Include="obj\Debug\net6.0\MythoticDiscordBot.GeneratedMSBuildEditorConfig.editorconfig" />
+    <None Include="obj\Debug\net6.0\MythoticDiscordBot.genruntimeconfig.cache" />
+    <None Include="obj\Debug\net6.0\MythoticDiscordBot.pdb" />
+    <None Include="obj\Debug\net6.0\ref\MythoticDiscordBot.dll" />
+    <None Include="obj\MythoticDiscordBot.csproj.nuget.dgspec.json" />
+    <None Include="obj\MythoticDiscordBot.csproj.nuget.g.props" />
+    <None Include="obj\MythoticDiscordBot.csproj.nuget.g.targets" />
+    <None Include="obj\project.assets.json" />
+    <None Include="obj\project.nuget.cache" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Extensions.AspNetCore.Configuration.Secrets" Version="1.0.0" />
+    <PackageReference Include="Azure.Identity" Version="1.4.0" />
+    <PackageReference Include="DSharpPlus" Version="4.2.0-nightly-01044" />
+    <PackageReference Include="DSharpPlus.CommandsNext" Version="4.2.0-nightly-01044" />
+    <PackageReference Include="DSharpPlus.Interactivity" Version="4.2.0-nightly-01044" />
+    <PackageReference Include="DSharpPlus.Lavalink" Version="4.2.0-nightly-01044" />
+    <PackageReference Include="DSharpPlus.SlashCommands" Version="4.2.0-nightly-01044" />
+    <PackageReference Include="DSharpPlus.VoiceNext" Version="4.2.0-nightly-01044" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Scripting" Version="4.1.0-1.final" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MythoticDiscordBot.Core\MythoticDiscordBot.Core.csproj" />
+    <ProjectReference Include="..\MythoticDiscordBot.DAL.Migrations\MythoticDiscordBot.DAL.Migrations.csproj" />
+    <ProjectReference Include="..\MythoticDiscordBot.DAL\MythoticDiscordBot.DAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Config\config.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Config\config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\WebUI\Models\" />
+    <Folder Include="Areas\WebUI\ViewModels\" />
+    <Folder Include="Areas\WebUI\ViewComponents\" />
+  </ItemGroup>
+
+</Project>

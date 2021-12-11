@@ -1,0 +1,28 @@
+{
+  "ConfigVersion": "0.1",
+
+  "Token": "Your-Token-Goes-Here",
+
+  "Owners": [ "OwnerIDs" ],
+
+  "TwitterAPI": {
+    "ApiKey": "TwitterApiKeyHere",
+    "ApiSecretKey": "TwitterApiSecretKeyHere",
+    "BearerToken": "TwitterBearerTokenHere",
+    "UserAccessToken": "TwitterUserAccessTokenHere",
+    "UserAccessTokenSecret": "TwitterUserAccessTokenSecretHere"
+  },
+
+  "TwitchAPI": {
+    "ClientId": "tjhji5regxjfnifjgt9xu7df9yhwfd",
+    "ClientSecret": "4bgo7d3ik9yxzboivskagq344ql84o"
+  },
+
+  "TwitchListener": {
+    "HostName": "mythotic.com",
+    "ListenerPort": "8090"
+  },
+
+  "DatabaseConnectionString": "Server=ServerName\\SERVER_INSTANCE;Database=MythoticBot;User Id=mythotic;Password=Yourpasswordhere;Trusted_Connection=True;MultipleActiveResultSets=true"
+
+}
