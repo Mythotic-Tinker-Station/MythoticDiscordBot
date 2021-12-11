@@ -21,7 +21,6 @@ namespace MythoticDiscordBot.Bot
             Host.CreateDefaultBuilder(args)
             .ConfigureAppConfiguration((context, config) =>
             {
-                config.AddJsonFile("appsettings.json");
                 config.AddEnvironmentVariables();
                 
                 String keyVaultEndpointString = Environment.GetEnvironmentVariable("VaultUri");
