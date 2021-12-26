@@ -96,7 +96,7 @@ namespace MythoticDiscordBot.Bot.Commands
 
                 try
                 {
-                    output = await CSharpScript.EvaluateAsync(string.Concat(input), ScriptOptions.Default.WithImports("System"), ctx, typeof(CommandContext));
+                    output = await CSharpScript.EvaluateAsync(string.Join(' ', input), ScriptOptions.Default.WithImports("System"), ctx, typeof(CommandContext));
                 }
                 catch (CompilationErrorException ex)
                 {
