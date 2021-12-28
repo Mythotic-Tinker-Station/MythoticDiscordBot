@@ -26,6 +26,7 @@ using MythoticDiscordBot.Bot.Commands;
 using Microsoft.Extensions.DependencyInjection;
 using MythoticDiscordBot.Bot.SlashCommands;
 using MythoticDiscordBot.Core.Services.ServerConfigService;
+using MythoticDiscordBot.Bot.Utilities;
 
 namespace MythoticDiscordBot.Bot
 {
@@ -58,9 +59,10 @@ namespace MythoticDiscordBot.Bot
             CommandsNextConfiguration commandsConfig = new()
             {
                 StringPrefixes = new string[] { "!" },
-                EnableDms = false,
+                EnableDms = true,
                 EnableMentionPrefix = true,
-                DmHelp = true,
+                DmHelp = false,
+                EnableDefaultHelp = false,
                 Services = services
             };
 
