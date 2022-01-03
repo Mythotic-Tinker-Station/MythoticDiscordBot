@@ -81,6 +81,16 @@ namespace MythoticDiscordBot.Bot.Commands
             await MessageUtils.SendMessage(ctx.Channel, CommandUtils.GetBotInfo());
         }
 
+        [Command("help")]
+        [Aliases("rtfm", "halp")]
+        [Description("Displays Help information for the bot")]
+        public async Task Help(CommandContext ctx, string? command, string? prefix)
+        {
+            await new DiscordMessageBuilder()
+                .WithEmbed(CommandUtils.HelpMessage(ctx.Guild, ctx.Message, command, prefix))
+                .SendAsync(ctx.Channel);
+        }
+
         // Evaluate C# code via command
         [Command("eval")]
         [Description("Evaluate C# Code")]
