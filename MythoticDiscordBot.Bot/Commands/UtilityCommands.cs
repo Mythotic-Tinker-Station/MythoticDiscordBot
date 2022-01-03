@@ -82,6 +82,15 @@ namespace MythoticDiscordBot.Bot.Commands
         }
 
         [Command("help")]
+        [Description("Displays Help information for the bot")]
+        public async Task Help(CommandContext ctx)
+        {
+            await new DiscordMessageBuilder()
+                .WithEmbed(CommandUtils.HelpMessage(ctx.Guild, ctx.Message, null, "!"))
+                .SendAsync(ctx.Channel);
+        }
+
+        [Command("help")]
         [Aliases("rtfm", "halp")]
         [Description("Displays Help information for the bot")]
         public async Task Help(CommandContext ctx, string? command, string? prefix)

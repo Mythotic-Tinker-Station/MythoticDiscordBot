@@ -135,20 +135,21 @@ namespace MythoticDiscordBot.Bot.Utilities
 
             if (Command == null)
             {
-                IReadOnlyDictionary<string, Command> allCommands = BotClient.Commands.RegisteredCommands;
-
-                Array commandsArray = allCommands.ToArray();
-                Console.WriteLine(commandsArray);
-
-                return new DiscordEmbedBuilder()
+                DiscordEmbedBuilder builder = new DiscordEmbedBuilder()
                 .WithTitle("Afina the Archmage - Help")
                 .WithDescription("When you need to learn about the Defence against the Dark Arts")
                 .WithAuthor($"{guild.Name} Help Menu")
                 .WithFooter($"Requested by {message.Author.Username}", message.Author.AvatarUrl)
-                .AddField("", $"These are the available commands for {guild.Name}\n" +
+                .AddField("\u200b", $"These are the available commands for {guild.Name}\n" +
                 $"The bot's prefix is {Prefix}\n" +
-                "Command Parameters: `<>` is strict & `[]` is optional")
-                .Build();
+                "Command Parameters: `<>` is strict & `[]` is optional");
+
+                foreach ((string s, Command c) in BotClient.Commands.RegisteredCommands)
+                {
+                    builder.AddField(s, c.Description);
+                }
+
+                return builder.Build();
             }
             else
             {
