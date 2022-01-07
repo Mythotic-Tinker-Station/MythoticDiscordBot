@@ -7,12 +7,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MythoticDiscordBot.Bot.Interfaces;
 
 namespace MythoticDiscordBot.Bot.Commands
 {
-    public class FunCommands : BaseCommandModule
+    public class FunCommands : BaseCommandModule, ICommandCategory
     {
         private readonly Dictionary<string, DateTime> PoorBastards = new();
+
+        public string Category()
+        {
+            return "Fun";
+        }
 
         [Command("weednuke")]
         [Description(":D")]

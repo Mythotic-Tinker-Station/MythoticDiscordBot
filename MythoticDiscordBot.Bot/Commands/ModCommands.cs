@@ -89,7 +89,7 @@ namespace MythoticDiscordBot.Bot.Commands
         {
             try
             {
-                await ctx.Guild.BanMemberAsync((DiscordMember)ctx.Client.GetUserAsync(Convert.ToUInt64(args[0])).Result, reason: args.Length > 1 ? string.Join(' ', args.Skip(1)) : "No reason specified.");
+                await ctx.Guild.BanMemberAsync(Convert.ToUInt64(args[0]), reason: args.Length > 1 ? string.Join(' ', args.Skip(1)) : "No reason specified.");
 
                 await MessageUtils.SendMessage(ctx.Channel,
                     new DiscordEmbedBuilder()

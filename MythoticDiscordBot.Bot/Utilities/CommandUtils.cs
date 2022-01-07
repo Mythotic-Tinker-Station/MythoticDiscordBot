@@ -125,5 +125,45 @@ namespace MythoticDiscordBot.Bot.Utilities
         {
 
         }
+
+        public static DiscordEmbed HelpMessage(DiscordGuild guild, DiscordMessage message, string? Command, string? Prefix)
+        {
+            // Prefix should only be passed if the command was able to find an custom prefix in the database
+            // If not then the default is used
+
+            DiscordClient client = BotClient.Discord;
+
+            if (Command == null)
+            {
+                DiscordEmbedBuilder builder = new DiscordEmbedBuilder()
+                .WithTitle("Afina the Archmage - Help")
+                .WithDescription("When you need to learn about the Defence against the Dark Arts")
+                .WithAuthor($"{guild.Name} Help Menu")
+                .WithFooter($"Requested by {message.Author.Username}", message.Author.AvatarUrl)
+                .AddField("\u200b", $"These are the available commands for {guild.Name}\n" +
+                $"The bot's prefix is {Prefix}\n" +
+                "Command Parameters: `<>` is strict & `[]` is optional");
+
+                foreach ((string s, Command c) in BotClient.Commands.RegisteredCommands)
+                {
+                    builder.AddField(s, c.Description);
+                }
+
+                return builder.Build();
+            }
+            else
+            {
+                return new DiscordEmbedBuilder()
+                .WithTitle("Afina the Archmage - Help")
+                .WithDescription("When you need to learn about the Defence against the Dark Arts")
+                .WithAuthor($"{guild.Name} Help Menu")
+                .WithFooter($"Requested by {message.Author.Username}", message.Author.AvatarUrl)
+                .Build();
+
+            }
+
+
+
+        }
     }
 }
