@@ -58,7 +58,6 @@ namespace MythoticDiscordBot.Bot.Utilities
             .WithTitle($"User Information for {member.DisplayName}")
             .WithThumbnail(member.AvatarUrl)
             .WithColor(DiscordColor.Azure)
-            .WithDescription("User Information")
 
             .AddField("User", $"**❯ Username:** {member.Username}\n" +
             $"**❯ Discriminator:** {member.Discriminator}\n" +
@@ -72,6 +71,26 @@ namespace MythoticDiscordBot.Bot.Utilities
             .AddField("Member Details", $"**❯ Server Join Date:** {member.JoinedAt.DateTime}\n" +
             $"**❯ Roles [{member.Roles.Count()}]:**\n{string.Join('\n', member.Roles.Select(role => $"**❯❯** {role.Mention}"))}")
 
+            .Build();
+        }
+
+        public static DiscordEmbed GetUserInfo(DiscordUser user)
+        {
+            return new DiscordEmbedBuilder()
+            .WithTitle($"User Information for {user.Username}#{user.Discriminator}")
+            .WithThumbnail(user.AvatarUrl)
+            .WithColor(DiscordColor.Azure)
+            .AddField("User", $"**❯ Username:** {user.Username}\n" +
+            $"**❯ Discriminator:** {user.Discriminator}\n" +
+            $"**❯ ID:** {user.Id}\n" +
+            $"**❯ Flags:** {user.Flags}\n" +
+            $"**❯ Avatar:** [\\[Link to Avatar\\]]({user.AvatarUrl})\n" +
+            $"**❯ Banner Colour:** {(user.BannerColor.HasValue ? user.BannerColor.Value.ToString() : "Not Set")}\n" +
+            $"**❯ Banner:** {(string.IsNullOrWhiteSpace(user.BannerUrl) ? "Not Set" : $"[\\[Link to Banner\\]]({user.BannerUrl})")}\n" +
+            $"**❯ Time Created:** {user.CreationTimestamp}\n" +
+            $"**❯ Is a bot?:** {user.IsBot}\n" +
+            $"**❯ Is Discord staff?:** {user.IsSystem ?? false}\n" +
+            $"**❯ Premium:** {(user.PremiumType.HasValue ? user.PremiumType.Value.ToString() : "Not Premium")}")
             .Build();
         }
 
