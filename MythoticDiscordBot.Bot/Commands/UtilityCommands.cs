@@ -125,5 +125,22 @@ namespace MythoticDiscordBot.Bot.Commands
                 await new DiscordMessageBuilder().WithContent(output == null ? "*null*" : output.ToString()).SendAsync(ctx.Channel);
             }
         }
+
+        // Whois
+        [Command("whois")]
+        [Description("Get the user info from a Discord ID.")]
+        public async Task Whois(CommandContext ctx, params string[] input)
+        {
+            if (input.Length == 0)
+            {
+                await ctx.RespondAsync("!whois <Discord ID>");
+            }
+            else
+            {
+                await new DiscordMessageBuilder()
+                    .WithEmbed(CommandUtils.GetUserInfo(BotClient.Discord.GetUserAsync(ulong.Parse(input[0])).Result))
+                    .SendAsync(ctx.Channel);
+            }
+        }
     }
 }

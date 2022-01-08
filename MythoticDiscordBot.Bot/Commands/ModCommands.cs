@@ -96,7 +96,7 @@ namespace MythoticDiscordBot.Bot.Commands
                     .WithColor(DiscordColor.Red)
                     .WithAuthor("!!!WARNING!!! A user has been BANNED")
                     .WithThumbnail("https://png2.cleanpng.com/sh/c9e9df36b83579a2c9964faa72ba5bd5/L0KzQYm3VcE0N5hqiZH0aYP2gLBuTfhidZ5qip9wYX3oPcHsjwNqd58yitdBaXX6Pbr1lPVzdpZ5RdV7b4X3f7A0VfFnQGFqUKVuZUi7Roi1VcEzOGo9TKI6NUK5QoG9UMg0QWg8RuJ3Zx==/kisspng-hammer-game-pension-review-internet-crouton-5af80e83ee8867.512098401526206083977.png")
-                    .WithFooter($"Action requested by {ctx.Message.Author.Mention}")
+                    .WithFooter($"Action requested by {ctx.Message.Author.Username}#{ctx.Message.Author.Discriminator}")
                     .WithTimestamp(DateTime.UtcNow)
                     .Build());
             }
@@ -139,7 +139,7 @@ namespace MythoticDiscordBot.Bot.Commands
                     .WithColor(DiscordColor.Red)
                     .WithAuthor("!!!WARNING!!! A user has been kicked!")
                     .WithThumbnail("https://cdn.icon-icons.com/icons2/564/PNG/512/Action_2_icon-icons.com_54220.png")
-                    .WithFooter($"Action requested by {ctx.Message.Author.Mention}")
+                    .WithFooter($"Action requested by {ctx.Message.Author.Username}#{ctx.Message.Author.Discriminator}")
                     .WithTimestamp(DateTime.UtcNow)
                     .Build());
             }
