@@ -2,7 +2,7 @@ name: Build and deploy .NET Core app to Windows WebApp MythoticDiscordBot
 on:
   push:
     branches:
-    - master
+    - main
 env:
   AZURE_WEBAPP_NAME: MythoticDiscordBot
   AZURE_WEBAPP_PACKAGE_PATH: MythoticDiscordBot.Bot/publish
