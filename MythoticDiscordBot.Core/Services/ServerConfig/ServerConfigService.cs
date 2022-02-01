@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+
 using MythoticDiscordBot.DAL;
 using MythoticDiscordBot.DAL.Models.ServerConfig;
 
@@ -15,7 +18,7 @@ namespace MythoticDiscordBot.Core.Services.ServerConfigService
         ServerConfigContext Context { get; }
         Task<ServerConfig> GetServerConfigByServerId(string serverId);
         Task CreateServerConfig(ServerConfig config);
-        Task UpdateServerConfig_ServerName(ServerConfig config, string value);
+        Task UpdateServerConfig(ServerConfig config, string setting, string value);
         //Task DeleteServerConfig(ServerConfig config);
     }
 
@@ -43,21 +46,21 @@ namespace MythoticDiscordBot.Core.Services.ServerConfigService
 
         }
 
-        public async Task UpdateServerConfig_ServerName(ServerConfig config, string value)
+        public async Task UpdateServerConfig(ServerConfig config, string setting, string value)
         {
-            ulong serverId = config.ServerId;
-            ServerConfig Config = await _context.ServerConfigs.Where(x => x.ServerId == serverId).FirstOrDefaultAsync();
-
-            if (Config == null)
+            if (config == null)
             {
                 throw new Exception("CRITICAL: Server config is not in the database");
             }
-            else
+
+            FieldInfo info = typeof(ServerConfig).GetField(setting);
+            if (info == null)
             {
-                Config.ServerName = value;
-                await _context.SaveChangesAsync();
+                throw new Exception("CRITICAL: Invalid variable name");
             }
-            
+
+            info.SetValue(config, value);
+            await _context.SaveChangesAsync();
         }
     }
 }
