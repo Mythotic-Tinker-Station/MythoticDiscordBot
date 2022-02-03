@@ -25,7 +25,7 @@ namespace MythoticDiscordBot.Bot.Commands
 
         private readonly IServerConfigService _service;
 
-        public AdminCommands(ServerConfigService service)
+        public AdminCommands(IServerConfigService service)
         {
             _service = service;
         }
