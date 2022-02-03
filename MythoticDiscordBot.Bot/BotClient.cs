@@ -70,6 +70,7 @@ namespace MythoticDiscordBot.Bot
             Commands.RegisterCommands<UtilityCommands>();
             Commands.RegisterCommands<FunCommands>();
             Commands.RegisterCommands<ModCommands>();
+            Commands.RegisterCommands<AdminCommands>();
 
             // Slash Commands Initization
             SlashCommandsConfiguration slashCommandsConfig = new()

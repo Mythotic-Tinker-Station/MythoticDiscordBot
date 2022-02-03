@@ -16,7 +16,7 @@ namespace MythoticDiscordBot.Core.Services.ServerConfigService
     public interface IServerConfigService
     {
         ServerConfigContext Context { get; }
-        Task<ServerConfig> GetServerConfigByServerId(string serverId);
+        Task<ServerConfig> GetServerConfigByServerId(ulong serverId);
         Task CreateServerConfig(ServerConfig config);
         Task UpdateServerConfig(ServerConfig config, string setting, string value);
         //Task DeleteServerConfig(ServerConfig config);
@@ -39,10 +39,9 @@ namespace MythoticDiscordBot.Core.Services.ServerConfigService
             await _context.SaveChangesAsync();
         }
 
-        public async Task<ServerConfig> GetServerConfigByServerId(string serverId)
+        public async Task<ServerConfig> GetServerConfigByServerId(ulong serverId)
         {
-            ulong newserverId = Convert.ToUInt64(serverId);
-            return await _context.ServerConfigs.FirstOrDefaultAsync(x => x.ServerId == newserverId);
+            return await _context.ServerConfigs.FirstOrDefaultAsync(x => x.ServerId == serverId);
 
         }
 
@@ -61,6 +60,6 @@ namespace MythoticDiscordBot.Core.Services.ServerConfigService
 
             info.SetValue(config, value);
             await _context.SaveChangesAsync();
-        }
+        } 
     }
 }

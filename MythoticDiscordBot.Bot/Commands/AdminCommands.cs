@@ -9,6 +9,10 @@ using System.Text;
 using System.Threading.Tasks;
 using MythoticDiscordBot.Bot.Interfaces;
 using MythoticDiscordBot.DAL;
+using DSharpPlus;
+using MythoticDiscordBot.Core.Services;
+using MythoticDiscordBot.DAL.Models.ServerConfig;
+using MythoticDiscordBot.Core.Services.ServerConfigService;
 
 namespace MythoticDiscordBot.Bot.Commands
 {
@@ -19,13 +23,37 @@ namespace MythoticDiscordBot.Bot.Commands
             return "Administration";
         }
 
-        private readonly ServerConfigContext _context;
+        private readonly IServerConfigService _service;
 
-        public AdminCommands(ServerConfigContext context)
+        public AdminCommands(ServerConfigService service)
         {
-            _context = context;
+            _service = service;
         }
 
+        [RequirePermissions(Permissions.Administrator, true)]
+        [Command("set")]
+        [Description("Change an setting for your server")]
+        public async Task Set(CommandContext ctx, string setting, string value)
+        {
+            try
+            {
+                ServerConfig serverConfig = await _service.GetServerConfigByServerId(ctx.Guild.Id);
+
+                if (serverConfig == null)
+                {
+                    throw new Exception("Unable to find an Server Config in the database. The bot may need to rejoin the server!!!");
+                }
+                else
+                {
+                    await _service.UpdateServerConfig(serverConfig, setting, value);
+                    await ctx.Message.RespondAsync($"Setting ``{setting}`` has been configured with the value ``{value}``");
+                }
+            }
+            catch (Exception ex)
+            {
+                await ctx.Message.RespondAsync(ex.ToString());
+            }
+        }
 
     }
 }
