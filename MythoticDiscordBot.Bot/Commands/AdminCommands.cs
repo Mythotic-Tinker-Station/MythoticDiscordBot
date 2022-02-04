@@ -30,7 +30,7 @@ namespace MythoticDiscordBot.Bot.Commands
             _service = service;
         }
 
-        [RequirePermissions(Permissions.Administrator, true)]
+        //[RequirePermissions(Permissions.Administrator, true)]
         [Command("set")]
         [Description("Change an setting for your server")]
         public async Task Set(CommandContext ctx, string setting, string value)
@@ -51,7 +51,7 @@ namespace MythoticDiscordBot.Bot.Commands
             }
             catch (Exception ex)
             {
-                await ctx.Message.RespondAsync(ex.ToString());
+                await ctx.Message.RespondAsync(ex.Message);
             }
         }
 

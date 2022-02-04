@@ -52,7 +52,7 @@ namespace MythoticDiscordBot.Core.Services.ServerConfigService
                 throw new Exception("CRITICAL: Server config is not in the database");
             }
 
-            FieldInfo info = typeof(ServerConfig).GetField(setting);
+            PropertyInfo info = typeof(ServerConfig).GetProperty(setting);
             if (info == null)
             {
                 throw new Exception("CRITICAL: Invalid variable name");
