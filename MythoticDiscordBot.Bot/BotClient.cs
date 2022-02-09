@@ -58,7 +58,7 @@ namespace MythoticDiscordBot.Bot
             // Command Initization
             CommandsNextConfiguration commandsConfig = new()
             {
-                StringPrefixes = new string[] { "!" },
+                StringPrefixes = new[] { "!" },
                 EnableDms = true,
                 EnableMentionPrefix = true,
                 DmHelp = false,
