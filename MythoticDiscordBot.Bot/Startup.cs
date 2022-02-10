@@ -26,7 +26,6 @@ namespace MythoticDiscordBot.Bot
 
             // Enable MVC
             services.AddMvc();
-            
 
             // Enable Blazor
             services.AddServerSideBlazor();
@@ -37,7 +36,6 @@ namespace MythoticDiscordBot.Bot
             {
                 options.UseSqlServer(config.DatabaseConnectionString,
                     x => x.MigrationsAssembly("MythoticDiscordBot.DAL.Migrations"));
-                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
 
             services.AddScoped<IServerConfigService, ServerConfigService>();
