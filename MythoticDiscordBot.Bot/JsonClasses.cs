@@ -19,7 +19,6 @@ namespace MythoticDiscordBot.Bot
 {
     internal class JsonClasses
     {
-
         public class ConfigJson
         {
             public string Token { get; set; }
@@ -50,6 +49,5 @@ namespace MythoticDiscordBot.Bot
             public string HostName { get; set; }
             public string ListenerPort { get; set; }
         }
-
     }
 }

@@ -46,7 +46,7 @@ namespace MythoticDiscordBot.Bot.Commands
                 else
                 {
                     await _service.UpdateServerConfig(serverConfig, setting, value);
-                    await ctx.Message.RespondAsync($"Setting ``{setting}`` has been configured with the value ``{value}``");
+                    await ctx.Message.RespondAsync($"Setting ``{setting.Replace(setting[0], char.ToUpper(setting[0]))}`` has been configured with the value ``{value}``");
                 }
             }
             catch (Exception ex)

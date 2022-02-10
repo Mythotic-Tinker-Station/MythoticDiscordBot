@@ -52,16 +52,14 @@ namespace MythoticDiscordBot.Core.Services.ServerConfigService
                 throw new Exception("CRITICAL: Server config is not in the database");
             }
 
-
-            PropertyInfo info = config.GetType().GetProperty(setting);
+            PropertyInfo info = config.GetType().GetProperty(setting, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
             if (info == null)
             {
                 throw new Exception("CRITICAL: Invalid variable name");
             }
 
-            _context.Update(config);
             info.SetValue(config, value);
             await _context.SaveChangesAsync();
-        } 
+        }
     }
 }
