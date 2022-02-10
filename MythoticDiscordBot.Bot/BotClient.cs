@@ -27,6 +27,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MythoticDiscordBot.Bot.SlashCommands;
 using MythoticDiscordBot.Core.Services.ServerConfigService;
 using MythoticDiscordBot.Bot.Utilities;
+using static MythoticDiscordBot.Bot.ServerConfigCollection;
 
 namespace MythoticDiscordBot.Bot
 {
@@ -36,6 +37,7 @@ namespace MythoticDiscordBot.Bot
         public InteractivityExtension Interactivity { get; private set; }
         public static CommandsNextExtension Commands { get; private set; }
         public static SlashCommandsExtension SlashCommands { get; private set; }
+        public static List<ServerConfigJson> ServerConfigCollection { get; set; }
 
         public BotClient(IServiceProvider services, ConfigJson config)
         {
@@ -85,6 +87,9 @@ namespace MythoticDiscordBot.Bot
 
             // Events Initization
             _ = new EventLogic(Discord);
+
+            // Setup Server Config Collection
+            List<ServerConfigJson> ServerConfigCollection = new();
 
             // Start the bot!
             Discord.ConnectAsync();
